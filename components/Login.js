@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text,ImageBackground,
   Image, Dimensions, View,
-  TextInput, Button, Alert,TouchableOpacity, 
+  TextInput, Button, Alert,TouchableOpacity,
  } from 'react-native';
 
 export default class Login extends React.Component {
@@ -25,6 +25,8 @@ export default class Login extends React.Component {
             placeholder="Senha"
             style={styles.input}
           />
+          
+
           <TouchableOpacity
           style={styles.button}
           onPress={() => {

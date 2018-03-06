@@ -1,22 +1,36 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { StyleSheet, Text,ImageBackground,
-  Image, Dimensions, View,
+  Image, Dimensions, View, Picker,
   TextInput, Button, Alert,TouchableOpacity, 
  } from 'react-native';
 
-export default class Register extends React.Component {
+
+export default class Register extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        selectedValue: '',
+        pickerValue: ''
+      
+    };
+
+  }
+
+
   render() {
+  
     return (
        <ImageBackground 
        source={require('./images/nuno_app_11.png')} 
-       style={{width: '100%', height: '100%', alignItems: 'center',
-    justifyContent: 'center',}}
+       style={{width: '100%', height: 1000, alignItems: 'center',justifyContent: 'center'
+    }}
        >
           <Image source={require('./images/logo.png')} 
             style={{width: 300, height: 110, alignItems: 'center',
     justifyContent: 'center',}}
           />
-          <Text style={styles.loginText}>Registar</Text>
+          {/* <Text style={styles.loginText}>Registar</Text> */}
           <TextInput 
             placeholder="Nome"
             style={styles.input}
@@ -28,11 +42,25 @@ export default class Register extends React.Component {
            <TextInput 
             placeholder="Senha"
             style={styles.input}
-          />
+          />  
+          <View style={{ width: '100%', marginTop: -80, paddingTop: 0, marginBottom: -100 }} >
+
+           <Picker  mode= 'dropdown' selectedValue={(this.state && this.state.pickerValue) || 'cargo'}
+      onValueChange={(value) => {
+        this.setState({pickerValue: value});
+      }} itemStyle={{color: 'red', }} TextStyle={{fontWeight: 'bold',}} >
+              <Picker.Item value={"cargo"} label={'Selecione um cargo'} />
+              <Picker.Item  value={"aluno"} label={'aluno'} />
+              <Picker.Item  value={"mentor"} label={'mentor'} />
+              <Picker.Item  value={"tutor"} label={'tutor'} />
+
+          </Picker>
+          </View>
+
           <TouchableOpacity
           style={styles.button}
           onPress={() => {
-    Alert.alert('You tapped the Login button!');
+    Alert.alert('You tapped the Register button!');
   }}
            
           >
@@ -62,7 +90,7 @@ const styles = StyleSheet.create({
   },
   loginText: {
      fontWeight: 'bold',
-        fontSize: 48,
+        fontSize: 28,
         color: 'white',
   },
   input: {
