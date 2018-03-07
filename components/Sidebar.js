@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { StyleSheet, View, Text, Image,ScrollView, Dimensions
  } from 'react-native';
 
- import { Button, Icon } from 'native-base';
+ import { Content,Button, Icon } from 'native-base';
 
 
 
@@ -25,6 +25,29 @@ export default class Sidebar extends Component {
 
       <ScrollView style={styles.container} >
             <Image style={styles.topImage} source={require( './images/logo.png')} />
+            <Content>
+          <Button block transparent light>
+            <Text style={{color: 'white'}}>Perfil</Text>
+          </Button>
+         <Button block transparent light>
+            <Text style={{color: 'white'}}>Noticias</Text>
+          </Button>
+          <Button block transparent light>
+            <Text style={{color: 'white'}}>Dúvidas</Text>
+          </Button>
+          <Button block transparent light>
+            <Text style={{color: 'white'}}>Mapas</Text>
+          </Button>
+          <Button block transparent light>
+            <Text style={{color: 'white'}}>Eventos</Text>
+          </Button>
+          <Button block transparent light>
+            <Text style={{color: 'white'}}>Chat</Text>
+          </Button>
+          <Button block danger>
+            <Text>Sair</Text>
+          </Button>
+        </Content>
       </ScrollView>    
      
 
