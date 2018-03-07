@@ -26,25 +26,25 @@ export default class Sidebar extends Component {
       <ScrollView style={styles.container} >
             <Image style={styles.topImage} source={require( './images/logo.png')} />
             <Content>
-          <Button block transparent light>
+          <Button block transparent large light>
             <Text style={{color: 'white'}}>Perfil</Text>
           </Button>
-         <Button block transparent light>
+         <Button block transparent large light>
             <Text style={{color: 'white'}}>Noticias</Text>
           </Button>
-          <Button block transparent light>
+          <Button block transparent large light>
             <Text style={{color: 'white'}}>Dúvidas</Text>
           </Button>
-          <Button block transparent light>
+          <Button block transparent large light>
             <Text style={{color: 'white'}}>Mapas</Text>
           </Button>
-          <Button block transparent light>
+          <Button block transparent large light>
             <Text style={{color: 'white'}}>Eventos</Text>
           </Button>
-          <Button block transparent light>
+          <Button block transparent large light>
             <Text style={{color: 'white'}}>Chat</Text>
           </Button>
-          <Button block danger>
+          <Button block large danger>
             <Text>Sair</Text>
           </Button>
         </Content>

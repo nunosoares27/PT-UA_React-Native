@@ -155,21 +155,21 @@ export default class HomeScreen extends Component {
 
           <Footer>
           <FooterTab>
+            <Button vertical active>
+              <Icon name="camera" />
+              <Text>Notícias</Text>
+            </Button>
             <Button vertical>
               <Icon name="apps" />
-              <Text>Apps</Text>
+              <Text>Dúvidas</Text>
             </Button>
-            <Button vertical>
-              <Icon name="camera" />
-              <Text>Camera</Text>
-            </Button>
-            <Button vertical active>
+            <Button vertical >
               <Icon active name="navigate" />
-              <Text>Navigate</Text>
+              <Text>Mapa</Text>
             </Button>
             <Button vertical>
               <Icon name="person" />
-              <Text>Contact</Text>
+              <Text>Chat</Text>
             </Button>
           </FooterTab>
         </Footer>
