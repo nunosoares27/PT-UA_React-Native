@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Landing from './components/Landing';
 import Register from './components/Register';
 import Home from './components/HomeScreen';
+import Sidebar from './components/Sidebar';
 
 export default class App extends React.Component {
   render() {

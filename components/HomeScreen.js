@@ -3,9 +3,9 @@ import { StyleSheet, Image, View
  } from 'react-native';
 
  import { Container, Header, Content, Card, CardItem, Thumbnail, 
-   Text, Button, Icon, Left, Body, Right, Footer, FooterTab, Title } from 'native-base';
+   Text, Button, Icon, Left, Body, Right, Footer, FooterTab, Title, Drawer } from 'native-base';
 
-
+import SideBar from './Sidebar';
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -18,17 +18,30 @@ export default class HomeScreen extends Component {
 
   }
 
+ closeDrawer = () => {
+      this.drawer._root.close()
+    };
+    openDrawer = () => {
+      this.drawer._root.open()
+    };
 
   render() {
-  
+    
+    
     return (
 
       <View style={{ flex: 1, width: '100%'}}>
-       
- <Container >
+
+ <Drawer
+        ref={(ref) => { this.drawer = ref; }}
+        content={<SideBar navigator={this.navigator} />}
+        onClose={() => this.closeDrawer()} 
+        style={{width: '100%'}}
+        >
+
          <Header>
           <Left>
-            <Button transparent>
+            <Button transparent onPress={()=> this.openDrawer()}>
               <Icon name='menu' />
             </Button>
           </Left>
@@ -43,6 +56,8 @@ export default class HomeScreen extends Component {
         </Header>
 
 
+
+<Container >
         <Content >
 
 
@@ -159,6 +174,7 @@ export default class HomeScreen extends Component {
           </FooterTab>
         </Footer>
 
+</ Drawer>
 
 </View>
       
