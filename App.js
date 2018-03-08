@@ -5,12 +5,13 @@ import Landing from './components/Landing';
 import Register from './components/Register';
 import Home from './components/HomeScreen';
 import Sidebar from './components/Sidebar';
+import MapScreen from './components/MapScreen';
 
 export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-          <Home />
+          <MapScreen />
           
       </View>
     );

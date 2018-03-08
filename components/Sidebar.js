@@ -36,7 +36,7 @@ export default class Sidebar extends Component {
             <Text style={{color: 'white'}}>Dúvidas</Text>
           </Button>
           <Button block transparent large light>
-            <Text style={{color: 'white'}}>Mapas</Text>
+            <Text style={{color: 'white'}}>Mapa</Text>
           </Button>
           <Button block transparent large light>
             <Text style={{color: 'white'}}>Eventos</Text>
@@ -45,7 +45,7 @@ export default class Sidebar extends Component {
             <Text style={{color: 'white'}}>Chat</Text>
           </Button>
           <Button block large danger>
-            <Text>Sair</Text>
+            <Text style={{color: 'white'}}>Sair</Text>
           </Button>
         </Content>
       </ScrollView>    
