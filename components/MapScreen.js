@@ -22,7 +22,13 @@ export default class MapScreen extends Component {
               Dimensions.get("window").width / Dimensions.get("window").height * 0.0032
           
         },
-        locationChosen: false
+        locationChosen: false,
+         Deca: {
+             // 40.629118, -8.655464
+             //40.628927, -8.656405
+             latitude: 40.628927,
+             longitude: -8.656405
+            }
       
     };
 
@@ -42,9 +48,28 @@ export default class MapScreen extends Component {
                 latitude: coords.latitude,
                 longitude: coords.longitude
             },
-            locationChosen: true
+            locationChosen: true,
         };
       });
+  }
+
+  getLocationHandler = () => {
+      navigator.geolocation.getCurrentPosition(pos => {
+          const coordsEvent = {
+              nativeEvent: {
+                  coordinate:{
+                      latitude: pos.coords.latitude,
+                      longitude: pos.coords.longitude
+                  }
+              }
+          };
+          this.pickLocationHandleer(coordsEvent);
+      },
+      err => {
+          console.log(err);
+          alert("Não foi possível obter a sua localização");
+      }
+      )
   }
 
  closeDrawer = () => {
@@ -100,9 +125,20 @@ export default class MapScreen extends Component {
         ref = {ref => this.map = ref}
       >
       {marker}
+      
+      <MapView.Marker  coordinate={this.state.Deca}>
+        <View style={styles.circle}>
+             <Text style={styles.pinText}>1</Text>
+            </View>
+
+      </MapView.Marker>
+      
+  
    </MapView>   
          
-
+    <Button block large danger onPress={()=> this.getLocationHandler()}>
+              <Text>Localizar-me</Text>
+            </Button>
 
 
   </Content>
@@ -143,5 +179,24 @@ export default class MapScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  
+    circle: {
+        width: 50,
+        height: 50,
+        borderRadius: 50 / 2,
+        backgroundColor: 'red',
+        flexGrow:1,
+        alignItems: 'center',
+        justifyContent: 'center',
+},
+    pinText: {
+        flex: 1,
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 20,
+        marginTop: 7.5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign:'center',
+
+},
 });
