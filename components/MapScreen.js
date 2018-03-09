@@ -7,9 +7,16 @@ import { StyleSheet, Image, View, Dimensions
  import { Container, Header, Content, Card, CardItem, Thumbnail, 
    Text, Button, Icon, Left, Body, Right, Footer, FooterTab, Title, Drawer } from 'native-base';
 
+/// Google Maps Api key AIzaSyB59V7NjH5nCMhFZbC3tD4tHNRUUv9ILAc
 
 
 import SideBar from './Sidebar';
+
+import MapViewDirections from 'react-native-maps-directions';
+
+const GOOGLE_MAPS_APIKEY = "AIzaSyB59V7NjH5nCMhFZbC3tD4tHNRUUv9ILAc";
+// var origin = {latitude: this.state.focusedLocation.latitude, longitude: this.state.focusedLocation.longitude};
+// var destination = {latitude: this.state.Deca.latitude, longitude: this.state.Deca.longitude};
 
 const MapStyle = [
   {
@@ -218,7 +225,17 @@ export default class MapScreen extends Component {
              //40.628927, -8.656405
              latitude: 40.628927,
              longitude: -8.656405
-            }
+            },
+
+        origin: {
+          latitude: 40.630194,
+          longitude: -8.65640
+        },
+
+        destination:{
+          latitude: 40.628927,
+          longitude: -8.656405
+        },
       
     };
 
@@ -241,6 +258,10 @@ export default class MapScreen extends Component {
                 longitude: coords.longitude
             },
             locationChosen: true,
+            origin: {
+              latitude: coords.latitude,
+              longitude: coords.longitude
+            },
         };
       });
   }
@@ -317,18 +338,28 @@ export default class MapScreen extends Component {
 
  <MapView
         style={{ flex: 1, left:0, right: 0, top:0, bottom: 0, position: 'absolute', width: '100%', height: 500 }}
-      //  provider={MapView.PROVIDER_GOOGLE}
+       // provider={MapView.PROVIDER_GOOGLE}
         toolbarEnabled={true}
         mapType="hybrid"
+        minZoomLevel={1}
         showsUserLocation={true}
         showsMyLocationButton={true}
         showsBuildings={true}
-      //  customMapStyle={MapStyle}
+       // customMapStyle={MapStyle}
         initialRegion={this.state.focusedLocation}
         onPress={this.pickLocationHandleer}
         ref = {ref => this.map = ref}
       >
       {marker}
+
+       <MapViewDirections
+    origin={this.state.origin}
+    destination={this.state.destination}
+    apikey={GOOGLE_MAPS_APIKEY}
+    mode="walking"
+    strokeWidth={3}
+    strokeColor="orange"
+  />
       
       <MapView.Marker  coordinate={this.state.Deca}>
         <View style={styles.circle}>
