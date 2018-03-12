@@ -14,6 +14,8 @@ import SideBar from './Sidebar';
 
 import MapViewDirections from 'react-native-maps-directions';
 
+import axios from 'axios';
+
 const GOOGLE_MAPS_APIKEY = "AIzaSyB59V7NjH5nCMhFZbC3tD4tHNRUUv9ILAc";
 // var origin = {latitude: this.state.focusedLocation.latitude, longitude: this.state.focusedLocation.longitude};
 // var destination = {latitude: this.state.Deca.latitude, longitude: this.state.Deca.longitude};
@@ -236,10 +238,23 @@ export default class MapScreen extends Component {
           latitude: 40.628927,
           longitude: -8.656405
         },
+
+        users: [],
       
     };
 
     
+
+  }
+
+  componentWillMount() {
+      axios.get('http://ptua.desenvolvimento/api/users')
+        .then(response => {
+          this.setState({ users: response.data});
+        } )
+        .catch(function (error) {
+          alert(error);
+        });
 
   }
 
@@ -298,6 +313,9 @@ export default class MapScreen extends Component {
   render() {
     let marker = null;
 
+    const Users = this.state.users.map((user) =>
+    <Text key={user.id}>{ user.name }-{user.email}-{user.typeUser}</Text>
+  );
 
 
     if (this.state.locationChosen){
@@ -375,11 +393,13 @@ export default class MapScreen extends Component {
               <Text>Localizar-me</Text>
             </Button>
 
+    
+ 
 
   </Content>
   </Container> 
 
-
+{Users}
 
           <Footer>
           <FooterTab>

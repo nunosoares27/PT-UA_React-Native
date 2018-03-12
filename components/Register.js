@@ -4,16 +4,45 @@ import { StyleSheet, Text,ImageBackground,
   TextInput, Button, Alert,TouchableOpacity, 
  } from 'react-native';
 
+import axios from 'axios';
 
 export default class Register extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+        name: '',
+        email: '',
+        password: '',
         selectedValue: '',
         pickerValue: ''
       
     };
+    this.onRegister = this.onRegister.bind(this);
+  }
+
+  onRegister(){
+
+    axios.post('http://ptua.desenvolvimento/api/register', {
+    name: this.state.name,
+    email: this.state.email,
+    password: this.state.password,
+    typeUser: this.state.pickerValue
+  })
+  .then((response) => {
+    alert('Registado com sucesso');
+    this.setState({
+        name: '',
+        email: '',
+        password: '',
+        selectedValue: '',
+        pickerValue: ''
+    })
+  })
+  .catch(function (error) {
+    alert(error);
+  });
+
 
   }
 
@@ -34,16 +63,22 @@ export default class Register extends Component {
           <TextInput 
             placeholder="Nome"
             style={styles.input}
+             onChangeText={(name) => this.setState({name})}
+        value={this.state.name}
           />
           <TextInput 
             placeholder="E-mail"
             style={styles.input}
+             onChangeText={(email) => this.setState({email})}
+        value={this.state.email}
           />
            <TextInput 
-            placeholder="Senha"
+            placeholder="Password"
             style={styles.input}
-          />  
-          <View style={{ width: '100%', marginTop: -80, paddingTop: 0, marginBottom: -100 }} >
+             onChangeText={(password) => this.setState({password})}
+        value={this.state.password}
+          />
+          <View style={{ width: '100%', marginTop: -10, paddingTop: 0, marginBottom: -100 }} >
 
            <Picker  mode= 'dropdown' selectedValue={(this.state && this.state.pickerValue) || 'cargo'}
       onValueChange={(value) => {
@@ -59,9 +94,9 @@ export default class Register extends Component {
 
           <TouchableOpacity
           style={styles.button}
-          onPress={() => {
-    Alert.alert('You tapped the Register button!');
-  }}
+          onPress={
+     this.onRegister
+  }
            
           >
             <Text style={styles.buttonText}>Criar Conta</Text>
@@ -97,7 +132,7 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 30,
     backgroundColor: 'rgba(255,255,255,1)',
-    color: 'white',
+    color: 'black',
     marginTop: '10%',
     paddingLeft: '2%',
   },
