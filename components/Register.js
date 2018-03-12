@@ -4,9 +4,14 @@ import { StyleSheet, Text,ImageBackground,
   TextInput, Button, Alert,TouchableOpacity, 
  } from 'react-native';
 
+import { Icon, } from 'native-base';
+
 import axios from 'axios';
 
+
+
 export default class Register extends Component {
+  // static navigationOptions = { header: null }
   constructor(props) {
     super(props);
 
@@ -50,6 +55,8 @@ export default class Register extends Component {
   render() {
   
     return (
+
+     <View style={styles.containerGeral} >
        <ImageBackground 
        source={require('./images/nuno_app_11.png')} 
        style={{width: '100%', height: 1000, alignItems: 'center',justifyContent: 'center'
@@ -113,12 +120,30 @@ export default class Register extends Component {
            <Text style={styles.buttonText}>Facebook</Text>
 
            </TouchableOpacity >
+
+           <TouchableOpacity
+          
+       onPress={() => this.props.navigation.navigate('Landing')} style={{marginTop: 20}}
+          >
+          <Icon name='arrow-back' />
+
+           </TouchableOpacity >
+
       </ImageBackground>
+
+    </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  containerGeral: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   container: {
     alignItems: 'center',
     justifyContent: 'center',

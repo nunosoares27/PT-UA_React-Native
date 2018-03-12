@@ -209,6 +209,7 @@ const MapStyle = [
 
 
 export default class MapScreen extends Component {
+  static navigationOptions = { header: null }
   constructor(props) {
     super(props);
 
@@ -343,7 +344,7 @@ export default class MapScreen extends Component {
             <Title>Mapa</Title>
           </Body>
           <Right>
-            <Button transparent>
+            <Button transparent  onPress={() => this.props.navigation.navigate('Home')} >
               <Icon name='arrow-back' />
             </Button>
           </Right>

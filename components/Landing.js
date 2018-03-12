@@ -5,8 +5,10 @@ import { StyleSheet, Text,ImageBackground,
  } from 'react-native';
 
 export default class Landing extends React.Component {
+  static navigationOptions = { header: null }
   render() {
     return (
+       <View style={styles.containerGeral} >
        <ImageBackground 
        source={require('./images/nuno_app_11.png')} 
        style={{width: '100%', height: '100%', alignItems: 'center',
@@ -19,9 +21,7 @@ export default class Landing extends React.Component {
           
           <TouchableOpacity
           style={styles.button}
-          onPress={() => {
-    Alert.alert('You tapped the Login button!');
-  }}
+          onPress={() => this.props.navigation.navigate('Login')}
            
           >
             <Text style={styles.buttonText}>Entrar</Text>
@@ -30,19 +30,26 @@ export default class Landing extends React.Component {
         
                  <TouchableOpacity
           style={styles.buttonF}
-          onPress={() => {
-    Alert.alert('You tapped the Facebook Login button!');
-  }}
+         onPress={() => this.props.navigation.navigate('Register')}
           >
            <Text style={styles.buttonText}>Registar</Text>
 
            </TouchableOpacity >
       </ImageBackground>
+
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  containerGeral: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   container: {
     alignItems: 'center',
     justifyContent: 'center',

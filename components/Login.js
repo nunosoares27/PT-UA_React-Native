@@ -4,9 +4,12 @@ import { StyleSheet, Text,ImageBackground,
   TextInput, Button, Alert,TouchableOpacity,
  } from 'react-native';
 
+
 export default class Login extends React.Component {
+  // static navigationOptions = { header: null }
   render() {
     return (
+      <View style={styles.containerGeral} >
        <ImageBackground 
        source={require('./images/nuno_app_11.png')} 
        style={{width: '100%', height: '100%', alignItems: 'center',
@@ -29,9 +32,7 @@ export default class Login extends React.Component {
 
           <TouchableOpacity
           style={styles.button}
-          onPress={() => {
-    Alert.alert('You tapped the Login button!');
-  }}
+          onPress={() => this.props.navigation.navigate('Home')}
            
           >
             <Text style={styles.buttonText}>Entrar</Text>
@@ -49,11 +50,20 @@ export default class Login extends React.Component {
 
            </TouchableOpacity >
       </ImageBackground>
+    </View>
     );
   }
 }
 
+
 const styles = StyleSheet.create({
+  containerGeral: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   container: {
     alignItems: 'center',
     justifyContent: 'center',

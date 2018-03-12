@@ -8,6 +8,7 @@ import { StyleSheet, Image, View
 import SideBar from './Sidebar';
 
 export default class HomeScreen extends Component {
+  static navigationOptions = { header: null }
   constructor(props) {
     super(props);
 
@@ -49,7 +50,7 @@ export default class HomeScreen extends Component {
             <Title>Notícias</Title>
           </Body>
           <Right>
-            <Button transparent>
+            <Button transparent >
               <Icon name='arrow-back' />
             </Button>
           </Right>
@@ -163,7 +164,7 @@ export default class HomeScreen extends Component {
               <Icon name="apps" />
               <Text>Dúvidas</Text>
             </Button>
-            <Button vertical >
+            <Button vertical onPress={() => this.props.navigation.navigate('MapScreen')} >
               <Icon active name="navigate" />
               <Text>Mapa</Text>
             </Button>
