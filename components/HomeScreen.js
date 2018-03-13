@@ -7,17 +7,34 @@ import { StyleSheet, Image, View
 
 import SideBar from './Sidebar';
 
+import axios from 'axios';
+
+import HTMLView from 'react-native-htmlview';
+
 export default class HomeScreen extends Component {
   static navigationOptions = { header: null }
+  
   constructor(props) {
     super(props);
 
     this.state = {
-      
+      noticias: [],
       
     };
 
   }
+
+  componentWillMount() {
+      axios.get('http://ptua.desenvolvimento/api/noticias')
+        .then(response => {
+          this.setState({ noticias: response.data});
+        } )
+        .catch(function (error) {
+          alert(error);
+        });
+
+  }
+
 
  closeDrawer = () => {
       this.drawer._root.close()
@@ -27,6 +44,61 @@ export default class HomeScreen extends Component {
     };
 
   render() {
+
+     const Noticias = this.state.noticias.map((noticia) =>
+      <Card key={noticia.id_noticia}>
+            <CardItem>
+              <Left>
+                <Thumbnail source={require ('./images/user_logo1.png')} />
+                <Body>
+                  <Text>{noticia.name}</Text>
+                  <Text note>{noticia.titulo}</Text>
+                </Body>
+              </Left>
+            </CardItem>
+            <CardItem>
+               {/*<Image source={require( './images/post1.png')} style={{resizeMode: 'cover',height: 200, width: null, flex: 1}}/>*/}
+                <Image source={{uri: `http://ptua.desenvolvimento/storage/noticias/${noticia.id_noticia}/imagem1.jpg`}} style={{resizeMode: 'cover',height: 200, width: null, flex: 1}}/>
+              </CardItem>
+            <CardItem >
+              <Body>
+               
+             
+                  
+                   <HTMLView
+        value={noticia.descricao}
+        
+      />
+
+
+                
+                </Body>
+
+                
+            </CardItem>
+            <CardItem>
+                 <Image source={{uri: `http://ptua.desenvolvimento/storage/noticias/${noticia.id_noticia}/imagem2.jpg`}} style={{resizeMode: 'cover',height: 200, width: null, flex: 1}}/>
+
+            </CardItem>
+            <CardItem>
+              <Left>
+                <Button transparent>
+                  <Icon active name="thumbs-up" />
+                  <Text>12 Likes</Text>
+                </Button>
+              </Left>
+              <Body>
+                <Button transparent>
+                  <Icon active name="chatbubbles" />
+                  <Text style={{paddingLeft: 5}}>4 Comments</Text>
+                </Button>
+              </Body>
+              <Right>
+                <Text>11h ago</Text>
+              </Right>
+            </CardItem>
+          </Card>
+  );
     
     
     return (
@@ -51,7 +123,7 @@ export default class HomeScreen extends Component {
           </Body>
           <Right>
             <Button transparent >
-              <Icon name='arrow-back' />
+              {/*<Icon name='arrow-back' />*/}
             </Button>
           </Right>
         </Header>
@@ -61,8 +133,9 @@ export default class HomeScreen extends Component {
 <Container >
         <Content >
 
+        {Noticias}
 
-          <Card>
+          {/*<Card>
             <CardItem>
               <Left>
                 <Thumbnail source={require ('./images/user_logo1.png')} />
@@ -102,10 +175,10 @@ export default class HomeScreen extends Component {
                 <Text>11h ago</Text>
               </Right>
             </CardItem>
-          </Card>
+          </Card>*/}
 
 
-  <Card>
+  {/*<Card>
             <CardItem>
               <Left>
                 <Thumbnail source={require ('./images/user_logo1.png')} />
@@ -145,7 +218,7 @@ export default class HomeScreen extends Component {
                 <Text>11h ago</Text>
               </Right>
             </CardItem>
-          </Card>
+          </Card>*/}
 
 
 
