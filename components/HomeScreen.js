@@ -11,6 +11,9 @@ import axios from 'axios';
 
 import HTMLView from 'react-native-htmlview';
 
+
+
+
 export default class HomeScreen extends Component {
   static navigationOptions = { header: null }
   
@@ -52,14 +55,26 @@ export default class HomeScreen extends Component {
                 <Thumbnail source={require ('./images/user_logo1.png')} />
                 <Body>
                   <Text>{noticia.name}</Text>
-                  <Text note>{noticia.titulo}</Text>
+                  <Text note>{noticia.typeUser}</Text>
                 </Body>
               </Left>
             </CardItem>
-            <CardItem>
-               {/*<Image source={require( './images/post1.png')} style={{resizeMode: 'cover',height: 200, width: null, flex: 1}}/>*/}
-                <Image source={{uri: `http://ptua.desenvolvimento/storage/noticias/${noticia.id_noticia}/imagem1.jpg`}} style={{resizeMode: 'cover',height: 200, width: null, flex: 1}}/>
+             <CardItem>
+             <Text style={styles.NT}>{noticia.titulo}</Text>
               </CardItem>
+
+            { noticia.noticiaHasImagem1 ? 
+              
+              <CardItem>
+               
+               <Image source={{uri: `http://ptua.desenvolvimento/storage/noticias/${noticia.id_noticia}/imagem1.jpg`}} style={{resizeMode: 'cover',height: 200, width: null, flex: 1}}/>
+              </CardItem> : <Text></Text>
+            
+            }
+             
+            
+           
+           
             <CardItem >
               <Body>
                
@@ -76,10 +91,16 @@ export default class HomeScreen extends Component {
 
                 
             </CardItem>
+
+            { noticia.noticiaHasImagem2 ? 
             <CardItem>
                  <Image source={{uri: `http://ptua.desenvolvimento/storage/noticias/${noticia.id_noticia}/imagem2.jpg`}} style={{resizeMode: 'cover',height: 200, width: null, flex: 1}}/>
 
             </CardItem>
+
+            : <Text></Text>}
+
+
             <CardItem>
               <Left>
                 <Button transparent>
@@ -135,91 +156,6 @@ export default class HomeScreen extends Component {
 
         {Noticias}
 
-          {/*<Card>
-            <CardItem>
-              <Left>
-                <Thumbnail source={require ('./images/user_logo1.png')} />
-                <Body>
-                  <Text>Nuno Soares</Text>
-                  <Text note>O poder do React Native</Text>
-                </Body>
-              </Left>
-            </CardItem>
-            <CardItem>
-               <Image source={require( './images/post1.png')} style={{resizeMode: 'cover',height: 200, width: null, flex: 1}}/>
-              </CardItem>
-            <CardItem >
-              <Body>
-               
-              <Text>
-                  blafsadlmksadklsamdklasmdklasmkldsamkdlkmasdmklasdmlkaslkdasmkdas
-                  sakdmakdamlsdmlakdmklsamdklsamdklasmdkasmdklasdmkaldmaklsdmkasdmklas
-                  kamsdlkadmklsadmlkamdkaldmalksdmaldkasmkdlamskdlsamkdmaklsdlka
-                </Text>
-                </Body>
-            </CardItem>
-            <CardItem>
-              <Left>
-                <Button transparent>
-                  <Icon active name="thumbs-up" />
-                  <Text>12 Likes</Text>
-                </Button>
-              </Left>
-              <Body>
-                <Button transparent>
-                  <Icon active name="chatbubbles" />
-                  <Text style={{paddingLeft: 5}}>4 Comments</Text>
-                </Button>
-              </Body>
-              <Right>
-                <Text>11h ago</Text>
-              </Right>
-            </CardItem>
-          </Card>*/}
-
-
-  {/*<Card>
-            <CardItem>
-              <Left>
-                <Thumbnail source={require ('./images/user_logo1.png')} />
-                <Body>
-                  <Text>Nuno Soares</Text>
-                  <Text note>O poder do React Native</Text>
-                </Body>
-              </Left>
-            </CardItem>
-            <CardItem>
-               <Image source={require( './images/post1.png')} style={{resizeMode: 'cover',height: 200, width: null, flex: 1}}/>
-              </CardItem>
-            <CardItem >
-              <Body>
-               
-              <Text>
-                  blafsadlmksadklsamdklasmdklasmkldsamkdlkmasdmklasdmlkaslkdasmkdas
-                  sakdmakdamlsdmlakdmklsamdklsamdklasmdkasmdklasdmkaldmaklsdmkasdmklas
-                  kamsdlkadmklsadmlkamdkaldmalksdmaldkasmkdlamskdlsamkdmaklsdlka
-                </Text>
-                </Body>
-            </CardItem>
-            <CardItem>
-              <Left>
-                <Button transparent>
-                  <Icon active name="thumbs-up" />
-                  <Text>12 Likes</Text>
-                </Button>
-              </Left>
-              <Body>
-                <Button transparent>
-                  <Icon active name="chatbubbles" />
-                  <Text style={{paddingLeft: 5}}>4 Comments</Text>
-                </Button>
-              </Body>
-              <Right>
-                <Text>11h ago</Text>
-              </Right>
-            </CardItem>
-          </Card>*/}
-
 
 
   </Content>
@@ -260,5 +196,8 @@ export default class HomeScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  
+  NT: {
+    fontWeight: "800",
+    fontSize: 25,
+  }
 });
