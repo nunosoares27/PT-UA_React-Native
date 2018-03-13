@@ -4,9 +4,52 @@ import { StyleSheet, Text,ImageBackground,
   TextInput, Button, Alert,TouchableOpacity,
  } from 'react-native';
 
+import axios from 'axios';
+
 
 export default class Login extends React.Component {
   // static navigationOptions = { header: null }
+ constructor(props) {
+    super(props);
+
+  this.state = {
+        email: '',
+        password: '',
+    };
+    this.onLogin = this.onLogin.bind(this);
+
+}
+
+  onLogin(){
+
+    axios.post('http://ptua.desenvolvimento/api/loginApp', {
+    email: this.state.email,
+    password: this.state.password,
+  })
+  .then((response) => {
+   
+    this.setState({
+        email: '',
+        password: '',
+    })
+
+    if (response.data.email === undefined){
+      alert(response.data.name);
+        
+
+    } else {
+      
+         this.props.navigation.navigate('Home')
+    }
+    
+  })
+  .catch(function (error) {
+    alert(error);
+  });
+
+
+  }
+
   render() {
     return (
       <View style={styles.containerGeral} >
@@ -23,17 +66,23 @@ export default class Login extends React.Component {
           <TextInput 
             placeholder="E-mail"
             style={styles.input}
+          onChangeText={(email) => this.setState({email})}
+        value={this.state.email}
           />
            <TextInput 
             placeholder="Senha"
             style={styles.input}
+              onChangeText={(password) => this.setState({password})}
+           value={this.state.password}
           />
           
 
           <TouchableOpacity
           style={styles.button}
-          onPress={() => this.props.navigation.navigate('Home')}
-           
+        //  onPress={() => this.props.navigation.navigate('Home')}
+            onPress={
+     this.onLogin
+  }
           >
             <Text style={styles.buttonText}>Entrar</Text>
 
@@ -77,7 +126,7 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 30,
     backgroundColor: 'rgba(255,255,255,1)',
-    color: 'white',
+    color: 'black',
     marginTop: '10%',
     paddingLeft: '2%',
   },

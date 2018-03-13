@@ -18,7 +18,7 @@ const RouterStack =  DrawerNavigator({
   MapScreen: {screen: MapScreen}
 },
  {
-    initialRouteName: 'Home',
+    initialRouteName: 'Login',
   }
 );
 
