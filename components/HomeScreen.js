@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { StyleSheet, Image, View 
+import { StyleSheet, Image, View ,
+  AsyncStorage
  } from 'react-native';
 
  import { Container, Header, Content, Card, CardItem, Thumbnail, 
@@ -16,6 +17,7 @@ import HTMLView from 'react-native-htmlview';
 
 export default class HomeScreen extends Component {
   static navigationOptions = { header: null }
+  
   
   constructor(props) {
     super(props);
@@ -35,7 +37,7 @@ export default class HomeScreen extends Component {
         .catch(function (error) {
           alert(error);
         });
-
+       
   }
 
 
@@ -46,7 +48,18 @@ export default class HomeScreen extends Component {
       this.drawer._root.open()
     };
 
+    uname = async() => {
+      const ua = await AsyncStorage.getItem('username');
+      const ue = await AsyncStorage.getItem('useremail');
+      const ut = await AsyncStorage.getItem('userType');
+     alert("Dados do User: "+ua+", "+ue+","+ ut);
+    }
+
   render() {
+
+    
+
+   
 
      const Noticias = this.state.noticias.map((noticia) =>
       <Card key={noticia.id_noticia}>
@@ -103,7 +116,7 @@ export default class HomeScreen extends Component {
 
             <CardItem>
               <Left>
-                <Button transparent>
+                <Button transparent onPress={()=> this.uname()}>
                   <Icon active name="thumbs-up" />
                   <Text>12 Likes</Text>
                 </Button>
@@ -125,7 +138,7 @@ export default class HomeScreen extends Component {
     return (
 
       <View style={{ flex: 1, width: '100%'}}>
-
+      
  <Drawer
         ref={(ref) => { this.drawer = ref; }}
         content={<SideBar navigator={this.navigator} />}

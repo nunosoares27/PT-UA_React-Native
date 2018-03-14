@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text,ImageBackground,
   Image, Dimensions, View,
   TextInput, Button, Alert,TouchableOpacity,
+  AsyncStorage
  } from 'react-native';
 
 import axios from 'axios';
@@ -26,20 +27,38 @@ export default class Login extends React.Component {
     email: this.state.email,
     password: this.state.password,
   })
-  .then((response) => {
-   
+  .then(async(response) => {
+   console.log(response.data);
     this.setState({
         email: '',
         password: '',
     })
 
-    if (response.data.email === undefined){
+    // alert(user.email);
+
+    if (response.data.name === undefined){
       alert(response.data.name);
         
 
     } else {
-      
-         this.props.navigation.navigate('Home')
+         try {
+            await AsyncStorage.setItem('username', response.data.name);
+            await AsyncStorage.setItem('useremail', response.data.email);
+            await AsyncStorage.setItem('userType', response.data.typeUser);
+
+            // const uname = await AsyncStorage.getItem('username');
+            // const ue = await AsyncStorage.getItem('useremail');
+            // const ut = await AsyncStorage.getItem('userType');
+            // alert(uname);
+            // alert(ut);
+            // alert(ue);
+
+             this.props.navigation.navigate('Home');
+
+    }     catch (error) {
+        alert(error);
+      }
+        //  this.props.navigation.navigate('Home');
     }
     
   })
