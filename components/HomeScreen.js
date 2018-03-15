@@ -48,18 +48,34 @@ export default class HomeScreen extends Component {
       this.drawer._root.open()
     };
 
-    uname = async() => {
+  uname = async(postid) => {
       const ua = await AsyncStorage.getItem('username');
       const ue = await AsyncStorage.getItem('useremail');
       const ut = await AsyncStorage.getItem('userType');
-     alert("Dados do User: "+ua+", "+ue+","+ ut);
-    }
+      const id = await AsyncStorage.getItem('id');
+
+      // console.log("event: "+postid);
+    //  alert("Dados do User: "+ua+", "+ue+", "+ ut+", "+id);
+   
+   // 'id_noticia', 'user_id',
+ 
+   axios.post('http://ptua.desenvolvimento/api/likenoticia', {
+    id_noticia: postid,
+    user_id: id,
+  })
+  .then(async(response) => {
+   console.log(response.data);
+    this.setState({
+      
+    })
+  })
+
+
+
+
+ }
 
   render() {
-
-    
-
-   
 
      const Noticias = this.state.noticias.map((noticia) =>
       <Card key={noticia.id_noticia}>
@@ -116,10 +132,10 @@ export default class HomeScreen extends Component {
 
             <CardItem>
               <Left>
-                <Button transparent onPress={()=> this.uname()}>
+                <Button transparent onPress={()=> this.uname(noticia.id_noticia)}>
                   <Icon active name="thumbs-up" />
-                  <Text>12 Likes</Text>
                 </Button>
+                <Text>12 Likes</Text>
               </Left>
               <Body>
                 <Button transparent>

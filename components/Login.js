@@ -42,6 +42,9 @@ export default class Login extends React.Component {
 
     } else {
          try {
+           var id = response.data.id.toString();
+          // alert(id);
+            await AsyncStorage.setItem('id', id );
             await AsyncStorage.setItem('username', response.data.name);
             await AsyncStorage.setItem('useremail', response.data.email);
             await AsyncStorage.setItem('userType', response.data.typeUser);
@@ -49,10 +52,12 @@ export default class Login extends React.Component {
             // const uname = await AsyncStorage.getItem('username');
             // const ue = await AsyncStorage.getItem('useremail');
             // const ut = await AsyncStorage.getItem('userType');
+            const idu = await AsyncStorage.getItem('id');
+          //  alert(idu);
             // alert(uname);
             // alert(ut);
             // alert(ue);
-
+            // console.log(response.data);
              this.props.navigation.navigate('Home');
 
     }     catch (error) {
