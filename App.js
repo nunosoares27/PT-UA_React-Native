@@ -10,6 +10,11 @@ import {
   DrawerNavigator,
 } from 'react-navigation';
 
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import rootReducer from './components/reducers';
+import ReduxPromise from 'redux-promise';
+
 const RouterStack =  DrawerNavigator({
   Login: { screen: Login },
   Landing: {screen: Landing},
@@ -24,11 +29,15 @@ const RouterStack =  DrawerNavigator({
 
 export default class App extends React.Component {
 
+
+
   render() {
+    const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
     return (
-     
+      <Provider store={createStoreWithMiddleware(rootReducer)}>
         <RouterStack />
+      </Provider>  
           
 
     );

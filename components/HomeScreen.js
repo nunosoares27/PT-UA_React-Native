@@ -12,10 +12,14 @@ import axios from 'axios';
 
 import HTMLView from 'react-native-htmlview';
 
+import {connect} from 'react-redux';
+
+import { bindActionCreators } from 'redux';
+import {fetchNoticias} from './actions';
 
 
 
-export default class HomeScreen extends Component {
+class HomeScreen extends Component {
   static navigationOptions = { header: null }
   
   
@@ -30,13 +34,18 @@ export default class HomeScreen extends Component {
   }
 
   componentWillMount() {
-      axios.get('http://ptua.desenvolvimento/api/noticias')
-        .then(response => {
-          this.setState({ noticias: response.data});
-        } )
-        .catch(function (error) {
-          alert(error);
-        });
+
+    this.props.fetchNoticias();
+
+      // axios.get('http://ptua.desenvolvimento/api/noticias')
+      //   .then(response => {
+      //     this.setState({ noticias: response.data});
+      //   } )
+      //   .catch(function (error) {
+      //     alert(error);
+      //   });
+
+      
        
   }
 
@@ -76,8 +85,13 @@ export default class HomeScreen extends Component {
  }
 
   render() {
+      console.log('props noticias:', this.props.noticias);
+      
+     const Noticias = this.props.noticias.map((noticia) =>
+     
+      
+    
 
-     const Noticias = this.state.noticias.map((noticia) =>
       <Card key={noticia.id_noticia}>
             <CardItem>
               <Left>
@@ -148,6 +162,9 @@ export default class HomeScreen extends Component {
               </Right>
             </CardItem>
           </Card>
+        
+      
+
   );
     
     
@@ -224,9 +241,27 @@ export default class HomeScreen extends Component {
   }
 }
 
+
+
 const styles = StyleSheet.create({
   NT: {
     fontWeight: "800",
     fontSize: 25,
   }
 });
+
+function mapStateToProps(state) {
+  
+  return {
+    noticias: state.noticias,
+
+  }
+
+}
+
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({ fetchNoticias }, dispatch);
+}
+
+
+export default connect (mapStateToProps, mapDispatchToProps)(HomeScreen);
