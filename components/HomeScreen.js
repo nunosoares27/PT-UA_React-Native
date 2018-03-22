@@ -28,7 +28,7 @@ class HomeScreen extends Component {
 
     this.state = {
       noticias: [],
-      
+      likes: {},
     };
 
   }
@@ -37,15 +37,17 @@ class HomeScreen extends Component {
 
     this.props.fetchNoticias();
 
-      // axios.get('http://ptua.desenvolvimento/api/noticias')
-      //   .then(response => {
-      //     this.setState({ noticias: response.data});
-      //   } )
-      //   .catch(function (error) {
-      //     alert(error);
-      //   });
 
-      
+     axios.get('http://ptua.desenvolvimento/api/likes')
+        .then(response => {
+          
+         this.setState({ likes: response.data });
+        
+        } )
+        .catch(function (error) {
+          alert(error);
+        });
+
        
   }
 
@@ -62,6 +64,7 @@ class HomeScreen extends Component {
       const ue = await AsyncStorage.getItem('useremail');
       const ut = await AsyncStorage.getItem('userType');
       const id = await AsyncStorage.getItem('id');
+
 
       // console.log("event: "+postid);
     //  alert("Dados do User: "+ua+", "+ue+", "+ ut+", "+id);
@@ -84,12 +87,12 @@ class HomeScreen extends Component {
 
  }
 
+ 
+
   render() {
-      console.log('props noticias:', this.props.noticias);
-      
+       console.log(this.state.likes);
      const Noticias = this.props.noticias.map((noticia) =>
-     
-      
+    
     
 
       <Card key={noticia.id_noticia}>
@@ -149,7 +152,28 @@ class HomeScreen extends Component {
                 <Button transparent onPress={()=> this.uname(noticia.id_noticia)}>
                   <Icon active name="thumbs-up" />
                 </Button>
-                <Text>12 Likes</Text>
+
+                
+                
+               
+               <Text>
+                 {
+                   
+                   
+                 this.state.likes[''+noticia.id_noticia+''] === "1" ?  this.state.likes[''+noticia.id_noticia+''] + 
+                 ' Like'
+                 :  this.state.likes[''+noticia.id_noticia+''] +  ' Likes'
+                 
+                 
+                 }
+                 
+                 </Text>
+       
+                        
+               
+                {/*<Text>{this.state.likes} Likes</Text>*/}
+
+
               </Left>
               <Body>
                 <Button transparent>
@@ -260,7 +284,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({ fetchNoticias }, dispatch);
+  return bindActionCreators({ fetchNoticias, }, dispatch);
 }
 
 
