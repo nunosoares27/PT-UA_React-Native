@@ -17,7 +17,9 @@ import {
   Footer,
   FooterTab,
   Title,
-  Drawer
+  Drawer,
+  Item,
+  Input
 } from "native-base";
 
 import SideBar from "./Sidebar";
@@ -78,7 +80,6 @@ class HomeScreen extends Component {
       user_id: id
     });
 
-
     // axios
     //   .post("http://ptua.desenvolvimento/api/likenoticia", {
     //     id_noticia: postid,
@@ -89,7 +90,6 @@ class HomeScreen extends Component {
     //     this.setState({});
     //   });
   };
-
 
   render() {
     console.log(this.props.likes);
@@ -164,6 +164,29 @@ class HomeScreen extends Component {
             <Text>11h ago</Text>
           </Right>
         </CardItem>
+        <Content>
+          <Item
+            rounded
+            style={{
+              marginBottom: 15,
+              marginLeft: 15,
+              marginRight: 15,
+              backgroundColor: "#BDC3C7"
+            }}
+          >
+            <Input placeholder="Escrever comentário" />
+          </Item>
+          <Button
+            success
+            style={{
+              marginBottom: 15,
+              marginLeft: 20,
+              marginRight: 15
+            }}
+          >
+            <Text> Enviar </Text>
+          </Button>
+        </Content>
       </Card>
     ));
 
