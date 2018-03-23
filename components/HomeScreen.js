@@ -1,291 +1,239 @@
-import React, {Component} from 'react';
-import { StyleSheet, Image, View ,
-  AsyncStorage
- } from 'react-native';
+import React, { Component } from "react";
+import { StyleSheet, Image, View, AsyncStorage } from "react-native";
 
- import { Container, Header, Content, Card, CardItem, Thumbnail, 
-   Text, Button, Icon, Left, Body, Right, Footer, FooterTab, Title, Drawer } from 'native-base';
+import {
+  Container,
+  Header,
+  Content,
+  Card,
+  CardItem,
+  Thumbnail,
+  Text,
+  Button,
+  Icon,
+  Left,
+  Body,
+  Right,
+  Footer,
+  FooterTab,
+  Title,
+  Drawer
+} from "native-base";
 
-import SideBar from './Sidebar';
+import SideBar from "./Sidebar";
 
-import axios from 'axios';
+import axios from "axios";
 
-import HTMLView from 'react-native-htmlview';
+import HTMLView from "react-native-htmlview";
 
-import {connect} from 'react-redux';
+import { connect } from "react-redux";
 
-import { bindActionCreators } from 'redux';
-import {fetchNoticias} from './actions';
-
-
+import { bindActionCreators } from "redux";
+import { fetchNoticias, fetchLikes } from "./actions";
 
 class HomeScreen extends Component {
-  static navigationOptions = { header: null }
-  
-  
+  static navigationOptions = { header: null };
+
   constructor(props) {
     super(props);
 
     this.state = {
       noticias: [],
-      likes: {},
     };
-
   }
 
   componentWillMount() {
-
     this.props.fetchNoticias();
-
-
-     axios.get('http://ptua.desenvolvimento/api/likes')
-        .then(response => {
-          
-         this.setState({ likes: response.data });
-        
-        } )
-        .catch(function (error) {
-          alert(error);
-        });
-
-       
+    this.props.fetchLikes();
+    // axios
+    //   .get("http://ptua.desenvolvimento/api/likes")
+    //   .then(response => {
+    //     this.setState({ likes: response.data });
+    //   })
+    //   .catch(function(error) {
+    //     alert(error);
+    //   });
   }
 
+  closeDrawer = () => {
+    this.drawer._root.close();
+  };
+  openDrawer = () => {
+    this.drawer._root.open();
+  };
 
- closeDrawer = () => {
-      this.drawer._root.close()
-    };
-    openDrawer = () => {
-      this.drawer._root.open()
-    };
+  uname = async postid => {
+    const ua = await AsyncStorage.getItem("username");
+    const ue = await AsyncStorage.getItem("useremail");
+    const ut = await AsyncStorage.getItem("userType");
+    const id = await AsyncStorage.getItem("id");
 
-  uname = async(postid) => {
-      const ua = await AsyncStorage.getItem('username');
-      const ue = await AsyncStorage.getItem('useremail');
-      const ut = await AsyncStorage.getItem('userType');
-      const id = await AsyncStorage.getItem('id');
-
-
-      // console.log("event: "+postid);
+    // console.log("event: "+postid);
     //  alert("Dados do User: "+ua+", "+ue+", "+ ut+", "+id);
-   
-   // 'id_noticia', 'user_id',
- 
-   axios.post('http://ptua.desenvolvimento/api/likenoticia', {
-    id_noticia: postid,
-    user_id: id,
-  })
-  .then(async(response) => {
-   console.log(response.data);
-    this.setState({
-      
-    })
-  })
 
+    // 'id_noticia', 'user_id',
 
-
-
- }
-
- 
+    axios
+      .post("http://ptua.desenvolvimento/api/likenoticia", {
+        id_noticia: postid,
+        user_id: id
+      })
+      .then(async response => {
+       
+        this.setState({});
+      });
+  };
 
   render() {
-       console.log(this.state.likes);
-     const Noticias = this.props.noticias.map((noticia) =>
-    
-    
-
+    console.log(this.props.likes);
+    const Noticias = this.props.noticias.map(noticia => (
       <Card key={noticia.id_noticia}>
-            <CardItem>
-              <Left>
-                <Thumbnail source={require ('./images/user_logo1.png')} />
-                <Body>
-                  <Text>{noticia.name}</Text>
-                  <Text note>{noticia.typeUser}</Text>
-                </Body>
-              </Left>
-            </CardItem>
-             <CardItem>
-             <Text style={styles.NT}>{noticia.titulo}</Text>
-              </CardItem>
-
-            { noticia.noticiaHasImagem1 ? 
-              
-              <CardItem>
-               
-               <Image source={{uri: `http://ptua.desenvolvimento/storage/noticias/${noticia.id_noticia}/imagem1.jpg`}} style={{resizeMode: 'cover',height: 200, width: null, flex: 1}}/>
-              </CardItem> : <Text></Text>
-            
-            }
-             
-            
-           
-           
-            <CardItem >
-              <Body>
-               
-             
-                  
-                   <HTMLView
-        value={noticia.descricao}
-        
-      />
-
-
-                
-                </Body>
-
-                
-            </CardItem>
-
-            { noticia.noticiaHasImagem2 ? 
-            <CardItem>
-                 <Image source={{uri: `http://ptua.desenvolvimento/storage/noticias/${noticia.id_noticia}/imagem2.jpg`}} style={{resizeMode: 'cover',height: 200, width: null, flex: 1}}/>
-
-            </CardItem>
-
-            : <Text></Text>}
-
-
-            <CardItem>
-              <Left>
-                <Button transparent onPress={()=> this.uname(noticia.id_noticia)}>
-                  <Icon active name="thumbs-up" />
-                </Button>
-
-                
-                
-               
-               <Text>
-                 {
-                   
-                   
-                 this.state.likes[''+noticia.id_noticia+''] === "1" ?  this.state.likes[''+noticia.id_noticia+''] + 
-                 ' Like'
-                 :  this.state.likes[''+noticia.id_noticia+''] +  ' Likes'
-                 
-                 
-                 }
-                 
-                 </Text>
-       
-                        
-               
-                {/*<Text>{this.state.likes} Likes</Text>*/}
-
-
-              </Left>
-              <Body>
-                <Button transparent>
-                  <Icon active name="chatbubbles" />
-                  <Text style={{paddingLeft: 5}}>4 Comments</Text>
-                </Button>
-              </Body>
-              <Right>
-                <Text>11h ago</Text>
-              </Right>
-            </CardItem>
-          </Card>
-        
-      
-
-  );
-    
-    
-    return (
-
-      <View style={{ flex: 1, width: '100%'}}>
-      
- <Drawer
-        ref={(ref) => { this.drawer = ref; }}
-        content={<SideBar navigator={this.navigator} />}
-        onClose={() => this.closeDrawer()} 
-        style={{width: '100%'}}
-        >
-
-         <Header>
+        <CardItem>
           <Left>
-            <Button transparent onPress={()=> this.openDrawer()}>
-              <Icon name='menu' />
+            <Thumbnail source={require("./images/user_logo1.png")} />
+            <Body>
+              <Text>{noticia.name}</Text>
+              <Text note>{noticia.typeUser}</Text>
+            </Body>
+          </Left>
+        </CardItem>
+        <CardItem>
+          <Text style={styles.NT}>{noticia.titulo}</Text>
+        </CardItem>
+
+        {noticia.noticiaHasImagem1 ? (
+          <CardItem>
+            <Image
+              source={{
+                uri: `http://ptua.desenvolvimento/storage/noticias/${noticia.id_noticia}/imagem1.jpg`
+              }}
+              style={{ resizeMode: "cover", height: 200, width: null, flex: 1 }}
+            />
+          </CardItem>
+        ) : (
+          <Text />
+        )}
+
+        <CardItem>
+          <Body>
+            <HTMLView value={noticia.descricao} />
+          </Body>
+        </CardItem>
+
+        {noticia.noticiaHasImagem2 ? (
+          <CardItem>
+            <Image
+              source={{
+                uri: `http://ptua.desenvolvimento/storage/noticias/${noticia.id_noticia}/imagem2.jpg`
+              }}
+              style={{ resizeMode: "cover", height: 200, width: null, flex: 1 }}
+            />
+          </CardItem>
+        ) : (
+          <Text />
+        )}
+
+        <CardItem>
+          <Left>
+            <Button transparent onPress={() => this.uname(noticia.id_noticia)}>
+              <Icon active name="thumbs-up" />
             </Button>
+
+            <Text>
+              {this.props.likes["" + noticia.id_noticia + ""] === "1" ? (
+                this.props.likes["" + noticia.id_noticia + ""] + " Like"
+              ) : (
+                this.props.likes["" + noticia.id_noticia + ""] + " Likes"
+              )}
+            </Text>
           </Left>
           <Body>
-            <Title>Notícias</Title>
+            <Button transparent>
+              <Icon active name="chatbubbles" />
+              <Text style={{ paddingLeft: 5 }}>4 Comments</Text>
+            </Button>
           </Body>
           <Right>
-            <Button transparent >
-              {/*<Icon name='arrow-back' />*/}
-            </Button>
+            <Text>11h ago</Text>
           </Right>
-        </Header>
+        </CardItem>
+      </Card>
+    ));
 
+    return (
+      <View style={{ flex: 1, width: "100%" }}>
+        <Drawer
+          ref={ref => {
+            this.drawer = ref;
+          }}
+          content={<SideBar navigator={this.navigator} />}
+          onClose={() => this.closeDrawer()}
+          style={{ width: "100%" }}
+        >
+          <Header>
+            <Left>
+              <Button transparent onPress={() => this.openDrawer()}>
+                <Icon name="menu" />
+              </Button>
+            </Left>
+            <Body>
+              <Title>Notícias</Title>
+            </Body>
+            <Right>
+              <Button transparent>{/*<Icon name='arrow-back' />*/}</Button>
+            </Right>
+          </Header>
 
-
-<Container >
-        <Content >
-
-        {Noticias}
-
-
-
-  </Content>
-  </Container> 
-
-
+          <Container>
+            <Content>{Noticias}</Content>
+          </Container>
 
           <Footer>
-          <FooterTab>
-            <Button vertical active>
-              <Icon name="camera" />
-              <Text>Notícias</Text>
-            </Button>
-            <Button vertical>
-              <Icon name="apps" />
-              <Text>Dúvidas</Text>
-            </Button>
-            <Button vertical onPress={() => this.props.navigation.navigate('MapScreen')} >
-              <Icon active name="navigate" />
-              <Text>Mapa</Text>
-            </Button>
-            <Button vertical>
-              <Icon name="person" />
-              <Text>Chat</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
-
-</ Drawer>
-
-</View>
-      
-     
-
-
+            <FooterTab>
+              <Button vertical active>
+                <Icon name="camera" />
+                <Text>Notícias</Text>
+              </Button>
+              <Button vertical>
+                <Icon name="apps" />
+                <Text>Dúvidas</Text>
+              </Button>
+              <Button
+                vertical
+                onPress={() => this.props.navigation.navigate("MapScreen")}
+              >
+                <Icon active name="navigate" />
+                <Text>Mapa</Text>
+              </Button>
+              <Button vertical>
+                <Icon name="person" />
+                <Text>Chat</Text>
+              </Button>
+            </FooterTab>
+          </Footer>
+        </Drawer>
+      </View>
     );
   }
 }
 
-
-
 const styles = StyleSheet.create({
   NT: {
     fontWeight: "800",
-    fontSize: 25,
+    fontSize: 25
   }
 });
 
 function mapStateToProps(state) {
-  
   return {
     noticias: state.noticias,
-
-  }
-
-}
-
-function mapDispatchToProps(dispatch){
-  return bindActionCreators({ fetchNoticias, }, dispatch);
+    likes: state.likes
+  };
 }
 
 
-export default connect (mapStateToProps, mapDispatchToProps)(HomeScreen);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ fetchNoticias, fetchLikes }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
