@@ -29,7 +29,7 @@ import HTMLView from "react-native-htmlview";
 import { connect } from "react-redux";
 
 import { bindActionCreators } from "redux";
-import { fetchNoticias, fetchLikes } from "./actions";
+import { fetchNoticias, fetchLikes, giveLike } from "./actions";
 
 class HomeScreen extends Component {
   static navigationOptions = { header: null };
@@ -38,7 +38,7 @@ class HomeScreen extends Component {
     super(props);
 
     this.state = {
-      noticias: [],
+      noticias: []
     };
   }
 
@@ -73,16 +73,23 @@ class HomeScreen extends Component {
 
     // 'id_noticia', 'user_id',
 
-    axios
-      .post("http://ptua.desenvolvimento/api/likenoticia", {
-        id_noticia: postid,
-        user_id: id
-      })
-      .then(async response => {
-       
-        this.setState({});
-      });
+    this.props.giveLike({
+      id_noticia: postid,
+      user_id: id
+    });
+
+
+    // axios
+    //   .post("http://ptua.desenvolvimento/api/likenoticia", {
+    //     id_noticia: postid,
+    //     user_id: id
+    //   })
+    //   .then(async response => {
+
+    //     this.setState({});
+    //   });
   };
+
 
   render() {
     console.log(this.props.likes);
@@ -231,9 +238,8 @@ function mapStateToProps(state) {
   };
 }
 
-
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchNoticias, fetchLikes }, dispatch);
+  return bindActionCreators({ fetchNoticias, fetchLikes, giveLike }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
