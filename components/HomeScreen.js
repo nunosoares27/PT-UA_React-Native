@@ -31,7 +31,13 @@ import HTMLView from "react-native-htmlview";
 import { connect } from "react-redux";
 
 import { bindActionCreators } from "redux";
-import { fetchNoticias, fetchLikes, giveLike } from "./actions";
+import {
+  fetchNoticias,
+  fetchLikes,
+  giveLike,
+  fetchComentarios,
+  comentaNoticia
+} from "./actions";
 
 class HomeScreen extends Component {
   static navigationOptions = { header: null };
@@ -40,13 +46,16 @@ class HomeScreen extends Component {
     super(props);
 
     this.state = {
-      noticias: []
+      noticias: [],
+      TextoComentario: ""
     };
   }
 
   componentWillMount() {
     this.props.fetchNoticias();
     this.props.fetchLikes();
+    this.props.fetchComentarios();
+
     // axios
     //   .get("http://ptua.desenvolvimento/api/likes")
     //   .then(response => {
@@ -91,8 +100,18 @@ class HomeScreen extends Component {
     //   });
   };
 
+  comenta = async (id_noticia, TextoComentario) => {
+    const user_id = await AsyncStorage.getItem("id");
+    console.group(id_noticia, user_id, TextoComentario);
+
+    this.props.comentaNoticia({
+      id_noticia: id_noticia,
+      user_id: user_id,
+      TextoComentario: TextoComentario
+    });
+  };
+
   render() {
-    console.log(this.props.likes);
     const Noticias = this.props.noticias.map(noticia => (
       <Card key={noticia.id_noticia}>
         <CardItem>
@@ -174,7 +193,13 @@ class HomeScreen extends Component {
               backgroundColor: "#BDC3C7"
             }}
           >
-            <Input placeholder="Escrever comentário" />
+            <Input
+              placeholder="Escrever comentário"
+              ref="TextoComentario"
+              onChangeText={TextoComentario =>
+                this.setState({ TextoComentario })}
+              value={this.state.TextoComentario}
+            />
           </Item>
           <Button
             success
@@ -183,6 +208,8 @@ class HomeScreen extends Component {
               marginLeft: 20,
               marginRight: 15
             }}
+            onPress={() =>
+              this.comenta(noticia.id_noticia, this.state.TextoComentario)}
           >
             <Text> Enviar </Text>
           </Button>
@@ -257,12 +284,16 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     noticias: state.noticias,
-    likes: state.likes
+    likes: state.likes,
+    comentarios: state.comentarios
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchNoticias, fetchLikes, giveLike }, dispatch);
+  return bindActionCreators(
+    { fetchNoticias, fetchLikes, giveLike, fetchComentarios, comentaNoticia },
+    dispatch
+  );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

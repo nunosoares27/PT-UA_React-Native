@@ -3,6 +3,33 @@ import axios from "axios";
 export const FETCH_NOTICIAS = "FETCH_NOTICIAS";
 export const FETCH_LIKES = "FETCH_LIKES";
 export const GIVE_LIKE = "GIVE_LIKE";
+export const FETCH_COMENTARIOS_NOTICIAS = "FETCH_COMENTARIOS_NOTICIAS";
+export const COMENTA_NOTICIA = "COMENTA_NOTICIA";
+
+export function fetchComentarios() {
+  const request = axios.get(
+    "http://ptua.desenvolvimento/api/comentarioNoticia"
+  );
+  return {
+    type: FETCH_COMENTARIOS_NOTICIAS,
+    payload: request
+  };
+}
+
+export function comentaNoticia({ id_noticia, user_id, TextoComentario }) {
+  const request = axios.post(
+    "http://ptua.desenvolvimento/api/comentarioNoticia",
+    {
+      id_noticia: id_noticia,
+      user_id: user_id,
+      TextoComentario: TextoComentario
+    }
+  );
+  return {
+    type: COMENTA_NOTICIA,
+    payload: request
+  };
+}
 
 export function fetchNoticias() {
   const request = axios.get("http://ptua.desenvolvimento/api/noticias");
