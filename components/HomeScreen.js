@@ -19,7 +19,9 @@ import {
   Title,
   Drawer,
   Item,
-  Input
+  Input,
+  List,
+  ListItem
 } from "native-base";
 
 import SideBar from "./Sidebar";
@@ -39,6 +41,8 @@ import {
   comentaNoticia
 } from "./actions";
 
+import ComentarioNoticia from './ComentarioNoticia';
+
 class HomeScreen extends Component {
   static navigationOptions = { header: null };
 
@@ -47,23 +51,25 @@ class HomeScreen extends Component {
 
     this.state = {
       noticias: [],
-      TextoComentario: ""
+      TextoComentario: "",
+      ComentarioHidden: true,
+      comenta23: [],
     };
   }
 
   componentWillMount() {
     this.props.fetchNoticias();
     this.props.fetchLikes();
-    this.props.fetchComentarios();
-
+    
     // axios
-    //   .get("http://ptua.desenvolvimento/api/likes")
+    //   .get("http://ptua.desenvolvimento/api/comentarioNoticia/1")
     //   .then(response => {
-    //     this.setState({ likes: response.data });
+    //     this.setState({ comenta23: response.data });
     //   })
     //   .catch(function(error) {
     //     alert(error);
     //   });
+
   }
 
   closeDrawer = () => {
@@ -102,7 +108,6 @@ class HomeScreen extends Component {
 
   comenta = async (id_noticia, TextoComentario) => {
     const user_id = await AsyncStorage.getItem("id");
-    console.group(id_noticia, user_id, TextoComentario);
 
     this.props.comentaNoticia({
       id_noticia: id_noticia,
@@ -111,9 +116,45 @@ class HomeScreen extends Component {
     });
   };
 
+  
+  obtemComentario = async (id_noticia) => {
+    
+    this.setState({
+      ComentarioHidden: !this.state.ComentarioHidden,
+    });
+
+    this.props.fetchComentarios({
+        id_noticia: id_noticia,
+    });
+
+    
+
+  };
+
+
+
   render() {
+   
+    const Comentarios = 
+  
+      // <ComentarioNoticia comenta23={this.state.comenta23} />
+
+
+       <ComentarioNoticia comenta23={this.props.comentarios} />
+
+
+      // console.log(this.props.comentarios);
+  
+
+    ;
+  
+      
     const Noticias = this.props.noticias.map(noticia => (
+
+       
+
       <Card key={noticia.id_noticia}>
+        
         <CardItem>
           <Left>
             <Thumbnail source={require("./images/user_logo1.png")} />
@@ -176,13 +217,32 @@ class HomeScreen extends Component {
           <Body>
             <Button transparent>
               <Icon active name="chatbubbles" />
-              <Text style={{ paddingLeft: 5 }}>4 Comments</Text>
+              <Text 
+               onPress={() =>
+              this.obtemComentario(noticia.id_noticia)}
+          style={{ paddingLeft: 5 }}
+              >4 Comments</Text>
             </Button>
           </Body>
           <Right>
             <Text>11h ago</Text>
           </Right>
         </CardItem>
+       
+        <Content>
+          <List
+            style={{
+              marginBottom: 15,
+              marginLeft: 15,
+              marginRight: 15,
+              backgroundColor: "white"
+            }}
+          >
+            
+
+
+          </List>
+        </Content>
         <Content>
           <Item
             rounded
@@ -213,7 +273,10 @@ class HomeScreen extends Component {
           >
             <Text> Enviar </Text>
           </Button>
+           
+            {this.state.ComentarioHidden ? <Text></Text> : Comentarios}
         </Content>
+       
       </Card>
     ));
 
@@ -283,9 +346,9 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
+    comentarios: state.comentarios,
     noticias: state.noticias,
-    likes: state.likes,
-    comentarios: state.comentarios
+    likes: state.likes
   };
 }
 

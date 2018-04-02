@@ -6,14 +6,16 @@ export const GIVE_LIKE = "GIVE_LIKE";
 export const FETCH_COMENTARIOS_NOTICIAS = "FETCH_COMENTARIOS_NOTICIAS";
 export const COMENTA_NOTICIA = "COMENTA_NOTICIA";
 
-export function fetchComentarios() {
+export function fetchComentarios(id_noticia) {
+  let id = id_noticia.id_noticia;
   const request = axios.get(
-    "http://ptua.desenvolvimento/api/comentarioNoticia"
+    `http://ptua.desenvolvimento/api/comentarioNoticia/${id}`
   );
   return {
     type: FETCH_COMENTARIOS_NOTICIAS,
     payload: request
   };
+  
 }
 
 export function comentaNoticia({ id_noticia, user_id, TextoComentario }) {
