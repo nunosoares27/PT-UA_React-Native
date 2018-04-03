@@ -42,6 +42,7 @@ import {
 } from "./actions";
 
 import ComentarioNoticia from './ComentarioNoticia';
+import FooterApp from './FooterTab';
 
 class HomeScreen extends Component {
   static navigationOptions = { header: null };
@@ -308,29 +309,8 @@ class HomeScreen extends Component {
             <Content>{Noticias}</Content>
           </Container>
 
-          <Footer>
-            <FooterTab>
-              <Button vertical active>
-                <Icon name="camera" />
-                <Text>Notícias</Text>
-              </Button>
-              <Button vertical>
-                <Icon name="apps" />
-                <Text>Dúvidas</Text>
-              </Button>
-              <Button
-                vertical
-                onPress={() => this.props.navigation.navigate("MapScreen")}
-              >
-                <Icon active name="navigate" />
-                <Text>Mapa</Text>
-              </Button>
-              <Button vertical>
-                <Icon name="person" />
-                <Text>Chat</Text>
-              </Button>
-            </FooterTab>
-          </Footer>
+          <FooterApp navigation={this.props.navigation} />
+
         </Drawer>
       </View>
     );

@@ -44,20 +44,3 @@ const ComentarioNoticia = props => {
 };
 
 export default ComentarioNoticia;
-
-/*<ListItem>
-        <Thumbnail
-          square
-          size={80}
-          source={require("./images/user_logo1.png")}
-        />
-        <Body>
-          <Text>{props.comenta23[1] !== undefined ? props.comenta23[1]["id_noticia"] == "1" 
-            ? props.comenta23[1]["name"] : ""
-            
-            : "Sankhadeep" }</Text>
-          <Text note>
-           {props.comenta23[1] !== undefined ? props.comenta23[1]["TextoComentario"] : ""}
-          </Text>
-        </Body>
-      </ListItem>*/

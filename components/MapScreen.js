@@ -16,6 +16,8 @@ import MapViewDirections from 'react-native-maps-directions';
 
 import axios from 'axios';
 
+import FooterApp from './FooterTab';
+
 const GOOGLE_MAPS_APIKEY = "AIzaSyB59V7NjH5nCMhFZbC3tD4tHNRUUv9ILAc";
 // var origin = {latitude: this.state.focusedLocation.latitude, longitude: this.state.focusedLocation.longitude};
 // var destination = {latitude: this.state.Deca.latitude, longitude: this.state.Deca.longitude};
@@ -402,26 +404,7 @@ export default class MapScreen extends Component {
 
 {Users}
 
-          <Footer>
-          <FooterTab>
-            <Button vertical>
-              <Icon name="camera" />
-              <Text>Notícias</Text>
-            </Button>
-            <Button vertical>
-              <Icon name="apps" />
-              <Text>Dúvidas</Text>
-            </Button>
-            <Button vertical active >
-              <Icon active name="navigate" />
-              <Text>Mapa</Text>
-            </Button>
-            <Button vertical>
-              <Icon name="person" />
-              <Text>Chat</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
+<FooterApp navigation={this.props.navigation} />
 
 </ Drawer>
 
