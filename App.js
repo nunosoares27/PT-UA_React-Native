@@ -22,7 +22,10 @@ const RouterStack = DrawerNavigator(
     MapScreen: { screen: MapScreen }
   },
   {
-    initialRouteName: "Login"
+    initialRouteName: "Login",
+    contentOptions: {
+      activeTintColor: '#e91e63',
+  },
   }
 );
 

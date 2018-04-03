@@ -137,6 +137,7 @@ class HomeScreen extends Component {
 
   render() {
     
+
   //  const Comentarios = 
   
       
@@ -277,7 +278,7 @@ class HomeScreen extends Component {
           </Button>
 
            <ComentarioNoticia chave={noticia.id_noticia} comenta23={this.props.comentarios} />
-           
+
             {/*{Comentarios}*/}
         </Content>
        

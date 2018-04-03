@@ -26,32 +26,54 @@ import {
 
 const FooterApp = props => {
   return (
-   
     <Footer>
-            <FooterTab>
-              <Button vertical 
-                onPress={() => props.navigation.navigate("Home")}>
-                <Icon name="camera" />
-                <Text>Notícias</Text>
-              </Button>
-              <Button vertical>
-                <Icon name="apps" />
-                <Text>Dúvidas</Text>
-              </Button>
-              <Button
-                vertical
-                onPress={() => props.navigation.navigate("MapScreen")}
-              >
-                <Icon active name="navigate" />
-                <Text>Mapa</Text>
-              </Button>
-              <Button vertical>
-                <Icon name="person" />
-                <Text>Chat</Text>
-              </Button>
-            </FooterTab>
-          </Footer>
+      <FooterTab>
+        {props.navigation.state.routeName === "Home" ? (
+          <Button
+            vertical
+            active
+            onPress={() => props.navigation.navigate("Home")}
+          >
+            <Icon name="camera" />
+            <Text>Notícias</Text>
+          </Button>
+        ) : (
+          <Button vertical onPress={() => props.navigation.navigate("Home")}>
+            <Icon name="camera" />
+            <Text>Notícias</Text>
+          </Button>
+        )}
 
+        <Button vertical>
+          <Icon name="apps" />
+          <Text>Dúvidas</Text>
+        </Button>
+
+        {props.navigation.state.routeName === "MapScreen" ? (
+          <Button
+            vertical
+            active
+            onPress={() => props.navigation.navigate("MapScreen")}
+          >
+            <Icon name="navigate" />
+            <Text>Mapa</Text>
+          </Button>
+        ) : (
+          <Button
+            vertical
+            onPress={() => props.navigation.navigate("MapScreen")}
+          >
+            <Icon name="navigate" />
+            <Text>Mapa</Text>
+          </Button>
+        )}
+
+        <Button vertical>
+          <Icon name="person" />
+          <Text>Chat</Text>
+        </Button>
+      </FooterTab>
+    </Footer>
   );
 };
 
