@@ -134,7 +134,7 @@ class HomeScreen extends Component {
 
 
   render() {
-   
+    
     const Comentarios = 
   
       // <ComentarioNoticia comenta23={this.state.comenta23} />
@@ -278,7 +278,7 @@ class HomeScreen extends Component {
         </Content>
        
       </Card>
-    ));
+    )); 
 
     return (
       <View style={{ flex: 1, width: "100%" }}>
