@@ -55,6 +55,7 @@ class HomeScreen extends Component {
       TextoComentario: "",
       ComentarioHidden: true,
       comenta23: [],
+      chave: [],
     };
   }
 
@@ -136,18 +137,18 @@ class HomeScreen extends Component {
 
   render() {
     
-    const Comentarios = 
+  //  const Comentarios = 
   
-      // <ComentarioNoticia comenta23={this.state.comenta23} />
+      
 
 
-       <ComentarioNoticia comenta23={this.props.comentarios} />
+      //  <ComentarioNoticia chave={noticia.id_noticia} comenta23={this.props.comentarios} />
 
 
-      // console.log(this.props.comentarios);
+
   
 
-    ;
+  //  ;
   
       
     const Noticias = this.props.noticias.map(noticia => (
@@ -274,8 +275,10 @@ class HomeScreen extends Component {
           >
             <Text> Enviar </Text>
           </Button>
+
+           <ComentarioNoticia chave={noticia.id_noticia} comenta23={this.props.comentarios} />
            
-            {Comentarios}
+            {/*{Comentarios}*/}
         </Content>
        
       </Card>

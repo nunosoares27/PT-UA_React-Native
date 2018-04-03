@@ -26,8 +26,8 @@ import {
 
 const ComentarioNoticia = props => {
   return (
-    console.log("comentario" + props.comenta23),
     props.comenta23.map(comentario => (
+      comentario.id_noticia == props.chave ?  
       <ListItem key={comentario.id_comentario}>
         <Thumbnail
           square
@@ -39,6 +39,8 @@ const ComentarioNoticia = props => {
           <Text note>{comentario.TextoComentario}</Text>
         </Body>
       </ListItem>
+      :
+      <Text key={comentario.id_comentario}></Text>
     ))
   );
 };
