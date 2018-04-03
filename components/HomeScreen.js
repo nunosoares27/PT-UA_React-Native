@@ -275,7 +275,7 @@ class HomeScreen extends Component {
             <Text> Enviar </Text>
           </Button>
            
-            {this.state.ComentarioHidden ? <Text></Text> : Comentarios}
+            {Comentarios}
         </Content>
        
       </Card>
