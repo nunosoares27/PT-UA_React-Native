@@ -26,16 +26,21 @@ export default class Sidebar extends Component {
       <ScrollView style={styles.container} >
             <Image style={styles.topImage} source={require( './images/logo.png')} />
             <Content>
-          <Button block transparent large light>
+          <Button block transparent large light 
+           onPress={() => this.props.navigation.navigate("PerfilScreen")}>
             <Text style={{color: 'white'}}>Perfil</Text>
           </Button>
-         <Button block transparent large light>
+         <Button block transparent large light
+         onPress={() => this.props.navigation.navigate("Home")}
+         >
             <Text style={{color: 'white'}}>Noticias</Text>
           </Button>
           <Button block transparent large light>
             <Text style={{color: 'white'}}>Dúvidas</Text>
           </Button>
-          <Button block transparent large light>
+          <Button block transparent large light 
+          onPress={() => this.props.navigation.navigate("MapScreen")}
+          >
             <Text style={{color: 'white'}}>Mapa</Text>
           </Button>
           <Button block transparent large light>

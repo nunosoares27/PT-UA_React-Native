@@ -6,6 +6,7 @@ import Register from "./components/Register";
 import Home from "./components/HomeScreen";
 import Sidebar from "./components/Sidebar";
 import MapScreen from "./components/MapScreen";
+import PerfilScreen from "./components/PerfilScreen";
 import { DrawerNavigator } from "react-navigation";
 
 import { Provider } from "react-redux";
@@ -19,7 +20,8 @@ const RouterStack = DrawerNavigator(
     Landing: { screen: Landing },
     Home: { screen: Home },
     Register: { screen: Register },
-    MapScreen: { screen: MapScreen }
+    MapScreen: { screen: MapScreen },
+    PerfilScreen: { screen: PerfilScreen}
   },
   {
     initialRouteName: "Login",
