@@ -42,8 +42,7 @@ import HTMLView from "react-native-htmlview";
 // } from "./actions";
 
 // import ComentarioNoticia from './ComentarioNoticia';
-import FooterApp from './FooterTab';
-
+import FooterApp from "./FooterTab";
 
 class PerfilScreen extends Component {
   static navigationOptions = { header: null };
@@ -52,11 +51,14 @@ class PerfilScreen extends Component {
     super(props);
 
     this.state = {
-     
+      ua: "",
+      ue: "",
+      ut: "",
+      id: ""
     };
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     // axios
     //   .get("http://ptua.desenvolvimento/api/comentarioNoticia/1")
     //   .then(response => {
@@ -66,6 +68,35 @@ class PerfilScreen extends Component {
     //     alert(error);
     //   });
 
+    const ua = await AsyncStorage.getItem("username");
+    const ue = await AsyncStorage.getItem("useremail");
+    const ut = await AsyncStorage.getItem("userType");
+    const id = await AsyncStorage.getItem("id");
+
+    if (ua && ue && ut && id) {
+      this.setState({
+        ua,
+        ue,
+        ut,
+        id
+      });
+    } else {
+      alert("esperando");
+    }
+
+    //   uname = async () => {
+    //       try {
+    //    const ua = await AsyncStorage.getItem("username");
+    //     const ue = await AsyncStorage.getItem("useremail");
+    //     const ut = await AsyncStorage.getItem("userType");
+    //     const id = await AsyncStorage.getItem("id");
+    //   if ( !== null){
+
+    //    alert('funcionou');
+    //   }
+    // } catch (error) {
+    //   alert('deu merda');
+    // }
   }
 
   closeDrawer = () => {
@@ -75,26 +106,27 @@ class PerfilScreen extends Component {
     this.drawer._root.open();
   };
 
-//   uname = async postid => {
-//     const ua = await AsyncStorage.getItem("username");
-//     const ue = await AsyncStorage.getItem("useremail");
-//     const ut = await AsyncStorage.getItem("userType");
-//     const id = await AsyncStorage.getItem("id");
+  //   uname = async postid => {
+  //     const ua = await AsyncStorage.getItem("username");
+  //     const ue = await AsyncStorage.getItem("useremail");
+  //     const ut = await AsyncStorage.getItem("userType");
+  //     const id = await AsyncStorage.getItem("id");
 
-
-//   };
-
-
+  //   };
 
   render() {
-      
     return (
       <View style={{ flex: 1, width: "100%" }}>
         <Drawer
           ref={ref => {
             this.drawer = ref;
           }}
-          content={<SideBar navigator={this.navigator}  navigation={this.props.navigation} />}
+          content={
+            <SideBar
+              navigator={this.navigator}
+              navigation={this.props.navigation}
+            />
+          }
           onClose={() => this.closeDrawer()}
           style={{ width: "100%" }}
         >
@@ -113,11 +145,47 @@ class PerfilScreen extends Component {
           </Header>
 
           <Container>
-            <Content></Content>
+            <Content>
+              <Card>
+                <CardItem>
+                  <Left>
+                    <Body>
+                      <Text>{this.state.ua}</Text>
+                      <Text note>{this.state.ut}</Text>
+                    </Body>
+                  </Left>
+                </CardItem>
+                <CardItem cardBody>
+                  <Image
+                    source={{
+                      uri:
+                        "https://scontent.fopo1-1.fna.fbcdn.net/v/t1.0-9/16730145_661435734066944_2259181377204724691_n.jpg?_nc_cat=0&oh=33a7b9814af346c739bbe89d8be58669&oe=5B6AF379"
+                    }}
+                    style={{ height: 400, width: null, flex: 1 }}
+                  />
+                </CardItem>
+                <CardItem>
+                  <Left>
+                    <Text>12 Noticias</Text>
+                  </Left>
+                  <Body>
+                    <Text>4 Comentários</Text>
+                  </Body>
+                  <Right>
+                    <Text>4 Dúvidas</Text>
+                  </Right>
+                </CardItem>
+              </Card>
+              <Button block info style={{ marginTop: 15}}>
+                <Text>Mudar dados</Text>
+              </Button>
+              <Button block danger style={{ marginTop: 15}}>
+                <Text>Apagar conta</Text>
+              </Button>
+            </Content>
           </Container>
 
           <FooterApp navigation={this.props.navigation} />
-
         </Drawer>
       </View>
     );

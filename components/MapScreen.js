@@ -331,7 +331,7 @@ export default class MapScreen extends Component {
 
  <Drawer
         ref={(ref) => { this.drawer = ref; }}
-        content={<SideBar navigator={this.navigator} />}
+        content={<SideBar navigator={this.navigator} navigation={this.props.navigation} />}
         onClose={() => this.closeDrawer()} 
         style={{width: '100%'}}
         >
