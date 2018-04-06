@@ -30,14 +30,33 @@ import axios from "axios";
 
 import HTMLView from "react-native-htmlview";
 
+import { ImagePicker } from "expo";
+
 class CriarNoticia extends Component {
   static navigationOptions = { header: null };
 
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      pickedImaged: null,
+      createNews: false
+    };
   }
+
+  pickImageHandler = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3]
+    });
+
+    console.log(result);
+    if (!result.cancelled) {
+      this.setState({
+        pickedImaged: { uri: result.uri }
+      });
+    }
+  };
 
   componentWillMount() {}
 
@@ -52,39 +71,55 @@ class CriarNoticia extends Component {
   //   });
 
   render() {
-    return (
+    const CreateN = this.state.createNews ? (
       <Form
         style={{
-          height: "20%",
+          height: "100%",
           width: "100%",
           marginTop: 0,
           paddingTop: 0,
-          marginBottom: 0,
+          marginBottom: 15,
           paddingBottom: 0,
-          backgroundColor: "#BDC3C7",
+          backgroundColor: "#BDC3C7"
         }}
       >
-        <Item inlineLabel>
-          <Input 
-            placeholder="Criar noticia..."
-              ref="TextoNoticia"
+        <Button
+          block
+          light
+          contentContainerStyle={{ justifyContent: "center", flex: 1 }}
+          onPress={() =>
+            this.setState({
+              createNews: !this.state.createNews,
+              pickedImaged: null
+            })}
+        >
+          <Text>Cancelar</Text>
+        </Button>
+
+        {this.state.pickedImaged && (
+          <Image
+            source={{ uri: this.state.pickedImaged.uri }}
+            style={{ width: "100%", height: 200 }}
           />
+        )}
+        <Item inlineLabel>
+          <Input placeholder="Criar noticia..." ref="TextoNoticia" />
         </Item>
         <Button
           info
           style={{
-              marginTop: 15,
+            marginTop: 15,
             marginRight: 15,
-            marginLeft: 25
+            marginLeft: 25,
           }}
+          onPress={this.pickImageHandler}
         >
           <Text>Upload Imagem</Text>
         </Button>
         <Button
           success
           style={{
-              marginTop: -45,
-            marginBottom: 0,
+            marginTop: -45,
             marginRight: 15,
             marginLeft: 195
           }}
@@ -92,7 +127,23 @@ class CriarNoticia extends Component {
           <Text>Enviar</Text>
         </Button>
       </Form>
+    ) : (
+      <Button
+        block
+        light
+        contentContainerStyle={{ justifyContent: "center", flex: 1 }}
+        onPress={() =>
+          this.setState({
+            createNews: !this.state.createNews
+          })}
+      >
+        <Text>Criar Noticia</Text>
+      </Button>
     );
+
+    return <Container style={{ height: "auto" }}>
+        {CreateN}
+        </Container>;
   }
 }
 

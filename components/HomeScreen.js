@@ -293,8 +293,10 @@ class HomeScreen extends Component {
           </Header>
 
           <Container>
-            <CriarNoticia />
-            <Content>{Noticias}</Content>
+            <Content>
+              <CriarNoticia />
+              {Noticias}
+            </Content>
           </Container>
 
           <FooterApp navigation={this.props.navigation} />
