@@ -41,8 +41,9 @@ import {
   comentaNoticia
 } from "./actions";
 
-import ComentarioNoticia from './ComentarioNoticia';
-import FooterApp from './FooterTab';
+import ComentarioNoticia from "./ComentarioNoticia";
+import FooterApp from "./FooterTab";
+import CriarNoticia from "./CriarNoticia";
 
 class HomeScreen extends Component {
   static navigationOptions = { header: null };
@@ -55,14 +56,14 @@ class HomeScreen extends Component {
       TextoComentario: "",
       ComentarioHidden: true,
       comenta23: [],
-      chave: [],
+      chave: []
     };
   }
 
   componentWillMount() {
     this.props.fetchNoticias();
     this.props.fetchLikes();
-    
+
     // axios
     //   .get("http://ptua.desenvolvimento/api/comentarioNoticia/1")
     //   .then(response => {
@@ -71,7 +72,6 @@ class HomeScreen extends Component {
     //   .catch(function(error) {
     //     alert(error);
     //   });
-
   }
 
   closeDrawer = () => {
@@ -118,46 +118,25 @@ class HomeScreen extends Component {
     });
   };
 
-  
-  obtemComentario = async (id_noticia) => {
-    
+  obtemComentario = async id_noticia => {
     this.setState({
-      ComentarioHidden: !this.state.ComentarioHidden,
+      ComentarioHidden: !this.state.ComentarioHidden
     });
 
     this.props.fetchComentarios({
-        id_noticia: id_noticia,
+      id_noticia: id_noticia
     });
-
-    
-
   };
 
-
-
   render() {
-    
+    //  const Comentarios =
 
-  //  const Comentarios = 
-  
-      
+    //  <ComentarioNoticia chave={noticia.id_noticia} comenta23={this.props.comentarios} />
 
+    //  ;
 
-      //  <ComentarioNoticia chave={noticia.id_noticia} comenta23={this.props.comentarios} />
-
-
-
-  
-
-  //  ;
-  
-      
     const Noticias = this.props.noticias.map(noticia => (
-
-       
-
       <Card key={noticia.id_noticia}>
-        
         <CardItem>
           <Left>
             <Thumbnail source={require("./images/user_logo1.png")} />
@@ -220,18 +199,19 @@ class HomeScreen extends Component {
           <Body>
             <Button transparent>
               <Icon active name="chatbubbles" />
-              <Text 
-               onPress={() =>
-              this.obtemComentario(noticia.id_noticia)}
-          style={{ paddingLeft: 5 }}
-              >4 Comments</Text>
+              <Text
+                onPress={() => this.obtemComentario(noticia.id_noticia)}
+                style={{ paddingLeft: 5 }}
+              >
+                4 Comments
+              </Text>
             </Button>
           </Body>
           <Right>
             <Text>11h ago</Text>
           </Right>
         </CardItem>
-       
+
         <Content>
           <List
             style={{
@@ -240,11 +220,7 @@ class HomeScreen extends Component {
               marginRight: 15,
               backgroundColor: "white"
             }}
-          >
-            
-
-
-          </List>
+          />
         </Content>
         <Content>
           <Item
@@ -277,13 +253,15 @@ class HomeScreen extends Component {
             <Text> Enviar </Text>
           </Button>
 
-           <ComentarioNoticia chave={noticia.id_noticia} comenta23={this.props.comentarios} />
+          <ComentarioNoticia
+            chave={noticia.id_noticia}
+            comenta23={this.props.comentarios}
+          />
 
-            {/*{Comentarios}*/}
+          {/*{Comentarios}*/}
         </Content>
-       
       </Card>
-    )); 
+    ));
 
     return (
       <View style={{ flex: 1, width: "100%" }}>
@@ -291,10 +269,14 @@ class HomeScreen extends Component {
           ref={ref => {
             this.drawer = ref;
           }}
-          content={<SideBar navigator={this.navigator}  navigation={this.props.navigation} />}
+          content={
+            <SideBar
+              navigator={this.navigator}
+              navigation={this.props.navigation}
+            />
+          }
           onClose={() => this.closeDrawer()}
           style={{ width: "100%" }}
-         
         >
           <Header>
             <Left>
@@ -311,11 +293,11 @@ class HomeScreen extends Component {
           </Header>
 
           <Container>
+            <CriarNoticia />
             <Content>{Noticias}</Content>
           </Container>
 
           <FooterApp navigation={this.props.navigation} />
-
         </Drawer>
       </View>
     );
