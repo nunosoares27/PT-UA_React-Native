@@ -80,7 +80,7 @@ class CriarNoticia extends Component {
           paddingTop: 0,
           marginBottom: 15,
           paddingBottom: 0,
-          backgroundColor: "#BDC3C7"
+          backgroundColor: "#ecf0f1"
         }}
       >
         <Button
