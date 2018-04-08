@@ -26,6 +26,15 @@ import {
   Label
 } from "native-base";
 
+import { connect } from "react-redux";
+
+import { bindActionCreators } from "redux";
+import {
+  fetchNoticias,
+  fetchLikes,
+} from "./actions";
+
+
 import axios from "axios";
 
 import HTMLView from "react-native-htmlview";
@@ -40,8 +49,8 @@ class CriarNoticia extends Component {
 
     this.state = {
       createNews: false,
-      titulo: '',
-      descricao:'',
+      titulo: "",
+      descricao: ""
     };
   }
 
@@ -54,7 +63,7 @@ class CriarNoticia extends Component {
     console.log(result);
     if (!result.cancelled) {
       this.setState({
-        pickedImaged: { uri: result.uri },
+        pickedImaged: { uri: result.uri }
       });
     }
   };
@@ -64,24 +73,30 @@ class CriarNoticia extends Component {
   cNoticia = async (titulo, descricao) => {
     const user_id = await AsyncStorage.getItem("id");
     const formData = new FormData();
-    if (this.state.pickedImaged !== undefined){
-     formData.append('file1', {
-  uri: this.state.pickedImaged.uri,
-  type: 'file', // or photo.type
-  name: 'file1'
-});
-  }
-    formData.append( 'titulo', titulo );
-    formData.append( 'descricao', descricao );
-    formData.append('user_id', user_id);
-fetch('http://ptua.desenvolvimento/api/criarnoticia', {
-  method: 'post',
-  body: formData
-}).then(res => {
-  console.log(res)
-});
+    if (this.state.pickedImaged !== undefined) {
+      formData.append("file1", {
+        uri: this.state.pickedImaged.uri,
+        type: "file", // or photo.type
+        name: "file1"
+      });
+    }
+    formData.append("titulo", titulo);
+    formData.append("descricao", descricao);
+    formData.append("user_id", user_id);
+    fetch("http://ptua.desenvolvimento/api/criarnoticia", {
+      method: "post",
+      body: formData
+    }).then(res => {
+     this.props.fetchNoticias();
+     this.props.fetchLikes();
+    });
 
-
+    this.setState({
+      createNews: false,
+      pickedImaged: {},
+      titulo: '',
+      descricao: '',
+    });
 
   };
 
@@ -118,25 +133,27 @@ fetch('http://ptua.desenvolvimento/api/criarnoticia', {
           />
         )}
         <Item inlineLabel>
-          <Input placeholder="Titulo..." ref="titulo"
-           onChangeText={titulo =>
-                this.setState({ titulo })}
-              value={this.state.titulo}
-           />
+          <Input
+            placeholder="Titulo..."
+            ref="titulo"
+            onChangeText={titulo => this.setState({ titulo })}
+            value={this.state.titulo}
+          />
         </Item>
         <Item inlineLabel>
-          <Input placeholder="Texto noticia..." ref="descricao"
-           onChangeText={descricao =>
-                this.setState({ descricao })}
-              value={this.state.descricao}
-           />
+          <Input
+            placeholder="Texto noticia..."
+            ref="descricao"
+            onChangeText={descricao => this.setState({ descricao })}
+            value={this.state.descricao}
+          />
         </Item>
         <Button
           info
           style={{
             marginTop: 15,
             marginRight: 15,
-            marginLeft: 25,
+            marginLeft: 25
           }}
           onPress={this.pickImageHandler}
         >
@@ -168,10 +185,16 @@ fetch('http://ptua.desenvolvimento/api/criarnoticia', {
       </Button>
     );
 
-    return <Container style={{ height: "auto" }}>
-        {CreateN}
-        </Container>;
+    return <Container style={{ height: "auto" }}>{CreateN}</Container>;
   }
 }
 
-export default CriarNoticia;
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    { fetchNoticias, fetchLikes  },
+    dispatch
+  );
+}
+
+export default connect(null, mapDispatchToProps)(CriarNoticia);
+

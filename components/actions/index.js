@@ -6,6 +6,7 @@ export const GIVE_LIKE = "GIVE_LIKE";
 export const FETCH_COMENTARIOS_NOTICIAS = "FETCH_COMENTARIOS_NOTICIAS";
 export const COMENTA_NOTICIA = "COMENTA_NOTICIA";
 
+
 export function fetchComentarios(id_noticia) {
   let id = id_noticia.id_noticia;
   const request = axios.get(
