@@ -39,8 +39,9 @@ class CriarNoticia extends Component {
     super(props);
 
     this.state = {
-      pickedImaged: null,
-      createNews: false
+      createNews: false,
+      titulo: '',
+      descricao:'',
     };
   }
 
@@ -53,22 +54,36 @@ class CriarNoticia extends Component {
     console.log(result);
     if (!result.cancelled) {
       this.setState({
-        pickedImaged: { uri: result.uri }
+        pickedImaged: { uri: result.uri },
       });
     }
   };
 
   componentWillMount() {}
 
-  // axios
-  //   .post("http://ptua.desenvolvimento/api/likenoticia", {
-  //     id_noticia: postid,
-  //     user_id: id
-  //   })
-  //   .then(async response => {
+  cNoticia = async (titulo, descricao) => {
+    const user_id = await AsyncStorage.getItem("id");
+    const formData = new FormData();
+    if (this.state.pickedImaged !== undefined){
+     formData.append('file1', {
+  uri: this.state.pickedImaged.uri,
+  type: 'file', // or photo.type
+  name: 'file1'
+});
+  }
+    formData.append( 'titulo', titulo );
+    formData.append( 'descricao', descricao );
+    formData.append('user_id', user_id);
+fetch('http://ptua.desenvolvimento/api/criarnoticia', {
+  method: 'post',
+  body: formData
+}).then(res => {
+  console.log(res)
+});
 
-  //     this.setState({});
-  //   });
+
+
+  };
 
   render() {
     const CreateN = this.state.createNews ? (
@@ -103,7 +118,18 @@ class CriarNoticia extends Component {
           />
         )}
         <Item inlineLabel>
-          <Input placeholder="Criar noticia..." ref="TextoNoticia" />
+          <Input placeholder="Titulo..." ref="titulo"
+           onChangeText={titulo =>
+                this.setState({ titulo })}
+              value={this.state.titulo}
+           />
+        </Item>
+        <Item inlineLabel>
+          <Input placeholder="Texto noticia..." ref="descricao"
+           onChangeText={descricao =>
+                this.setState({ descricao })}
+              value={this.state.descricao}
+           />
         </Item>
         <Button
           info
@@ -123,6 +149,7 @@ class CriarNoticia extends Component {
             marginRight: 15,
             marginLeft: 195
           }}
+          onPress={() => this.cNoticia(this.state.titulo, this.state.descricao)}
         >
           <Text>Enviar</Text>
         </Button>
