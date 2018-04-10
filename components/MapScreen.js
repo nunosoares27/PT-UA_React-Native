@@ -216,6 +216,7 @@ export default class MapScreen extends Component {
     super(props);
 
     this.state = {
+        selected: "Escolha Departamento",
         focusedLocation: {
           latitude: 40.628927,
           longitude: -8.656405,
@@ -231,16 +232,14 @@ export default class MapScreen extends Component {
              latitude: 40.628927,
              longitude: -8.656405
             },
+          Matemática: {
+             latitude: 40.630560,
+             longitude: -8.658222
+          },
 
-        origin: {
-          latitude: 40.630194,
-          longitude: -8.65640
-        },
+        origin: null,
 
-        destination:{
-          latitude: 40.628927,
-          longitude: -8.656405
-        },
+        destination:null,
 
         users: [],
       
@@ -259,6 +258,7 @@ export default class MapScreen extends Component {
           alert(error);
         });
 
+        this.getLocationHandler();
   }
 
   pickLocationHandleer = event => {
@@ -310,10 +310,34 @@ export default class MapScreen extends Component {
       this.drawer._root.open()
     };
 
+onValueChange(value) {
+    this.setState({
+      selected: value,
+    });
+    switch (value){
+      case 'Deca' :
+      this.setState({
+        selected: value,
+        destination: {
+        latitude: 40.628927,
+        longitude: -8.656405
+      }
+    });
+      case 'Matemática':
+       this.setState({
+        selected: value,
+        destination: {
+          latitude: 40.630560,
+          longitude: -8.658222
+        }
+    });
+     
+}
 
-    
+}
 
   render() {
+
     let marker = null;
 
     const Users = this.state.users.map((user) =>
@@ -373,21 +397,38 @@ export default class MapScreen extends Component {
       >
       {marker}
 
-       <MapViewDirections
+       { this.state.selected === "Deca" ? <MapViewDirections
     origin={this.state.origin}
-    destination={this.state.destination}
+    destination={this.state.Deca}
     apikey={GOOGLE_MAPS_APIKEY}
     mode="walking"
     strokeWidth={3}
     strokeColor="orange"
-  />
+  /> : <Text/>}
+
+        { this.state.selected === "Matemática" ? <MapViewDirections
+    origin={this.state.origin}
+    destination={this.state.Matemática}
+    apikey={GOOGLE_MAPS_APIKEY}
+    mode="walking"
+    strokeWidth={3}
+    strokeColor="orange"
+  /> : <Text/>}
       
-      <MapView.Marker  coordinate={this.state.Deca}>
-        <View style={styles.circle}>
-             <Text style={styles.pinText}>1</Text>
+      {this.state.selected === "Deca" ? <MapView.Marker  coordinate={this.state.Deca}>
+        <View >
+             <Text style={styles.pinText}>X</Text>
+            </View>
+      </MapView.Marker> 
+     
+      : <Text /> }
+
+       {this.state.selected === "Matemática" ? <MapView.Marker  coordinate={this.state.Matemática}>
+        <View >
+             <Text style={styles.pinText}>X</Text>
             </View>
 
-      </MapView.Marker>
+      </MapView.Marker> : <Text /> }
       
   
    </MapView>   
@@ -398,14 +439,13 @@ export default class MapScreen extends Component {
               iosIcon={<Icon name="ios-arrow-down-outline" />}
               style={{ width: Dimensions.get('window').width - 45 , backgroundColor: "white", marginLeft: 17.5, marginTop: 17.5 }}
               placeholder="Escolha Departamento"
-             // selectedValue={this.state.selected}
-             // onValueChange={this.onValueChange.bind(this)}
+              selectedValue={this.state.selected}
+              onValueChange={this.onValueChange.bind(this)}
             >
+              <Picker.Item label="Escolha Departamento" value="Escolha Departamento" />
               <Picker.Item label="Deca" value="Deca" />
-              <Picker.Item label="ATM Card" value="key1" />
-              <Picker.Item label="Debit Card" value="key2" />
-              <Picker.Item label="Credit Card" value="key3" />
-              <Picker.Item label="Net Banking" value="key4" />
+              <Picker.Item label="Matemática" value="Matemática" />
+              
       </Picker>
     
     
