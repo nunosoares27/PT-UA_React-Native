@@ -217,11 +217,11 @@ export default class MapScreen extends Component {
 
     this.state = {
         focusedLocation: {
-          latitude: 40.630194,
-          longitude:  -8.656405,
-          latitudeDelta: 0.0032,
+          latitude: 40.628927,
+          longitude: -8.656405,
+          latitudeDelta: 0.008,
           longitudeDelta: 
-              Dimensions.get("window").width / Dimensions.get("window").height * 0.0032
+              Dimensions.get("window").width / Dimensions.get("window").height * 0.008
           
         },
         locationChosen: false,
