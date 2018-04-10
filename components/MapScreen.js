@@ -5,7 +5,7 @@ import { StyleSheet, Image, View, Dimensions
  import {MapView} from 'expo';
 
  import { Container, Header, Content, Card, CardItem, Thumbnail, 
-   Text, Button, Icon, Left, Body, Right, Footer, FooterTab, Title, Drawer } from 'native-base';
+   Text, Button, Icon, Left, Body, Right, Footer, FooterTab, Title, Drawer, Picker } from 'native-base';
 
 /// Google Maps Api key AIzaSyB59V7NjH5nCMhFZbC3tD4tHNRUUv9ILAc
 
@@ -358,15 +358,15 @@ export default class MapScreen extends Component {
         <Content >
 
  <MapView
-        style={{ flex: 1, left:0, right: 0, top:0, bottom: 0, position: 'absolute', width: '100%', height: 500 }}
-       // provider={MapView.PROVIDER_GOOGLE}
+        style={{ flex: 1, left:0, right: 0, top:0, bottom: 0, position: 'absolute', width: '100%', height: Dimensions.get('window').height }}
+     //   provider={MapView.PROVIDER_GOOGLE}
         toolbarEnabled={true}
         mapType="hybrid"
-        minZoomLevel={1}
+        minZoomLevel={8}
         showsUserLocation={true}
         showsMyLocationButton={true}
         showsBuildings={true}
-       // customMapStyle={MapStyle}
+        customMapStyle={MapStyle}
         initialRegion={this.state.focusedLocation}
         onPress={this.pickLocationHandleer}
         ref = {ref => this.map = ref}
@@ -392,17 +392,34 @@ export default class MapScreen extends Component {
   
    </MapView>   
          
-    <Button block large danger onPress={()=> this.getLocationHandler()}>
-              <Text>Localizar-me</Text>
-            </Button>
-
+    <Picker
+              mode="dropdown"
+             // iosHeader="Select your SIM"
+              iosIcon={<Icon name="ios-arrow-down-outline" />}
+              style={{ width: Dimensions.get('window').width - 45 , backgroundColor: "white", marginLeft: 17.5, marginTop: 17.5 }}
+              placeholder="Escolha Departamento"
+             // selectedValue={this.state.selected}
+             // onValueChange={this.onValueChange.bind(this)}
+            >
+              <Picker.Item label="Deca" value="Deca" />
+              <Picker.Item label="ATM Card" value="key1" />
+              <Picker.Item label="Debit Card" value="key2" />
+              <Picker.Item label="Credit Card" value="key3" />
+              <Picker.Item label="Net Banking" value="key4" />
+      </Picker>
+    
     
  
 
   </Content>
   </Container> 
 
-{Users}
+  
+
+      <Button block large danger onPress={()=> this.getLocationHandler()}>
+              <Text>Localizar-me</Text>
+            </Button>
+
 
 <FooterApp navigation={this.props.navigation} />
 
@@ -419,9 +436,9 @@ export default class MapScreen extends Component {
 
 const styles = StyleSheet.create({
     circle: {
-        width: 50,
-        height: 50,
-        borderRadius: 50 / 2,
+        width: Dimensions.get('window').width/10,
+        height: Dimensions.get('window').height/20,
+        borderRadius: Dimensions.get('window').width/10 + Dimensions.get('window').height/20 / 2,
         backgroundColor: 'red',
         flexGrow:1,
         alignItems: 'center',
