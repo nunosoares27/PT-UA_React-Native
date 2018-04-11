@@ -88,12 +88,14 @@ export default class Login extends React.Component {
           />
           <Text style={styles.loginText}>Login</Text>
           <TextInput 
+          autoCorrect={false}
             placeholder="E-mail"
             style={styles.input}
           onChangeText={(email) => this.setState({email})}
         value={this.state.email}
           />
            <TextInput 
+           autoCorrect={false}
            secureTextEntry={true}
             placeholder="Senha"
             style={styles.input}

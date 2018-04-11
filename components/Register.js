@@ -68,18 +68,22 @@ export default class Register extends Component {
           />
           {/* <Text style={styles.loginText}>Registar</Text> */}
           <TextInput 
+          autoCorrect={false}
             placeholder="Nome"
             style={styles.input}
              onChangeText={(name) => this.setState({name})}
         value={this.state.name}
           />
           <TextInput 
+          autoCorrect={false}
             placeholder="E-mail"
             style={styles.input}
              onChangeText={(email) => this.setState({email})}
         value={this.state.email}
           />
            <TextInput 
+           autoCorrect={false}
+           secureTextEntry={true}
             placeholder="Password"
             style={styles.input}
              onChangeText={(password) => this.setState({password})}

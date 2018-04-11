@@ -24,7 +24,7 @@ const RouterStack = DrawerNavigator(
     PerfilScreen: { screen: PerfilScreen}
   },
   {
-    initialRouteName: "Login",
+    initialRouteName: "Landing",
     contentOptions: {
       activeTintColor: '#e91e63',
   },

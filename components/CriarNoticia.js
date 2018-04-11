@@ -134,6 +134,7 @@ class CriarNoticia extends Component {
         )}
         <Item inlineLabel>
           <Input
+          autoCorrect={false}
             placeholder="Titulo..."
             ref="titulo"
             onChangeText={titulo => this.setState({ titulo })}
@@ -142,6 +143,7 @@ class CriarNoticia extends Component {
         </Item>
         <Item inlineLabel>
           <Input
+          autoCorrect={false}
             placeholder="Texto noticia..."
             ref="descricao"
             onChangeText={descricao => this.setState({ descricao })}

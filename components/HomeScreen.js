@@ -233,6 +233,7 @@ class HomeScreen extends Component {
             }}
           >
             <Input
+            autoCorrect={false}
               placeholder="Escrever comentário"
               ref="TextoComentario"
               onChangeText={TextoComentario =>
