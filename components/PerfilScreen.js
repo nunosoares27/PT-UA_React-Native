@@ -55,7 +55,10 @@ class PerfilScreen extends Component {
       ua: "",
       ue: "",
       ut: "",
-      id: ""
+      id: "",
+      editIsOpen: false,
+      nome: "",
+      descricao: "",
     };
   }
 
@@ -79,7 +82,7 @@ class PerfilScreen extends Component {
         ua,
         ue,
         ut,
-        id
+        id,
       });
     } else {
       alert("esperando");
@@ -162,14 +165,21 @@ class PerfilScreen extends Component {
                       uri:
                         "https://scontent.fopo1-1.fna.fbcdn.net/v/t1.0-9/16730145_661435734066944_2259181377204724691_n.jpg?_nc_cat=0&oh=33a7b9814af346c739bbe89d8be58669&oe=5B6AF379"
                     }}
-                    style={{ height: 300, width: null, flex: 1 }}
+                    style={{ height: 280, width: null, flex: 1 }}
                   />
                 </CardItem>
                 <CardItem>
                   <Body>
-                    <Text>Santos é um aluno do curso de Marketing, no ISCAA. Adora fazer novas amizades, e aprender conteúdos novos.</Text>
+                     <Text style={{ marginTop: 5 }}>
+                      E-mail: {this.state.ue}
+                    </Text>
+                    <Text style={{ marginTop: 5, marginBottom: 5 }}>Cargo: {this.state.ut}</Text>
+                    <Text>
+                      Santos é um aluno do curso de Marketing, no ISCAA. Adora
+                      fazer novas amizades, e aprender conteúdos novos.
+                    </Text>
+                   
                   </Body>
-                  
                 </CardItem>
                 <CardItem>
                   <Left>
@@ -183,83 +193,88 @@ class PerfilScreen extends Component {
                   </Right>*/}
                 </CardItem>
               </Card>
-              <Button block info style={{ marginTop: 15}}>
+              <Button block info style={{ marginTop: 5 }}
+              onPress={ () => this.setState({
+                editIsOpen: !this.state.editIsOpen
+              })}
+              >
                 <Text>Mudar dados</Text>
               </Button>
+             {this.state.editIsOpen ? (
               <Card>
-                  <CardItem>
+                <CardItem>
                   <Body>
+                    <Form
+                      style={{
+                        height: "100%",
+                        width: "100%",
+                        marginTop: 0,
+                        paddingTop: 0,
+                        marginBottom: 15,
+                        paddingBottom: 0,
+                        backgroundColor: "#ecf0f1"
+                      }}
+                    >
+                      <Item inlineLabel>
+                        <Input
+                          placeholder="Nome..."
+                          ref="nome"
+                          onChangeText={nome => this.setState({ nome })}
+                          value={this.state.nome}
+                        />
+                      </Item>
 
-                       <Form
-        style={{
-          height: "100%",
-          width: "100%",
-          marginTop: 0,
-          paddingTop: 0,
-          marginBottom: 15,
-          paddingBottom: 0,
-          backgroundColor: "#ecf0f1"
-        }}
-      >
+                      <Item inlineLabel>
+                        <Input
+                          placeholder="Descrição..."
+                          ref="descricao"
+                          onChangeText={descricao =>
+                            this.setState({ descricao })}
+                          value={this.state.descricao}
+                        />
+                      </Item>
 
-        <Item inlineLabel>
-          <Input
-            placeholder="Nome..."
-            ref="nome"
-            onChangeText={nome => this.setState({ nome })}
-            value={this.state.nome}
-          />
-        </Item>
+                      <Button
+                        block
+                        info
+                        style={{
+                          marginTop: 15,
+                          marginRight: 15,
+                          marginLeft: 25
+                        }}
+                        //     onPress={this.pickImageHandler}
+                      >
+                        <Text>Mudar Imagem Perfil</Text>
+                      </Button>
 
-        <Item inlineLabel>
-          <Input
-            placeholder="Descrição..."
-            ref="descricao"
-            onChangeText={descricao => this.setState({ descricao })}
-            value={this.state.descricao}
-          />
-        </Item>
-      
-        <Button block
-          info
-          style={{
-            marginTop: 15,
-            marginRight: 15,
-            marginLeft: 25
-          }}
-     //     onPress={this.pickImageHandler}
-        >
-          <Text>Mudar Imagem Perfil</Text>
-        </Button>
-
-         <Button
-          danger
-          style={{
-            marginTop: 45,
-            marginLeft: 75
-          }}
-       //   onPress={() => this.cNoticia(this.state.titulo, this.state.descricao)}
-        >
-          <Text>cancelar</Text>
-        </Button>
-        <Button
-          success
-          style={{
-            marginTop: -45,
-           marginLeft: 185
-          }}
-       //   onPress={() => this.cNoticia(this.state.titulo, this.state.descricao)}
-        >
-          <Text>Enviar</Text>
-        </Button>
-      </Form>
-      
+                      <Button
+                        danger
+                        style={{
+                          marginTop: 45,
+                          marginLeft: 75
+                        }}
+                        //   onPress={() => this.cNoticia(this.state.titulo, this.state.descricao)}
+                      >
+                        <Text>cancelar</Text>
+                      </Button>
+                      <Button
+                        success
+                        style={{
+                          marginTop: -45,
+                          marginLeft: 185
+                        }}
+                        //   onPress={() => this.cNoticia(this.state.titulo, this.state.descricao)}
+                      >
+                        <Text>Enviar</Text>
+                      </Button>
+                    </Form>
                   </Body>
-                  
                 </CardItem>
-
-                </Card>
-              <Button block danger style={{ marginTop: 15}}>
+              </Card>
+             ) : <Text></Text> }
+              
+              
+              <Button block danger style={{ marginTop: 2 }}>
                 <Text>Apagar conta</Text>
               </Button>
             </Content>
