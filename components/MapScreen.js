@@ -259,6 +259,10 @@ export default class MapScreen extends Component {
         latitude: 40.632734,
         longitude: -8.657539
       },
+      Deti: {
+        latitude:40.633251,
+        longitude: -8.659011
+      },
       origin: null,
 
       destination: null,
@@ -367,6 +371,14 @@ export default class MapScreen extends Component {
             longitude: -8.657539
           }
         });
+        case "Deti":
+        this.setState({
+          selected: value,
+          destination: {
+           latitude:40.633251,
+           longitude: -8.659011
+          }
+        });
     }
   }
 
@@ -457,6 +469,19 @@ export default class MapScreen extends Component {
                   <Text />
                 )}
 
+                {this.state.selected === "Deti" ? (
+                  <MapViewDirections
+                    origin={this.state.origin}
+                    destination={this.state.Deti}
+                    apikey={GOOGLE_MAPS_APIKEY}
+                    mode="walking"
+                    strokeWidth={3}
+                    strokeColor="orange"
+                  />
+                ) : (
+                  <Text />
+                )}
+
                 {this.state.selected === "Isca" ? (
                   <MapViewDirections
                     origin={this.state.origin}
@@ -498,6 +523,16 @@ export default class MapScreen extends Component {
 
                 {this.state.selected === "Deca" ? (
                   <MapView.Marker coordinate={this.state.Deca}>
+                    <View>
+                      <Text style={styles.pinText}>X</Text>
+                    </View>
+                  </MapView.Marker>
+                ) : (
+                  <Text />
+                )}
+
+                 {this.state.selected === "Deti" ? (
+                  <MapView.Marker coordinate={this.state.Deti}>
                     <View>
                       <Text style={styles.pinText}>X</Text>
                     </View>
@@ -562,6 +597,7 @@ export default class MapScreen extends Component {
                 <Picker.Item label="Matemática" value="Matemática" />
                 <Picker.Item label="ISCAA" value="Isca" />
                 <Picker.Item label="Ambiente e Ordenamento" value="Ambiente" />
+                <Picker.Item label="DETI" value="Deti" />
               </Picker>
             </Content>
           </Container>

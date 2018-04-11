@@ -44,10 +44,21 @@ const FooterApp = props => {
           </Button>
         )}
 
-        <Button vertical>
+         {props.navigation.state.routeName === "PerfilScreen" ? (
+        <Button vertical active
+        onPress={() => props.navigation.navigate("PerfilScreen")}
+        >
           <Icon name="apps" />
-          <Text>Dúvidas</Text>
+          <Text>Perfil</Text>
         </Button>
+         ) : (
+           <Button vertical
+        onPress={() => props.navigation.navigate("PerfilScreen")}
+        >
+          <Icon name="apps" />
+          <Text>Perfil</Text>
+        </Button>
+         )}
 
         {props.navigation.state.routeName === "MapScreen" ? (
           <Button

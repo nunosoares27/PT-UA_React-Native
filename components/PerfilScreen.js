@@ -21,7 +21,8 @@ import {
   Item,
   Input,
   List,
-  ListItem
+  ListItem,
+  Form
 } from "native-base";
 
 import SideBar from "./Sidebar";
@@ -161,8 +162,14 @@ class PerfilScreen extends Component {
                       uri:
                         "https://scontent.fopo1-1.fna.fbcdn.net/v/t1.0-9/16730145_661435734066944_2259181377204724691_n.jpg?_nc_cat=0&oh=33a7b9814af346c739bbe89d8be58669&oe=5B6AF379"
                     }}
-                    style={{ height: 400, width: null, flex: 1 }}
+                    style={{ height: 300, width: null, flex: 1 }}
                   />
+                </CardItem>
+                <CardItem>
+                  <Body>
+                    <Text>Santos é um aluno do curso de Marketing, no ISCAA. Adora fazer novas amizades, e aprender conteúdos novos.</Text>
+                  </Body>
+                  
                 </CardItem>
                 <CardItem>
                   <Left>
@@ -171,14 +178,87 @@ class PerfilScreen extends Component {
                   <Body>
                     <Text>4 Comentários</Text>
                   </Body>
-                  <Right>
+                  {/*<Right>
                     <Text>4 Dúvidas</Text>
-                  </Right>
+                  </Right>*/}
                 </CardItem>
               </Card>
               <Button block info style={{ marginTop: 15}}>
                 <Text>Mudar dados</Text>
               </Button>
+              <Card>
+                  <CardItem>
+                  <Body>
+
+                       <Form
+        style={{
+          height: "100%",
+          width: "100%",
+          marginTop: 0,
+          paddingTop: 0,
+          marginBottom: 15,
+          paddingBottom: 0,
+          backgroundColor: "#ecf0f1"
+        }}
+      >
+
+        <Item inlineLabel>
+          <Input
+            placeholder="Nome..."
+            ref="nome"
+            onChangeText={nome => this.setState({ nome })}
+            value={this.state.nome}
+          />
+        </Item>
+
+        <Item inlineLabel>
+          <Input
+            placeholder="Descrição..."
+            ref="descricao"
+            onChangeText={descricao => this.setState({ descricao })}
+            value={this.state.descricao}
+          />
+        </Item>
+      
+        <Button block
+          info
+          style={{
+            marginTop: 15,
+            marginRight: 15,
+            marginLeft: 25
+          }}
+     //     onPress={this.pickImageHandler}
+        >
+          <Text>Mudar Imagem Perfil</Text>
+        </Button>
+
+         <Button
+          danger
+          style={{
+            marginTop: 45,
+            marginLeft: 75
+          }}
+       //   onPress={() => this.cNoticia(this.state.titulo, this.state.descricao)}
+        >
+          <Text>cancelar</Text>
+        </Button>
+        <Button
+          success
+          style={{
+            marginTop: -45,
+           marginLeft: 185
+          }}
+       //   onPress={() => this.cNoticia(this.state.titulo, this.state.descricao)}
+        >
+          <Text>Enviar</Text>
+        </Button>
+      </Form>
+      
+                  </Body>
+                  
+                </CardItem>
+
+                </Card>
               <Button block danger style={{ marginTop: 15}}>
                 <Text>Apagar conta</Text>
               </Button>
