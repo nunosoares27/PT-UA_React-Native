@@ -31,6 +31,9 @@ import axios from "axios";
 
 import HTMLView from "react-native-htmlview";
 
+
+import { ImagePicker } from "expo";
+
 // import { connect } from "react-redux";
 
 // import { bindActionCreators } from "redux";
@@ -57,10 +60,60 @@ class PerfilScreen extends Component {
       ut: "",
       id: "",
       editIsOpen: false,
-      nome: "",
-      descricao: "",
+      name: "",
+      descricaoUser: "",
     };
   }
+
+pickImageHandler = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3]
+    });
+
+    console.log(result);
+    if (!result.cancelled) {
+      this.setState({
+        pickedImaged: { uri: result.uri }
+      });
+    }
+  };
+
+  UserEdit = async (name, descricaoUser) => {
+    const user_id = await AsyncStorage.getItem("id");
+    const formData = new FormData();
+    if (this.state.pickedImaged !== undefined) {
+      formData.append("file1", {
+        uri: this.state.pickedImaged.uri,
+        type: "file", // or photo.type
+        name: "file1"
+      });
+    }
+    formData.append("name", name);
+    formData.append("descricaoUser", descricaoUser);
+  
+ //  console.log(formData);
+    fetch("http://ptua.desenvolvimento/api/useredit/"+user_id, {
+      method: "post",
+      body: formData
+    }).then(async response => {
+         
+           console.log("resposta"+response);
+          //   await AsyncStorage.setItem('username', response.name);
+          //   await AsyncStorage.setItem('userimg', response.img.toString());
+          //   await AsyncStorage.setItem('descricaoUser', response.descricaoUser);
+
+  //   this.props.navigation.navigate('PerfilScreen');
+    });
+
+    this.setState({
+      createNews: false,
+      pickedImaged: {},
+      name: '',
+      descricaoUser: '',
+    });
+
+  };
 
   async componentWillMount() {
     // axios
@@ -76,14 +129,21 @@ class PerfilScreen extends Component {
     const ue = await AsyncStorage.getItem("useremail");
     const ut = await AsyncStorage.getItem("userType");
     const id = await AsyncStorage.getItem("id");
+    const img = await AsyncStorage.getItem("userimg");
+    const du = await AsyncStorage.getItem("descricaoUser");
 
-    if (ua && ue && ut && id) {
+    if (ua && ue && ut && id && img && du) {
       this.setState({
         ua,
         ue,
         ut,
         id,
+        img,
+        du,
+        name: ua,
+        descricaoUser: du
       });
+     
     } else {
       alert("esperando");
     }
@@ -160,13 +220,25 @@ class PerfilScreen extends Component {
                   </Left>
                 </CardItem>
                 <CardItem cardBody>
+                  {this.state.img == 1 ? <Image
+                    source={{
+                      uri:
+                    "http://ptua.desenvolvimento/storage/users/"+ this.state.id + "/imagem1.jpg"
+                    
+                    }}
+                    style={{ height: 280, width: null, flex: 1 }}
+                  />  : 
                   <Image
                     source={{
                       uri:
-                        "https://scontent.fopo1-1.fna.fbcdn.net/v/t1.0-9/16730145_661435734066944_2259181377204724691_n.jpg?_nc_cat=0&oh=33a7b9814af346c739bbe89d8be58669&oe=5B6AF379"
+                      "https://scontent.fopo1-1.fna.fbcdn.net/v/t1.0-9/16730145_661435734066944_2259181377204724691_n.jpg?_nc_cat=0&oh=33a7b9814af346c739bbe89d8be58669&oe=5B6AF379"
+                      
+                   
                     }}
                     style={{ height: 280, width: null, flex: 1 }}
                   />
+                  }
+                  
                 </CardItem>
                 <CardItem>
                   <Body>
@@ -175,8 +247,7 @@ class PerfilScreen extends Component {
                     </Text>
                     <Text style={{ marginTop: 5, marginBottom: 5 }}>Cargo: {this.state.ut}</Text>
                     <Text>
-                      Santos é um aluno do curso de Marketing, no ISCAA. Adora
-                      fazer novas amizades, e aprender conteúdos novos.
+                      {this.state.du}
                     </Text>
                    
                   </Body>
@@ -218,19 +289,19 @@ class PerfilScreen extends Component {
                       <Item inlineLabel>
                         <Input
                           placeholder="Nome..."
-                          ref="nome"
-                          onChangeText={nome => this.setState({ nome })}
-                          value={this.state.nome}
+                          ref="name"
+                          onChangeText={name => this.setState({ name })}
+                          value={this.state.name}
                         />
                       </Item>
 
                       <Item inlineLabel>
                         <Input
                           placeholder="Descrição..."
-                          ref="descricao"
-                          onChangeText={descricao =>
-                            this.setState({ descricao })}
-                          value={this.state.descricao}
+                          ref="descricaoUser"
+                          onChangeText={descricaoUser =>
+                            this.setState({ descricaoUser })}
+                          value={this.state.descricaoUser}
                         />
                       </Item>
 
@@ -242,7 +313,7 @@ class PerfilScreen extends Component {
                           marginRight: 15,
                           marginLeft: 25
                         }}
-                        //     onPress={this.pickImageHandler}
+                         onPress={this.pickImageHandler}
                       >
                         <Text>Mudar Imagem Perfil</Text>
                       </Button>
@@ -263,7 +334,7 @@ class PerfilScreen extends Component {
                           marginTop: -45,
                           marginLeft: 185
                         }}
-                        //   onPress={() => this.cNoticia(this.state.titulo, this.state.descricao)}
+                        onPress={() => this.UserEdit(this.state.name, this.state.descricaoUser)}
                       >
                         <Text>Enviar</Text>
                       </Button>

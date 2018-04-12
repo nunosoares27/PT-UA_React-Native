@@ -86,6 +86,7 @@ class HomeScreen extends Component {
     const ue = await AsyncStorage.getItem("useremail");
     const ut = await AsyncStorage.getItem("userType");
     const id = await AsyncStorage.getItem("id");
+   
 
     // console.log("event: "+postid);
     //  alert("Dados do User: "+ua+", "+ue+", "+ ut+", "+id);
