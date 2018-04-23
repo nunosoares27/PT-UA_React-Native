@@ -58,7 +58,8 @@ export default class ChatScreen extends Component {
     super(props);
 
     this.state = {
-      chatDados: []
+      chatDados: [],
+      mensagem: '',
     };
   }
 
@@ -134,6 +135,26 @@ export default class ChatScreen extends Component {
     //   });
   };
 
+  cMessage = async (mensagem) => {
+    const ua = await AsyncStorage.getItem("username");
+    const id = await AsyncStorage.getItem("id");
+
+    axios
+      .post("http://ptua.desenvolvimento/api/chat", {
+        utilizador_nome: ua,
+        utilizador_id: id,
+        utilizador_mensagem: mensagem
+      })
+      .then(async response => {
+
+        this.setState({
+          mensagem: '',
+        });
+      });
+
+
+  };
+
   render() {
     const CHATCONTENT = this.state.chatDados.map(chat => (
       <ListItem avatar key={chat.id}>
@@ -198,7 +219,10 @@ export default class ChatScreen extends Component {
                   backgroundColor: "#BDC3C7"
                 }}
               >
-                <Input autoCorrect={false} placeholder="Escrever mensagem..." />
+                <Input autoCorrect={false} placeholder="Escrever mensagem..." 
+                value={this.state.mensagem} ref="mensagem"
+            onChangeText={mensagem => this.setState({ mensagem })}
+                />
               </Item>
               <Button
                 success
@@ -207,6 +231,7 @@ export default class ChatScreen extends Component {
                   marginLeft: 20,
                   marginRight: 15
                 }}
+                onPress={() => this.cMessage(this.state.mensagem)}
               >
                 <Text> Enviar </Text>
               </Button>

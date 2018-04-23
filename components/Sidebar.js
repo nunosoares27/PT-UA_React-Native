@@ -35,9 +35,6 @@ export default class Sidebar extends Component {
          >
             <Text style={{color: 'white'}}>Noticias</Text>
           </Button>
-          <Button block transparent large light>
-            <Text style={{color: 'white'}}>Dúvidas</Text>
-          </Button>
           <Button block transparent large light 
           onPress={() => this.props.navigation.navigate("MapScreen")}
           >
@@ -46,7 +43,9 @@ export default class Sidebar extends Component {
           <Button block transparent large light>
             <Text style={{color: 'white'}}>Eventos</Text>
           </Button>
-          <Button block transparent large light>
+          <Button block transparent large light
+         onPress={() => this.props.navigation.navigate("ChatScreen")}
+         >
             <Text style={{color: 'white'}}>Chat</Text>
           </Button>
           <Button block large danger>
