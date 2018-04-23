@@ -40,7 +40,9 @@ export default class Sidebar extends Component {
           >
             <Text style={{color: 'white'}}>Mapa</Text>
           </Button>
-          <Button block transparent large light>
+          <Button block transparent large light 
+          onPress={() => this.props.navigation.navigate("EventScreen")}
+          >
             <Text style={{color: 'white'}}>Eventos</Text>
           </Button>
           <Button block transparent large light
