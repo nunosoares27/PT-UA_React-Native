@@ -28,6 +28,12 @@ import SideBar from "./Sidebar";
 
 import axios from "axios";
 
+import Pusher from "pusher-js/react-native";
+
+import pusherConfig from "./pusher.json";
+
+Pusher.logToConsole = true;
+
 // import HTMLView from "react-native-htmlview";
 
 // import { connect } from "react-redux";
@@ -52,17 +58,52 @@ export default class ChatScreen extends Component {
     super(props);
 
     this.state = {
-     chatDados : [],
+      chatDados: []
     };
   }
 
   componentWillMount() {
-   
+    var socket = new Pusher(pusherConfig.key, pusherConfig);
+
+    var channel = socket.subscribe("test");
+    socket.connection.bind("connected", response => {
+      console.log(response);
+    });
+
+    // channel.bind('TestUpdate', (data) => {
+    //   axios
+    //       .get("http://ptua.desenvolvimento/api/chat")
+    //       .then(response => {
+    //         this.setState({ chatDados: response.data });
+    //        console.log(this.state.chatDados);
+    //       })
+    //       .catch(function(error) {
+    //         alert(error);
+    //       });
+    // });
+
+    // pusher_internal:subscription_succeeded
+
+    channel.bind("pusher:subscription_succeeded", data => {});
+
+    channel.bind("App\\Events\\TestUpdate", data => {
+      // console.log('testupdate'+data);
+      axios
+        .get("http://ptua.desenvolvimento/api/chat")
+        .then(response => {
+          this.setState({ chatDados: response.data });
+          console.log(this.state.chatDados);
+        })
+        .catch(function(error) {
+          alert(error);
+        });
+    });
+
     axios
       .get("http://ptua.desenvolvimento/api/chat")
       .then(response => {
         this.setState({ chatDados: response.data });
-        console.log(this.state.chatDados);
+        // console.log(this.state.chatDados);
       })
       .catch(function(error) {
         alert(error);
@@ -81,7 +122,7 @@ export default class ChatScreen extends Component {
     const ue = await AsyncStorage.getItem("useremail");
     const ut = await AsyncStorage.getItem("userType");
     const id = await AsyncStorage.getItem("id");
-  
+
     // axios
     //   .post("http://ptua.desenvolvimento/api/likenoticia", {
     //     id_noticia: postid,
@@ -93,27 +134,26 @@ export default class ChatScreen extends Component {
     //   });
   };
 
- 
   render() {
-    const CHATCONTENT = 
-    this.state.chatDados.map(chat => (
-
-            <ListItem avatar key={chat.id}>
-              <Left>
-                <Thumbnail source={{ uri: "https://scontent.fopo1-1.fna.fbcdn.net/v/t1.0-9/16730145_661435734066944_2259181377204724691_n.jpg?_nc_cat=0&oh=33a7b9814af346c739bbe89d8be58669&oe=5B6AF379" }} />
-              </Left>
-              <Body>
-                <Text>{chat.utilizador_nome}</Text>
-                <Text note>{chat.utilizador_mensagem}</Text>
-              </Body>
-              {/*<Right>
+    const CHATCONTENT = this.state.chatDados.map(chat => (
+      <ListItem avatar key={chat.id}>
+        <Left>
+          <Thumbnail
+            source={{
+              uri:
+                "https://scontent.fopo1-1.fna.fbcdn.net/v/t1.0-9/16730145_661435734066944_2259181377204724691_n.jpg?_nc_cat=0&oh=33a7b9814af346c739bbe89d8be58669&oe=5B6AF379"
+            }}
+          />
+        </Left>
+        <Body>
+          <Text>{chat.utilizador_nome}</Text>
+          <Text note>{chat.utilizador_mensagem}</Text>
+        </Body>
+        {/*<Right>
                 <Text note>3:43 pm</Text>
               </Right>*/}
-            </ListItem>
-
-
-          ))
-    ;
+      </ListItem>
+    ));
 
     return (
       <View style={{ flex: 1, width: "100%" }}>
@@ -145,15 +185,32 @@ export default class ChatScreen extends Component {
           </Header>
 
           <Container>
-             <Content>
-          
-          <List>
-          
-          {CHATCONTENT}
-            
- 
-          </List>
-        </Content>
+            <Content>
+              <List>{CHATCONTENT}</List>
+
+              <Item
+                rounded
+                style={{
+                  marginTop: 15,
+                  marginBottom: 15,
+                  marginLeft: 15,
+                  marginRight: 15,
+                  backgroundColor: "#BDC3C7"
+                }}
+              >
+                <Input autoCorrect={false} placeholder="Escrever mensagem..." />
+              </Item>
+              <Button
+                success
+                style={{
+                  marginBottom: 15,
+                  marginLeft: 20,
+                  marginRight: 15
+                }}
+              >
+                <Text> Enviar </Text>
+              </Button>
+            </Content>
           </Container>
 
           <FooterApp navigation={this.props.navigation} />
