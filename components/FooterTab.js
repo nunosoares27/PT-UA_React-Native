@@ -79,10 +79,24 @@ const FooterApp = props => {
           </Button>
         )}
 
-        <Button vertical>
-          <Icon name="person" />
-          <Text>Chat</Text>
-        </Button>
+       {props.navigation.state.routeName === "ChatScreen" ? (
+          <Button
+            vertical
+            active
+            onPress={() => props.navigation.navigate("ChatScreen")}
+          >
+            <Icon name="person" />
+            <Text>Chat</Text>
+          </Button>
+        ) : (
+          <Button
+            vertical
+            onPress={() => props.navigation.navigate("ChatScreen")}
+          >
+            <Icon name="person" />
+            <Text>Chat</Text>
+          </Button>
+        )}
       </FooterTab>
     </Footer>
   );
