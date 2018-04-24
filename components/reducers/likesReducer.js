@@ -1,11 +1,12 @@
 import { FETCH_LIKES, GIVE_LIKE } from "../actions/";
 
-function likesReducer(state = [], action = []) {
+function likesReducer(state = {}, action = {}) {
   switch (action.type) {
     case FETCH_LIKES:
-      return {...action.payload.data, ...state};
+      return [...action.payload.data, ...state];
     case GIVE_LIKE:
-      return { ...state, ...action.payload.data}
+    console.log(action.payload.data);
+      return [...action.payload.data];
     default:
       return state;
   }

@@ -60,7 +60,14 @@ class CriarNoticia extends Component {
       aspect: [4, 3]
     });
 
+    // este metodo permite obter uma imagem da camera mas nao funciona no ios simulator
+    // let result2 = await ImagePicker.launchCameraAsync({
+    //   allowsEditing: true,
+    //   aspect: [4, 3]
+    // });
+
     console.log(result);
+    
     if (!result.cancelled) {
       this.setState({
         pickedImaged: { uri: result.uri }

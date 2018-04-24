@@ -98,6 +98,8 @@ class HomeScreen extends Component {
       user_id: id
     });
 
+  
+
     // axios
     //   .post("http://ptua.desenvolvimento/api/likenoticia", {
     //     id_noticia: postid,
@@ -128,15 +130,22 @@ class HomeScreen extends Component {
       id_noticia: id_noticia
     });
   };
-
+  
   render() {
+
+   
+// var obj = { 0: 'a', 1: 'b', 2: 'c' };
+// console.log(Object.values(obj)); // ['a', 'b', 'c']
+
+
     //  const Comentarios =
 
     //  <ComentarioNoticia chave={noticia.id_noticia} comenta23={this.props.comentarios} />
 
     //  ;
 
-    const Noticias = this.props.noticias.map(noticia => (
+    const Noticias = this.props.noticias.map((noticia,i) => (
+      console.log(this.props.likes[i]),
       <Card key={noticia.id_noticia}>
         <CardItem>
           <Left>
@@ -190,10 +199,10 @@ class HomeScreen extends Component {
             </Button>
 
             <Text>
-              {this.props.likes["" + noticia.id_noticia + ""] === "1" ? (
-                this.props.likes["" + noticia.id_noticia + ""] + " Like"
+              {this.props.likes[i] === "1" ? (
+                this.props.likes[i] + " Like"
               ) : (
-                this.props.likes["" + noticia.id_noticia + ""] + " Likes"
+                this.props.likes[i] + " Likes"
               )}
             </Text>
           </Left>
