@@ -34,6 +34,8 @@ import SideBar from "./Sidebar";
 
 import axios from "axios";
 
+import { ImagePicker } from "expo";
+
 // import Pusher from "pusher-js/react-native";
 
 import FooterApp from "./FooterTab";
@@ -46,8 +48,60 @@ class EventScreen extends Component {
 
     this.state = {
       criaEB: false,
+      titulo: '',
+      mensagem: '',
+      local: '',
+      data: '',
+      pickedImaged: {},
     };
   }
+
+  pickImageHandler = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3]
+    });
+
+    console.log(result);
+    if (!result.cancelled) {
+      this.setState({
+        pickedImaged: { uri: result.uri }
+      });
+    }
+  };
+
+  cEvento = async (titulo, descricao, data, local ) => {
+    const formData = new FormData();
+    if (this.state.pickedImaged !== undefined) {
+      formData.append("eventimg", {
+        uri: this.state.pickedImaged.uri,
+        type: "file", // or photo.type
+        name: "eventimg"
+      });
+    }
+    formData.append("titulo", titulo);
+    formData.append("descricao", descricao);
+    formData.append("data", data);
+    formData.append("local", local);
+    fetch("http://ptua.desenvolvimento/api/eventos", {
+      method: "post",
+      body: formData
+    }).then(res => {
+     this.props.fetchEventos();
+    });
+
+    this.setState({
+      criaEB: false,
+      pickedImaged: {},
+      titulo: '',
+      descricao: '',
+      data: '',
+      local: '',
+    });
+
+  };
+
+
 
   componentWillMount() {
     this.props.fetchEventos();
@@ -107,6 +161,8 @@ class EventScreen extends Component {
                 }}
               >
                 <Input autoCorrect={false} placeholder="Titulo..." 
+                onChangeText={titulo =>
+                this.setState({ titulo })}
                 value={this.state.titulo} ref="titulo"
            
                 />
@@ -122,7 +178,9 @@ class EventScreen extends Component {
                 }}
               >
                 <Input autoCorrect={false} placeholder="Conteúdo..." 
-                value={this.state.mensagem} ref="mensagem"
+                  onChangeText={descricao =>
+                this.setState({ descricao })}
+                value={this.state.descricao} ref="descricao"
            
                 />
               </Item>
@@ -137,6 +195,8 @@ class EventScreen extends Component {
                 }}
               >
                 <Input autoCorrect={false} placeholder="Data..." 
+                 onChangeText={data=>
+                this.setState({ data })}
                 value={this.state.data} ref="data"
            
                 />
@@ -153,6 +213,8 @@ class EventScreen extends Component {
                 }}
               >
                 <Input autoCorrect={false} placeholder="Local..." 
+                 onChangeText={local =>
+                this.setState({ local })}
                 value={this.state.local} ref="local"
            
                 />
@@ -182,7 +244,7 @@ class EventScreen extends Component {
                   marginLeft: 20,
                   marginRight: 15
                 }}
-               
+               onPress={() => this.cEvento(this.state.titulo, this.state.descricao, this.state.data, this.state.local )}
               >
                 <Text> Enviar </Text>
               </Button> 
@@ -198,7 +260,7 @@ class EventScreen extends Component {
                       size={100}
                       source={{
                         uri:
-                          "https://univercidade.pt/wp-content/uploads/2018/04/GRETUA-39.%C2%BA-400x300.png"
+                          `http://ptua.desenvolvimento/storage/eventos/${evento.id_evento}/imagem1.jpg`
                       }}
                     />
                     <Body>
