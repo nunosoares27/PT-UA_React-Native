@@ -5,6 +5,7 @@ export const FETCH_LIKES = "FETCH_LIKES";
 export const GIVE_LIKE = "GIVE_LIKE";
 export const FETCH_COMENTARIOS_NOTICIAS = "FETCH_COMENTARIOS_NOTICIAS";
 export const COMENTA_NOTICIA = "COMENTA_NOTICIA";
+export const FETCH_EVENTOS = "FETCH_EVENTOS"
 
 
 export function fetchComentarios(id_noticia) {
@@ -57,6 +58,14 @@ export function giveLike({ id_noticia: postid, user_id: id }) {
   });
   return {
     type: GIVE_LIKE,
+    payload: request
+  };
+}
+
+export function fetchEventos(){
+  const request = axios.get("http://ptua.desenvolvimento/api/eventos");
+  return {
+    type: FETCH_EVENTOS,
     payload: request
   };
 }

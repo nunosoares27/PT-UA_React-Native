@@ -24,17 +24,24 @@ import {
   ListItem
 } from "native-base";
 
+import { connect } from "react-redux";
+
+import { bindActionCreators } from "redux";
+import {
+  fetchEventos,
+} from "./actions";
+
 import SideBar from "./Sidebar";
 
 import axios from "axios";
 
-import Pusher from "pusher-js/react-native";
+// import Pusher from "pusher-js/react-native";
 
 
 import FooterApp from "./FooterTab";
 
 
-export default class EventScreen extends Component {
+class EventScreen extends Component {
   static navigationOptions = { header: null };
 
   constructor(props) {
@@ -46,7 +53,8 @@ export default class EventScreen extends Component {
   }
 
   componentWillMount() {
-
+   this.props.fetchEventos();
+    
   }
 
   closeDrawer = () => {
@@ -92,33 +100,20 @@ export default class EventScreen extends Component {
             <Content>
               <List>
 
-                  <ListItem>
+              {this.props.eventos.map(evento => (
+
+                   <ListItem key={evento.id_evento}>
               <Thumbnail square size={100} source={{ uri: 'https://univercidade.pt/wp-content/uploads/2018/04/GRETUA-39.%C2%BA-400x300.png' }} />
               <Body>
-                <Text>Gretua 2020</Text>
-                <Text note>O Grupo Experimental de Teatro da Universidade de Aveiro celebrará, de 6 a 14 de Abril, o seu 39º aniversário com cerca de vinte eventos espalhados pela ...</Text>
-              </Body>
-            </ListItem>
-
-              <ListItem>
-              <Thumbnail square size={100} source={{ uri: 'http://www.drinksdiary.com/wp-content/uploads/2017/07/baristas.jpg' }} />
-              <Body>
-                <Text>A Biblioteca dá-te música</Text>
-                <Text note>No dia 18 de setembro de 2017, o American Corner da UA convidou toda a comunidade Académica a assistir ao concerto com a banda Nuno Andrade Blues Drive. O evento foi inserido no programa de acolhimento aos novos alunos 2017/2018.</Text>
-              </Body>
-            </ListItem>
-
-            <ListItem>
-              <Thumbnail square size={100} source={{ uri: 'https://scontent.fopo1-1.fna.fbcdn.net/v/t1.0-9/12963666_1082534165118311_3287974336817903072_n.jpg?_nc_cat=0&oh=f126e0b96aaa9bd429881f3e53801eb4&oe=5B56AA89' }} />
-              <Body>
-                <Text>Enterro 2030</Text>
-                <Text note>Local: Parque de Feiras e Exposições.
-Data: De 6 a 12 de maio.
-</Text>
+                <Text>{evento.titulo}</Text>
+                <Text note>{evento.descricao}</Text>
+            <Text>Local: {evento.local}</Text>
+                  <Text>Data: {evento.data}</Text>
               </Body>
             </ListItem>
 
 
+              ))}
 
               </List>
 
@@ -139,3 +134,19 @@ const styles = StyleSheet.create({
     fontSize: 25
   }
 });
+
+
+function mapStateToProps(state) {
+  return {
+    eventos: state.eventos,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    { fetchEventos },
+    dispatch
+  );
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventScreen);
