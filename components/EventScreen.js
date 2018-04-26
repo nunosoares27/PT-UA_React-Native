@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { StyleSheet, Image, View, AsyncStorage } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet, Image, View, AsyncStorage, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 import {
   Container,
@@ -28,9 +28,7 @@ import {
 import { connect } from "react-redux";
 
 import { bindActionCreators } from "redux";
-import {
-  fetchEventos,
-} from "./actions";
+import { fetchEventos } from "./actions";
 
 import SideBar from "./Sidebar";
 
@@ -38,9 +36,7 @@ import axios from "axios";
 
 // import Pusher from "pusher-js/react-native";
 
-
 import FooterApp from "./FooterTab";
-
 
 class EventScreen extends Component {
   static navigationOptions = { header: null };
@@ -49,13 +45,12 @@ class EventScreen extends Component {
     super(props);
 
     this.state = {
-      
+      criaEB: false,
     };
   }
 
   componentWillMount() {
-   this.props.fetchEventos();
-    
+    this.props.fetchEventos();
   }
 
   closeDrawer = () => {
@@ -65,9 +60,7 @@ class EventScreen extends Component {
     this.drawer._root.open();
   };
 
-
   render() {
-    
     return (
       <View style={{ flex: 1, width: "100%" }}>
         <Drawer
@@ -93,32 +86,130 @@ class EventScreen extends Component {
               <Title>Eventos</Title>
             </Body>
             <Right>
-              <Ionicons name='ios-add-circle' size={32} />
+              <TouchableOpacity onPress={() => this.setState({criaEB: !this.state.criaEB,})}>
+             {this.state.criaEB ? <Ionicons name="ios-close-circle" size={32} /> : <Ionicons name="ios-add-circle" size={32} />} 
+             </TouchableOpacity>
             </Right>
           </Header>
 
           <Container>
             <Content>
-              <List>
 
-              {this.props.eventos.map(evento => (
+            {this.state.criaEB ? ( <Content>
+              <Item
+                rounded
+                style={{
+                  marginTop: 15,
+                  marginBottom: 15,
+                  marginLeft: 15,
+                  marginRight: 15,
+                  backgroundColor: "#BDC3C7"
+                }}
+              >
+                <Input autoCorrect={false} placeholder="Titulo..." 
+                value={this.state.titulo} ref="titulo"
+           
+                />
+              </Item>
+                            <Item
+                rounded
+                style={{
+                  marginTop: 15,
+                  marginBottom: 15,
+                  marginLeft: 15,
+                  marginRight: 15,
+                  backgroundColor: "#BDC3C7"
+                }}
+              >
+                <Input autoCorrect={false} placeholder="Conteúdo..." 
+                value={this.state.mensagem} ref="mensagem"
+           
+                />
+              </Item>
+                            <Item
+                rounded
+                style={{
+                  marginTop: 15,
+                  marginBottom: 15,
+                  marginLeft: 15,
+                  marginRight: 15,
+                  backgroundColor: "#BDC3C7"
+                }}
+              >
+                <Input autoCorrect={false} placeholder="Data..." 
+                value={this.state.data} ref="data"
+           
+                />
+              </Item>
 
-                   <ListItem key={evento.id_evento}>
-              <Thumbnail square size={100} source={{ uri: 'https://univercidade.pt/wp-content/uploads/2018/04/GRETUA-39.%C2%BA-400x300.png' }} />
-              <Body>
-                <Text>{evento.titulo}</Text>
-                <Text note>{evento.descricao}</Text>
-            <Text>Local: {evento.local}</Text>
-                  <Text>Data: {evento.data}</Text>
-              </Body>
-            </ListItem>
+                            <Item
+                rounded
+                style={{
+                  marginTop: 15,
+                  marginBottom: 15,
+                  marginLeft: 15,
+                  marginRight: 15,
+                  backgroundColor: "#BDC3C7"
+                }}
+              >
+                <Input autoCorrect={false} placeholder="Local..." 
+                value={this.state.local} ref="local"
+           
+                />
+              </Item>
 
 
-              ))}
+               <Button
+                        block
+                        info
+                        style={{
+                          marginTop: 15,
+                          marginRight: 15,
+                          marginLeft: 25
+                        }}
+                         onPress={this.pickImageHandler}
+                      >
+                        <Text>Escolher Imagem</Text>
+                      </Button>
 
-              </List>
 
+
+              <Button
+                success
+                style={{
+                  marginTop:15,
+                  marginBottom: 15,
+                  marginLeft: 20,
+                  marginRight: 15
+                }}
+               
+              >
+                <Text> Enviar </Text>
+              </Button> 
+              </Content>)  :  <Text></Text> }
              
+          
+
+              <List>
+                {this.props.eventos.map(evento => (
+                  <ListItem key={evento.id_evento}>
+                    <Thumbnail
+                      square
+                      size={100}
+                      source={{
+                        uri:
+                          "https://univercidade.pt/wp-content/uploads/2018/04/GRETUA-39.%C2%BA-400x300.png"
+                      }}
+                    />
+                    <Body>
+                      <Text>{evento.titulo}</Text>
+                      <Text note>{evento.descricao}</Text>
+                      <Text>Local: {evento.local}</Text>
+                      <Text>Data: {evento.data}</Text>
+                    </Body>
+                  </ListItem>
+                ))}
+              </List>
             </Content>
           </Container>
 
@@ -136,18 +227,14 @@ const styles = StyleSheet.create({
   }
 });
 
-
 function mapStateToProps(state) {
   return {
-    eventos: state.eventos,
+    eventos: state.eventos
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    { fetchEventos },
-    dispatch
-  );
+  return bindActionCreators({ fetchEventos }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventScreen);

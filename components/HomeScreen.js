@@ -145,7 +145,6 @@ class HomeScreen extends Component {
     //  ;
 
     const Noticias = this.props.noticias.map((noticia,i) => (
-      console.log(this.props.likes[i]),
       <Card key={noticia.id_noticia}>
         <CardItem>
           <Left>
