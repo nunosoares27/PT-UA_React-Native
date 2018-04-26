@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, Image, View, AsyncStorage } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
 
 import {
   Container,
@@ -92,7 +93,7 @@ class EventScreen extends Component {
               <Title>Eventos</Title>
             </Body>
             <Right>
-              <Button transparent>{/*<Icon name='arrow-back' />*/}</Button>
+              <Ionicons name='ios-add-circle' size={32} />
             </Right>
           </Header>
 
