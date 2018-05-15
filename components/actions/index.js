@@ -11,7 +11,7 @@ export const FETCH_EVENTOS = "FETCH_EVENTOS"
 export function fetchComentarios(id_noticia) {
   let id = id_noticia.id_noticia;
   const request = axios.get(
-    `http://ptua.desenvolvimento/api/comentarioNoticia/${id}`
+    `http://ptua.tk/api/comentarioNoticia/${id}`
   );
   return {
     type: FETCH_COMENTARIOS_NOTICIAS,
@@ -22,7 +22,7 @@ export function fetchComentarios(id_noticia) {
 
 export function comentaNoticia({ id_noticia, user_id, TextoComentario }) {
   const request = axios.post(
-    "http://ptua.desenvolvimento/api/comentarioNoticia",
+    "http://ptua.tk/api/comentarioNoticia",
     {
       id_noticia: id_noticia,
       user_id: user_id,
@@ -36,7 +36,7 @@ export function comentaNoticia({ id_noticia, user_id, TextoComentario }) {
 }
 
 export function fetchNoticias() {
-  const request = axios.get("http://ptua.desenvolvimento/api/noticias");
+  const request = axios.get("http://ptua.tk/api/noticias");
   return {
     type: FETCH_NOTICIAS,
     payload: request
@@ -44,7 +44,7 @@ export function fetchNoticias() {
 }
 
 export function fetchLikes() {
-  const request = axios.get("http://ptua.desenvolvimento/api/likes");
+  const request = axios.get("http://ptua.tk/api/likes");
   return {
     type: FETCH_LIKES,
     payload: request
@@ -52,7 +52,7 @@ export function fetchLikes() {
 }
 
 export function giveLike({ id_noticia: postid, user_id: id }) {
-  const request = axios.post("http://ptua.desenvolvimento/api/likenoticia", {
+  const request = axios.post("http://ptua.tk/api/likenoticia", {
     id_noticia: postid,
     user_id: id
   });
@@ -63,7 +63,7 @@ export function giveLike({ id_noticia: postid, user_id: id }) {
 }
 
 export function fetchEventos(){
-  const request = axios.get("http://ptua.desenvolvimento/api/eventos");
+  const request = axios.get("http://ptua.tk/api/eventos");
   return {
     type: FETCH_EVENTOS,
     payload: request

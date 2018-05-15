@@ -23,7 +23,7 @@ export default class Login extends React.Component {
 
   onLogin(){
 
-    axios.post('http://ptua.desenvolvimento/api/loginApp', {
+    axios.post('http://ptua.tk/api/loginApp', {
     email: this.state.email,
     password: this.state.password,
   })

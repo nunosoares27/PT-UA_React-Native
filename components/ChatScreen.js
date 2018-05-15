@@ -90,7 +90,7 @@ export default class ChatScreen extends Component {
     channel.bind("App\\Events\\TestUpdate", data => {
       // console.log('testupdate'+data);
       axios
-        .get("http://ptua.desenvolvimento/api/chat")
+        .get("http://ptua.tk/api/chat")
         .then(response => {
           this.setState({ chatDados: response.data });
           console.log(this.state.chatDados);
@@ -101,7 +101,7 @@ export default class ChatScreen extends Component {
     });
 
     axios
-      .get("http://ptua.desenvolvimento/api/chat")
+      .get("http://ptua.tk/api/chat")
       .then(response => {
         this.setState({ chatDados: response.data });
         // console.log(this.state.chatDados);
@@ -140,7 +140,7 @@ export default class ChatScreen extends Component {
     const id = await AsyncStorage.getItem("id");
 
     axios
-      .post("http://ptua.desenvolvimento/api/chat", {
+      .post("http://ptua.tk/api/chat", {
         utilizador_nome: ua,
         utilizador_id: id,
         utilizador_mensagem: mensagem

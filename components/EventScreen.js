@@ -83,7 +83,7 @@ class EventScreen extends Component {
     formData.append("descricao", descricao);
     formData.append("data", data);
     formData.append("local", local);
-    fetch("http://ptua.desenvolvimento/api/eventos", {
+    fetch("http://ptua.tk/api/eventos", {
       method: "post",
       body: formData
     }).then(res => {
@@ -260,7 +260,7 @@ class EventScreen extends Component {
                       size={100}
                       source={{
                         uri:
-                          `http://ptua.desenvolvimento/storage/eventos/${evento.id_evento}/imagem1.jpg`
+                          `http://ptua.tk/storage/eventos/${evento.id_evento}/imagem1.jpg`
                       }}
                     />
                     <Body>

@@ -28,7 +28,7 @@ export default class Register extends Component {
 
   onRegister(){
 
-    axios.post('http://ptua.desenvolvimento/api/register', {
+    axios.post('http://ptua.tk/api/register', {
     name: this.state.name,
     email: this.state.email,
     password: this.state.password,

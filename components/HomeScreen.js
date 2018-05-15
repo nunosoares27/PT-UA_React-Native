@@ -163,7 +163,7 @@ class HomeScreen extends Component {
           <CardItem>
             <Image
               source={{
-                uri: `http://ptua.desenvolvimento/storage/noticias/${noticia.id_noticia}/imagem1.jpg`
+                uri: `http://ptua.tk/storage/noticias/${noticia.id_noticia}/imagem1.jpg`
               }}
               style={{ resizeMode: "cover", height: 200, width: null, flex: 1 }}
             />
@@ -182,7 +182,7 @@ class HomeScreen extends Component {
           <CardItem>
             <Image
               source={{
-                uri: `http://ptua.desenvolvimento/storage/noticias/${noticia.id_noticia}/imagem2.jpg`
+                uri: `http://ptua.tk/storage/noticias/${noticia.id_noticia}/imagem2.jpg`
               }}
               style={{ resizeMode: "cover", height: 200, width: null, flex: 1 }}
             />

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Image, View, AsyncStorage } from "react-native";
+import { StyleSheet, Image, View, AsyncStorage, CameraRoll} from "react-native";
 
 import {
   Container,
@@ -31,7 +31,7 @@ import axios from "axios";
 
 import HTMLView from "react-native-htmlview";
 
-import { ImagePicker } from "expo";
+import { ImagePicker, Permissions } from "expo";
 
 // import { connect } from "react-redux";
 
@@ -65,8 +65,26 @@ class PerfilScreen extends Component {
     };
   }
 
+   askPermissionsAsync = async () => {
+    await Permissions.askAsync(Permissions.CAMERA);
+    await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    // you would probably do something to verify that permissions
+    // are actually granted, but I'm skipping that for brevity
+  };
+
+
   pickImageHandler = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+
+  //  const { status } =   await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+
+     
+    
+     await this.askPermissionsAsync();
+   
+     
+  
+     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 3]
     });
@@ -77,6 +95,16 @@ class PerfilScreen extends Component {
         pickedImaged: { uri: result.uri }
       });
     }
+    
+     
+
+   
+    // if (!result.cancelled) {
+    //   this.setState({
+    //     pickedImaged: { uri: result.uri }
+    //   });
+    //  };
+    
   };
 
   UserEdit = async (name, descricaoUser) => {
@@ -93,7 +121,7 @@ class PerfilScreen extends Component {
     formData.append("descricaoUser", descricaoUser);
 
     //  console.log(formData);
-    fetch("http://ptua.desenvolvimento/api/useredit/" + user_id, {
+    fetch("http://ptua.tk/api/useredit/" + user_id, {
       method: "post",
       body: formData
     })
@@ -242,7 +270,7 @@ class PerfilScreen extends Component {
                     <Image
                       source={{
                         uri:
-                          "http://ptua.desenvolvimento/storage/users/" +
+                          "http://ptua.tk/storage/users/" +
                           this.state.id +
                           "/imagem1.jpg"
                       }}
@@ -265,10 +293,10 @@ class PerfilScreen extends Component {
                 </CardItem>
                 <CardItem>
                   <Left>
-                    <Text>12 Noticias</Text>
+                    <Text>Noticias</Text>
                   </Left>
                   <Body>
-                    <Text>4 Comentários</Text>
+                    <Text>Comentários</Text>
                   </Body>
                   {/*<Right>
                     <Text>4 Dúvidas</Text>

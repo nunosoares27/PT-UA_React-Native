@@ -273,7 +273,7 @@ export default class MapScreen extends Component {
 
   componentWillMount() {
     axios
-      .get("http://ptua.desenvolvimento/api/users")
+      .get("http://ptua.tk/api/users")
       .then(response => {
         this.setState({ users: response.data });
       })

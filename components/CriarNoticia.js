@@ -90,7 +90,7 @@ class CriarNoticia extends Component {
     formData.append("titulo", titulo);
     formData.append("descricao", descricao);
     formData.append("user_id", user_id);
-    fetch("http://ptua.desenvolvimento/api/criarnoticia", {
+    fetch("http://ptua.tk/api/criarnoticia", {
       method: "post",
       body: formData
     }).then(res => {
