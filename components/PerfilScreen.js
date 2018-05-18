@@ -272,7 +272,7 @@ class PerfilScreen extends Component {
                         uri:
                           "http://ptua.tk/storage/users/" +
                           this.state.id +
-                          "/imagem1.jpg"
+                          "/imagem1.jpg", cache: 'reload'
                       }}
                       style={{ height: 280, width: null, flex: 1 }}
                     />
