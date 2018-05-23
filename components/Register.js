@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text,ImageBackground,
-  Image, Dimensions, View, Picker,
-  TextInput, Button, Alert,TouchableOpacity, 
+import { StyleSheet,ImageBackground,
+  Image, Dimensions, View,
+  TextInput, Alert,TouchableOpacity, 
  } from 'react-native';
 
-import { Icon, } from 'native-base';
+ import { Container, Header, Content, Button, Text,  Item, Input, Icon, Picker } from 'native-base';
+
 
 import axios from 'axios';
 
@@ -56,40 +57,72 @@ export default class Register extends Component {
   
     return (
 
-     <View style={styles.containerGeral} >
+     <Container style={styles.containerGeral} >
+
        <ImageBackground 
        source={require('./images/nuno_app_11.png')} 
-       style={{width: '100%', height: 1000, alignItems: 'center',justifyContent: 'center'
+       style={{width: '100%', height: '100%', alignItems: 'center',justifyContent: 'center'
     }}
        >
-          <Image source={require('./images/logo.png')} 
-            style={{width: 300, height: 110, alignItems: 'center',
+
+   <Content>
+        <Image source={require('./images/logo.png')} 
+            style={{width: 300, marginTop: 60, height: 110, alignItems: 'center',
     justifyContent: 'center',}}
           />
-          {/* <Text style={styles.loginText}>Registar</Text> */}
-          <TextInput 
-          autoCorrect={false}
-            placeholder="Nome"
-            style={styles.input}
+
+       
+
+
+      
+          <Item>
+           <Input underline="true"  autoCorrect={false}
+            placeholder="Nome" 
+           
              onChangeText={(name) => this.setState({name})}
-        value={this.state.name}
-          />
-          <TextInput 
-          autoCorrect={false}
+        value={this.state.name}/>
+        </Item>
+
+            <Item>
+              <Input   autoCorrect={false}
             placeholder="E-mail"
-            style={styles.input}
+           
              onChangeText={(email) => this.setState({email})}
-        value={this.state.email}
-          />
-           <TextInput 
-           autoCorrect={false}
+        value={this.state.email}/>
+            </Item>
+
+            <Item>
+           <Input    autoCorrect={false}
            secureTextEntry={true}
             placeholder="Password"
             style={styles.input}
              onChangeText={(password) => this.setState({password})}
-        value={this.state.password}
-          />
-          <View style={{ width: '100%', marginTop: -10, paddingTop: 0, marginBottom: -100 }} >
+        value={this.state.password}/>
+          </Item>
+
+
+          <Picker
+              mode="dropdown"
+              iosIcon={<Icon name="ios-arrow-down-outline" />}
+              selectedValue={(this.state && this.state.pickerValue) || 'cargo'}
+      onValueChange={(value) => {
+        this.setState({pickerValue: value});
+      }}
+              placeholder="Selecione o seu cargo"
+              placeholderStyle={{ color: "#fff" }}
+              placeholderIconColor="#fff"
+              style={{ width: undefined }}
+             
+            >
+              <Picker.Item  value={"aluno"} label={'aluno'} />
+              <Picker.Item  value={"mentor"} label={'mentor'} />
+              <Picker.Item  value={"tutor"} label={'tutor'} />
+
+            </Picker>
+
+
+
+          {/*<View style={{ width: '100%', marginTop: -10, paddingTop: 0, marginBottom: -100 }} >
 
            <Picker  mode= 'dropdown' selectedValue={(this.state && this.state.pickerValue) || 'cargo'}
       onValueChange={(value) => {
@@ -102,86 +135,62 @@ export default class Register extends Component {
 
           </Picker>
           </View>
+*/}
 
-          <TouchableOpacity
-          style={styles.button}
-          onPress={
+
+          <Button block success 
+            onPress={
      this.onRegister
-  }
-           
-          >
-            <Text style={styles.buttonText}>Criar Conta</Text>
+  }   
+        style={{ marginTop: 30 }}
+           >
+            <Text>Criar Conta</Text>
+          </Button>
 
-          </TouchableOpacity>
           <Text style={styles.separator}> ────────  Ou   ────────</Text>
 
-                 <TouchableOpacity
-          style={styles.buttonF}
-          onPress={() => {
+   <Button block success 
+             onPress={() => {
     Alert.alert('You tapped the Facebook Login button!');
   }}
-          >
-           <Text style={styles.buttonText}>Facebook</Text>
-
-           </TouchableOpacity >
+           style={styles.buttonF} >
+            <Text >Facebook</Text>
+          </Button>
 
            <TouchableOpacity
           
        onPress={() => this.props.navigation.navigate('Landing')} style={{marginTop: 20}}
           >
-          <Icon name='arrow-back' />
+          <Icon name='arrow-back'  style={{ color: "white"}}/>
 
            </TouchableOpacity >
 
+           </Content>
       </ImageBackground>
 
-    </View>
+    </Container>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  containerGeral: {
+ containerGeral: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  loginText: {
-     fontWeight: 'bold',
-        fontSize: 28,
-        color: 'white',
   },
   input: {
-    width: '80%',
-    height: 30,
-    backgroundColor: 'rgba(255,255,255,1)',
     color: 'black',
-    marginTop: '10%',
-    paddingLeft: '2%',
   },
-  button:{
-    width: '80%',
-    height: 40,
-    marginTop: '10%',
-    backgroundColor:'rgba(255,0,0,1)',
+  buttonF:{
+    backgroundColor:'rgba(59,89,152,1)',
     borderColor: '#fff',
     
   },
-  buttonText: {
-    textAlign:'center',
-    color: '#fff',
-    fontWeight: 'bold',
-     fontSize: 28,
-     justifyContent: 'center',
-  },
   separator: {
-    marginTop: '10%',
+    marginTop: '15%',
+    marginBottom: '15%',
     textAlign:'center',
     textShadowColor: 'rgba(0, 0, 0, 1)',
   textShadowOffset: {width: -1, height: 1},
@@ -191,12 +200,4 @@ const styles = StyleSheet.create({
      fontSize: 15,
      justifyContent: 'center',
   },
-  buttonF:{
-    width: '80%',
-    height: 40,
-    marginTop: '10%',
-    backgroundColor:'rgba(59,89,152,1)',
-    borderColor: '#fff',
-    
-  }
 });

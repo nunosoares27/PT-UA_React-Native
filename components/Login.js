@@ -268,6 +268,15 @@ onSenhaChange (password)
             <Text >Facebook</Text>
           </Button>
 
+
+            <TouchableOpacity
+          
+       onPress={() => this.props.navigation.navigate('Landing')} style={{marginTop: 20}}
+          >
+          <Icon name='arrow-back' style={{color: "white",}} />
+
+           </TouchableOpacity >
+
            </Content>
       </ImageBackground>
     </Container>
@@ -293,14 +302,9 @@ const styles = StyleSheet.create({
         color: 'white',
 
   },
-  // input: {
-  //   width: '80%',
-  //   height: 30,
-  //   backgroundColor: 'rgba(255,255,255,1)',
-  //   color: 'black',
-  //   marginTop: '10%',
-  //   paddingLeft: '2%',
-  // },
+  input: {
+    color: 'black',
+  },
   // button:{
   //   marginTop: '15%',
   // },
