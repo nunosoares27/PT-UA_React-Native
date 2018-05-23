@@ -19,16 +19,95 @@ export default class Login extends React.Component {
   this.state = {
         email: '',
         password: '',
-        emailError: false,
-        emailSuccess: true,
-        senhaError: false,
-        senhaSuccess: true,
+        emailError: true,
+        emailSuccess: false,
+        senhaError: true,
+        senhaSuccess: false,
     };
     this.onLogin = this.onLogin.bind(this);
+    this.onEmailChange = this.onEmailChange.bind(this);
+    this.onSenhaChange = this.onSenhaChange.bind(this);
 
 }
 
-  onLogin(){
+
+onSenhaChange (password)
+{
+   this.setState({
+             password: password,
+    });
+
+      if(this.state.password.length === 0){
+    this.setState({
+            senhaError : true,
+             senhaSuccess: false,
+           
+    });
+
+      }
+
+     if(this.state.password.length > 4){
+    this.setState({
+            senhaError : false,
+             senhaSuccess: true,
+           
+    });
+
+     }
+
+     }
+
+
+  onEmailChange(email)
+  {
+    this.setState({
+             email: email,
+           
+    });
+
+      if(this.state.email.length === 0){
+    this.setState({
+             emailError : true,
+             emailSuccess: false,
+           
+    });
+}
+
+    if(this.state.email.indexOf("@") !== -1 && this.state.email.length > 0 ){
+        
+        this.setState({
+             emailError : false,
+            emailSuccess: true,
+    });
+
+  }
+  
+//   if(this.state.email.indexOf("@") == 1 && this.state.email.length > 0){
+        
+//         this.setState({
+//              emailError : false,
+//              emailSuccess: true,
+           
+//     });
+
+//   }
+  
+
+//  if(this.state.email.length > 1 && this.state.emailSuccess === true ){
+//     this.setState({
+//              emailError : false,
+//              emailSuccess: true,
+           
+//     });
+// }
+
+
+
+  }
+
+
+  onLogin()
+  {
 
     axios.post('http://ptua.tk/api/loginApp', {
     email: this.state.email,
@@ -100,14 +179,14 @@ export default class Login extends React.Component {
 
          
           {this.state.emailError ? (<Item error > 
-             <Input  placeholder="E-mail" onChangeText={(email) => this.setState({email})}
+             <Input  placeholder="E-mail" onChangeText={this.onEmailChange}
         value={this.state.email} />
             <Icon name='close-circle' />
          </Item> )
             : '' }
 
           {this.state.emailSuccess ? (<Item success > 
-             <Input  placeholder="E-mail" onChangeText={(email) => this.setState({email})}
+             <Input  placeholder="E-mail" onChangeText={this.onEmailChange}
         value={this.state.email} />
             <Icon name='checkmark-circle' />
          </Item> )
@@ -115,7 +194,7 @@ export default class Login extends React.Component {
 
             {this.state.email.length === 0 && this.state.emailError === false && this.state.emailSuccess === false
              ? (<Item > 
-             <Input  placeholder="E-mail" onChangeText={(email) => this.setState({email})}
+             <Input  placeholder="E-mail" onChangeText={this.onEmailChange}
         value={this.state.email} />
             <Icon  />
          </Item>) : '' }
@@ -128,7 +207,7 @@ export default class Login extends React.Component {
              <Input   autoCorrect={false}
            secureTextEntry={true}
             placeholder="Senha"
-              onChangeText={(password) => this.setState({password})}
+              onChangeText={this.onSenhaChange}
            value={this.state.password} />
             <Icon name='close-circle' />
          </Item> )
@@ -138,7 +217,7 @@ export default class Login extends React.Component {
              <Input autoCorrect={false}
            secureTextEntry={true}
             placeholder="Senha"
-              onChangeText={(password) => this.setState({password})}
+              onChangeText={this.onSenhaChange}
            value={this.state.password} />
             <Icon name='checkmark-circle' />
          </Item> )
@@ -149,7 +228,7 @@ export default class Login extends React.Component {
              <Input  autoCorrect={false}
            secureTextEntry={true}
             placeholder="Senha"
-              onChangeText={(password) => this.setState({password})}
+              onChangeText={this.onSenhaChange}
            value={this.state.password} />
             <Icon  />
          </Item>) : '' }
