@@ -28,7 +28,7 @@ const RouterStack = DrawerNavigator(
     EventScreen: {screen: EventScreen}
   },
   {
-    initialRouteName: "Landing",
+    initialRouteName: "Login",
     contentOptions: {
       activeTintColor: '#e91e63',
   },
