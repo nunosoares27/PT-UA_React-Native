@@ -160,10 +160,7 @@ export default class ChatScreen extends Component {
       <ListItem avatar key={chat.id}>
         <Left>
           <Thumbnail
-            source={{
-              uri:
-                "https://scontent.fopo1-1.fna.fbcdn.net/v/t1.0-9/16730145_661435734066944_2259181377204724691_n.jpg?_nc_cat=0&oh=33a7b9814af346c739bbe89d8be58669&oe=5B6AF379"
-            }}
+            source={require("./images/user_logo1.png")}
           />
         </Left>
         <Body>

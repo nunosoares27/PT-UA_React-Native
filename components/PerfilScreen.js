@@ -276,8 +276,7 @@ class PerfilScreen extends Component {
                       }}
                       style={{ height: 280, width: null, flex: 1 }}
                     />
-                  ) : (
-                    <Text> </Text>
+                  ) :  (<Image source={require("./images/user_logo1.png")} style={{ height: 280, width: null, flex: 1 }} />
                   )}
                 </CardItem>
                 <CardItem>
