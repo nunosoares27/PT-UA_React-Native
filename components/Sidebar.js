@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, View, Text, Image,ScrollView, Dimensions
+import { StyleSheet, View, Text, Image,ScrollView,AsyncStorage, Dimensions
  } from 'react-native';
 
  import { Content,Button, Icon } from 'native-base';
@@ -14,6 +14,21 @@ export default class Sidebar extends Component {
     
       
     };
+    this.logOut = this.logOut.bind(this);
+
+  }
+
+  async logOut()
+  {
+
+    await AsyncStorage.removeItem("username");
+    await AsyncStorage.removeItem("useremail");
+    await AsyncStorage.removeItem("userType");
+    await AsyncStorage.removeItem("id");
+    await AsyncStorage.removeItem("userimg");
+    await AsyncStorage.removeItem("descricaoUser");
+    
+    this.props.navigation.navigate("Landing");
 
   }
 
@@ -50,7 +65,7 @@ export default class Sidebar extends Component {
          >
             <Text style={{color: 'white'}}>Chat</Text>
           </Button>
-          <Button block large danger>
+          <Button block large danger onPress={this.logOut}>
             <Text style={{color: 'white'}}>Sair</Text>
           </Button>
         </Content>
