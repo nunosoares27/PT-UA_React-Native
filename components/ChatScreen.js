@@ -60,6 +60,7 @@ export default class ChatScreen extends Component {
     this.state = {
       chatDados: [],
       mensagem: '',
+      default: false,
     };
   }
 
@@ -109,7 +110,9 @@ export default class ChatScreen extends Component {
       .catch(function(error) {
         alert(error);
       });
+
   }
+
 
   closeDrawer = () => {
     this.drawer._root.close();
@@ -123,7 +126,7 @@ export default class ChatScreen extends Component {
     const ue = await AsyncStorage.getItem("useremail");
     const ut = await AsyncStorage.getItem("userType");
     const id = await AsyncStorage.getItem("id");
-
+    
     // axios
     //   .post("http://ptua.desenvolvimento/api/likenoticia", {
     //     id_noticia: postid,
@@ -159,9 +162,46 @@ export default class ChatScreen extends Component {
     const CHATCONTENT = this.state.chatDados.map(chat => (
       <ListItem avatar key={chat.id}>
         <Left>
-          <Thumbnail
-            source={require("./images/user_logo1.png")}
-          />
+         
+          
+         <Thumbnail
+           source={{
+                        uri: 
+                        "http://ptua.tk/storage/users/" +
+                          chat.utilizador_id +
+                          "/imagem1.jpg", cache: 'reload'
+                      }}
+          />  
+           
+         
+
+          {/*
+          
+          "http://ptua.tk/storage/users/default/user1.png"
+          
+          {<Thumbnail
+           source={{
+                        uri:
+                          "http://ptua.tk/storage/users/" +
+                          this.state.id +
+                          "/imagem1.jpg", cache: 'reload'
+                      }}
+          /> ? ( <Thumbnail
+           source={{
+                        uri:
+                          "http://ptua.tk/storage/users/" +
+                          this.state.id +
+                          "/imagem1.jpg", cache: 'reload'
+                      }}
+          />) : ( <Thumbnail
+            source={{
+                        uri:
+                          "http://ptua.tk/storage/users/default" +
+                         
+                          "/imagem1.jpg", cache: 'reload'
+                      }}
+          />)}*/}
+         
         </Left>
         <Body>
           <Text>{chat.utilizador_nome}</Text>

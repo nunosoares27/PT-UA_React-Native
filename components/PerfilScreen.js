@@ -191,7 +191,7 @@ class PerfilScreen extends Component {
         descricaoUser: du
       });
     } else {
-      alert("esperando");
+     <Text></Text>;
     }
 
     //   uname = async () => {
