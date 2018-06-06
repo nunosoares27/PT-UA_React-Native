@@ -190,7 +190,7 @@ class CriarNoticia extends Component {
             createNews: !this.state.createNews
           })}
       >
-        <Text>Criar Noticia</Text>
+        <Text>Publicar</Text>
       </Button>
     );
 

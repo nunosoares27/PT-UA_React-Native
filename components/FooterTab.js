@@ -34,13 +34,13 @@ const FooterApp = props => {
             active
             onPress={() => props.navigation.navigate("Home")}
           >
-            <Icon name="camera" />
-            <Text>Notícias</Text>
+            <Icon name="home" />
+            <Text>Ínicio</Text>
           </Button>
         ) : (
           <Button vertical onPress={() => props.navigation.navigate("Home")}>
-            <Icon name="camera" />
-            <Text>Notícias</Text>
+            <Icon name="home" />
+            <Text>Ínicio</Text>
           </Button>
         )}
 
@@ -48,14 +48,14 @@ const FooterApp = props => {
         <Button vertical active
         onPress={() => props.navigation.navigate("PerfilScreen")}
         >
-          <Icon name="apps" />
+          <Icon name="person" />
           <Text>Perfil</Text>
         </Button>
          ) : (
            <Button vertical
         onPress={() => props.navigation.navigate("PerfilScreen")}
         >
-          <Icon name="apps" />
+          <Icon name="person" />
           <Text>Perfil</Text>
         </Button>
          )}
@@ -85,7 +85,7 @@ const FooterApp = props => {
             active
             onPress={() => props.navigation.navigate("ChatScreen")}
           >
-            <Icon name="person" />
+            <Icon name="people" />
             <Text>Chat</Text>
           </Button>
         ) : (
@@ -93,7 +93,7 @@ const FooterApp = props => {
             vertical
             onPress={() => props.navigation.navigate("ChatScreen")}
           >
-            <Icon name="person" />
+            <Icon name="people" />
             <Text>Chat</Text>
           </Button>
         )}

@@ -295,7 +295,7 @@ class HomeScreen extends Component {
               </Button>
             </Left>
             <Body>
-              <Title>Notícias</Title>
+              <Title>Comunidade</Title>
             </Body>
             <Right>
               <Button transparent>{/*<Icon name='arrow-back' />*/}</Button>
