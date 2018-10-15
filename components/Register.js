@@ -21,11 +21,46 @@ export default class Register extends Component {
         email: '',
         password: '',
         selectedValue: '',
-        pickerValue: ''
-      
+        pickerValue: '',
+        fbdata: '',
     };
     this.onRegister = this.onRegister.bind(this);
+    this.askFacebook = this.askFacebook.bind(this);
+    this.getFBData = this.getFBData.bind(this);
   }
+
+  async askFacebook(){
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('1799663316768481', {
+      permissions: ['public_profile','email'],
+    });
+  if (type === 'success') {
+    // Get the user's name using Facebook's Graph API
+    const response = await fetch(
+      `https://graph.facebook.com/me?fields=id,name,email,birthday&access_token=${token}`).then(
+        
+      )
+      
+      this.setState({
+        fbdata: await response.json(),
+      })
+      this.getFBData()
+      console.log(this.state.fbdata)
+    
+  }
+
+  }
+
+  getFBData(){
+    if (this.state.fbdata !== ''){
+      this.setState({
+        name: this.state.fbdata.name,
+        email: this.state.fbdata.email,
+        password: 'fblogin'
+      })
+    }
+    Alert.alert('Falta selecionar o seu cargo!!!')
+  }
+
 
   onRegister(){
 
@@ -150,9 +185,7 @@ export default class Register extends Component {
           <Text style={styles.separator}> ────────  Ou   ────────</Text>
 
    <Button block success 
-             onPress={() => {
-    Alert.alert('You tapped the Facebook Login button!');
-  }}
+             onPress={() => this.askFacebook() }
            style={styles.buttonF} >
             <Text >Facebook</Text>
           </Button>
