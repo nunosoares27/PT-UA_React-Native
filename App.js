@@ -8,7 +8,8 @@ import Sidebar from "./components/Sidebar";
 import MapScreen from "./components/MapScreen";
 import PerfilScreen from "./components/PerfilScreen";
 import ChatScreen from "./components/ChatScreen";
-import EventScreen from "./components/EventScreen"
+import EventScreen from "./components/EventScreen";
+import EventDetail from "./components/EventDetail";
 import { DrawerNavigator } from "react-navigation";
 
 import { Provider } from "react-redux";
@@ -25,7 +26,8 @@ const RouterStack = DrawerNavigator(
     MapScreen: { screen: MapScreen },
     PerfilScreen: { screen: PerfilScreen},
     ChatScreen:{screen: ChatScreen},
-    EventScreen: {screen: EventScreen}
+    EventScreen: {screen: EventScreen},
+    EventDetail: {screen: EventDetail},
   },
   {
     initialRouteName: "Landing",

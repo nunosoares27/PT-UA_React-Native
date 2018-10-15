@@ -254,7 +254,7 @@ class EventScreen extends Component {
 
               <List>
                 {this.props.eventos.map(evento => (
-                  <ListItem key={evento.id_evento}>
+                  <ListItem key={evento.id_evento} onPress={ () => this.props.navigation.navigate('EventDetail', {id_evento: evento.id_evento})}>
                     <Thumbnail
                       square
                       size={100}
