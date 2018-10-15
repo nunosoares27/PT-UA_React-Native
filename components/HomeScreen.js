@@ -231,6 +231,7 @@ class HomeScreen extends Component {
             }}
           />
         </Content>
+        
         <Content>
           <Item
             rounded
@@ -242,7 +243,7 @@ class HomeScreen extends Component {
             }}
           >
             <Input
-            autoCorrect={false}
+            autoCorrect={true}
               placeholder="Escrever comentário"
               ref="TextoComentario"
               onChangeText={TextoComentario =>
@@ -257,8 +258,11 @@ class HomeScreen extends Component {
               marginLeft: 20,
               marginRight: 15
             }}
-            onPress={() =>
-              this.comenta(noticia.id_noticia, this.state.TextoComentario)}
+            onPress={() => {
+              this.comenta(noticia.id_noticia, this.state.TextoComentario);
+              this.setState({ TextoComentario: "", });
+              }
+            }
           >
             <Text> Enviar </Text>
           </Button>
@@ -270,6 +274,7 @@ class HomeScreen extends Component {
 
           {/*{Comentarios}*/}
         </Content>
+       
       </Card>
     ));
 

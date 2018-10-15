@@ -30,7 +30,6 @@ export default class Login extends React.Component {
 
 }
 
-
 onSenhaChange (password)
 {
    this.setState({
@@ -54,6 +53,14 @@ onSenhaChange (password)
     });
 
      }
+
+     if(this.state.password.length <= 4){
+      this.setState({
+        senhaError : true,
+         senhaSuccess: false,
+       
+});
+     } 
 
      }
 
@@ -81,25 +88,15 @@ onSenhaChange (password)
     });
 
   }
-  
-//   if(this.state.email.indexOf("@") == 1 && this.state.email.length > 0){
-        
-//         this.setState({
-//              emailError : false,
-//              emailSuccess: true,
-           
-//     });
 
-//   }
-  
+  if(this.state.email.indexOf("@") == -1) {
+    this.setState({
+      emailError : true,
+     emailSuccess: false,
+});
 
-//  if(this.state.email.length > 1 && this.state.emailSuccess === true ){
-//     this.setState({
-//              emailError : false,
-//              emailSuccess: true,
-           
-//     });
-// }
+  }
+  
 
 
 
@@ -177,51 +174,28 @@ onSenhaChange (password)
     justifyContent: 'center',}}
           />
 
-         
-          {this.state.emailError ? (<Item error > 
-             <Input  placeholder="E-mail" onChangeText={this.onEmailChange}
+          <Item error={this.state.emailError} 
+         success={this.state.emailSuccess}
+         >
+         <Input  placeholder="E-mail" onChangeText={this.onEmailChange}
         value={this.state.email} />
-            <Icon name='close-circle' />
-         </Item> )
-            : '' }
+            <Icon name={this.state.emailError ? (name='close-circle'): name=('checkmark-circle')} 
+             />
+             </Item> ) :'' } 
 
-          {this.state.emailSuccess ? (<Item success > 
-             <Input  placeholder="E-mail" onChangeText={this.onEmailChange}
-        value={this.state.email} />
-            <Icon name='checkmark-circle' />
-         </Item> )
-            : '' } 
-
-            {this.state.email.length === 0 && this.state.emailError === false && this.state.emailSuccess === false
-             ? (<Item > 
-             <Input  placeholder="E-mail" onChangeText={this.onEmailChange}
-        value={this.state.email} />
-            <Icon  />
-         </Item>) : '' }
-
-
-
-
-
-         {this.state.senhaError ? (<Item error style={{marginBottom: 30 }} > 
-             <Input   autoCorrect={false}
+          <Item error={this.state.senhaError} 
+         success={this.state.senhaSuccess} style={{marginBottom: 30 }}
+         >
+         <Input   autoCorrect={false}
            secureTextEntry={true}
             placeholder="Senha"
               onChangeText={this.onSenhaChange}
            value={this.state.password} />
-            <Icon name='close-circle' />
-         </Item> )
-            : '' }
+            <Icon name={this.state.senhaError ? (name='close-circle'): name=('checkmark-circle')} 
+             />
+             </Item> ) :'' } 
 
-          {this.state.senhaSuccess ? (<Item success style={{marginBottom: 30 }} > 
-             <Input autoCorrect={false}
-           secureTextEntry={true}
-            placeholder="Senha"
-              onChangeText={this.onSenhaChange}
-           value={this.state.password} />
-            <Icon name='checkmark-circle' />
-         </Item> )
-            : '' } 
+
 
             {this.state.password.length === 0 && this.state.senhaError === false && this.state.senhaSuccess === false
              ? (<Item style={{marginBottom: 30 }} > 
@@ -262,7 +236,7 @@ onSenhaChange (password)
 
            <Button block success 
              onPress={() => {
-    Alert.alert('You tapped the Facebook Login button!');
+   console.log('You tapped the Facebook Login button!');
   }}
            style={styles.buttonF} >
             <Text >Facebook</Text>
