@@ -27,7 +27,8 @@ export default class Login extends React.Component {
     this.onLogin = this.onLogin.bind(this);
     this.onEmailChange = this.onEmailChange.bind(this);
     this.onSenhaChange = this.onSenhaChange.bind(this);
-
+    this.askFacebook = this.askFacebook.bind(this);
+    this.getFBData = this.getFBData.bind(this);
 }
 
 onSenhaChange (password)
@@ -102,6 +103,36 @@ onSenhaChange (password)
 
   }
 
+  async askFacebook(){
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('1799663316768481', {
+      permissions: ['public_profile','email'],
+    });
+  if (type === 'success') {
+    // Get the user's name using Facebook's Graph API
+    const response = await fetch(
+      `https://graph.facebook.com/me?fields=id,name,email,birthday&access_token=${token}`).then(
+        
+      )
+      
+      this.setState({
+        fbdata: await response.json(),
+      })
+      this.getFBData()
+      console.log(this.state.fbdata)
+    
+  }
+
+  }
+
+  getFBData(){
+    if (this.state.fbdata !== ''){
+      this.setState({
+        email: this.state.fbdata.email,
+        password: 'fblogin'
+      })
+    }
+    this.onLogin()
+  }
 
   onLogin()
   {
@@ -120,7 +151,7 @@ onSenhaChange (password)
     // alert(user.email);
 
     if (response.data.name === undefined){
-      alert(response.data.name);
+      Alert.alert('Login não efetuado');
         
 
     } else {
@@ -147,14 +178,20 @@ onSenhaChange (password)
              this.props.navigation.navigate('Home');
 
     }     catch (error) {
-        alert(error);
+      Alert.alert('Login não efetuado');
       }
         //  this.props.navigation.navigate('Home');
     }
     
   })
   .catch(function (error) {
-    alert(error);
+    alert('Login não efetuado');
+    this.setState({
+      emailError : true,
+      emailSuccess: false,
+      senhaError: true,
+      senhaSuccess: false,
+    })
   });
 
 
@@ -235,9 +272,7 @@ onSenhaChange (password)
           <Text style={styles.separator}> ────────  Ou   ────────</Text>
 
            <Button block success 
-             onPress={() => {
-   console.log('You tapped the Facebook Login button!');
-  }}
+             onPress={() => this.askFacebook()}
            style={styles.buttonF} >
             <Text >Facebook</Text>
           </Button>
