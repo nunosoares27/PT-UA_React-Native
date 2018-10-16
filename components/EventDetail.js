@@ -97,11 +97,12 @@ class EventDetail extends Component {
             <Image source={{ uri:  `http://ptua.tk/storage/eventos/${this.props.evento.id_evento}/imagem1.jpg` }} style={{ height: 250, width: Dimensions.get('window').width, resizeMode: 'contain', backgroundColor: 'black',}} 
             />
             )  : '' }
-            <Text>Nome do Evento: {this.props.evento.titulo}</Text>
-            <Text>Descrição do Evento:{this.props.evento.descricao}</Text>
-            <Text>Data do Evento: {this.props.evento.data}</Text>
-            <Text>Local do Evento: {this.props.evento.local}</Text>
-
+            <View style={styles.textContainer}>
+               <Text style={styles.boldtext}>Nome do Evento:</Text> <Text >{this.props.evento.titulo}</Text>
+               <Text style={styles.boldtext}>Descrição do Evento:</Text><Text >{this.props.evento.descricao}</Text>
+               <Text style={styles.boldtext}>Data do Evento:</Text> <Text >{this.props.evento.data}</Text>
+               <Text style={styles.boldtext}>Local do Evento:</Text><Text>{this.props.evento.local}</Text>
+            </View>
             </Content>
           </Container>
 
@@ -116,6 +117,15 @@ const styles = StyleSheet.create({
   NT: {
     fontWeight: "800",
     fontSize: 25
+  },
+  boldtext: {
+    fontWeight: "800",
+  },
+  textContainer: {
+    marginTop: 15,
+    marginBottom: 15,
+    marginLeft: 15,
+    marginRight: 15,
   }
 });
 
