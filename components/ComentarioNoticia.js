@@ -32,7 +32,12 @@ const ComentarioNoticia = props => {
         <Thumbnail
           square
           size={80}
-          source={require("./images/user_logo1.png")}
+          source= {{
+            uri: 
+            "http://ptua.tk/storage/users/" +
+              comentario.user_id +
+              "/imagem1.jpg", cache: 'reload'
+          }}
         />
         <Body>
           <Text>{comentario.name}</Text>

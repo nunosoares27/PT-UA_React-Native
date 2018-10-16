@@ -148,7 +148,13 @@ class HomeScreen extends Component {
       <Card key={noticia.id_noticia}>
         <CardItem>
           <Left>
-            <Thumbnail source={require("./images/user_logo1.png")} />
+            <Thumbnail  source={{
+                        uri: 
+                        "http://ptua.tk/storage/users/" +
+                          noticia.user_id +
+                          "/imagem1.jpg", cache: 'reload'
+                      }}
+                   />
             <Body>
               <Text>{noticia.name}</Text>
               <Text note>{noticia.typeUser}</Text>
