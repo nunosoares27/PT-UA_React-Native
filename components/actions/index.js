@@ -6,6 +6,7 @@ export const GIVE_LIKE = "GIVE_LIKE";
 export const FETCH_COMENTARIOS_NOTICIAS = "FETCH_COMENTARIOS_NOTICIAS";
 export const COMENTA_NOTICIA = "COMENTA_NOTICIA";
 export const FETCH_EVENTOS = "FETCH_EVENTOS";
+export const USER_PROFILE = "USER_PROFILE";
 
 export const EVENTO_DETAIL = "EVENTO_DETAIL";
 
@@ -76,6 +77,14 @@ export function fetchEventoDetail(id_evento) {
   const request = axios.get(`http://ptua.tk/api/evento/${id_evento}`)
   return {
     type: EVENTO_DETAIL,
+    payload: request
+  };
+}
+
+export function getUserProfile(id_user){
+  const request = axios.get(`http://ptua.tk/api/user/${id_user}`)
+  return {
+    type: USER_PROFILE,
     payload: request
   };
 }

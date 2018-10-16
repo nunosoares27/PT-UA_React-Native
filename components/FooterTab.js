@@ -43,17 +43,18 @@ const FooterApp = props => {
             <Text>Ínicio</Text>
           </Button>
         )}
-
+        
          {props.navigation.state.routeName === "PerfilScreen" ? (
+      
         <Button vertical active
-        onPress={() => props.navigation.navigate("PerfilScreen")}
+        onPress={() => props.navigation.navigate("PerfilScreen", {id_user: props.loggedUser})}
         >
           <Icon name="person" />
           <Text>Perfil</Text>
         </Button>
          ) : (
            <Button vertical
-        onPress={() => props.navigation.navigate("PerfilScreen")}
+        onPress={() => props.navigation.navigate("PerfilScreen", {id_user: props.loggedUser})}
         >
           <Icon name="person" />
           <Text>Perfil</Text>

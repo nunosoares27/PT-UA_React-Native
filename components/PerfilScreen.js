@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Image, View, AsyncStorage, CameraRoll} from "react-native";
+import { StyleSheet, Image, View, AsyncStorage, CameraRoll, Alert} from "react-native";
 
 import {
   Container,
@@ -33,18 +33,14 @@ import HTMLView from "react-native-htmlview";
 
 import { ImagePicker, Permissions } from "expo";
 
-// import { connect } from "react-redux";
+import { connect } from "react-redux";
 
-// import { bindActionCreators } from "redux";
-// import {
-//   fetchNoticias,
-//   fetchLikes,
-//   giveLike,
-//   fetchComentarios,
-//   comentaNoticia
-// } from "./actions";
+import { bindActionCreators } from "redux";
+import {
+  getUserProfile,
+} from "./actions";
 
-// import ComentarioNoticia from './ComentarioNoticia';
+
 import FooterApp from "./FooterTab";
 
 class PerfilScreen extends Component {
@@ -61,10 +57,51 @@ class PerfilScreen extends Component {
       editIsOpen: false,
       name: "",
       descricaoUser: "",
-      tempData: ""
+      tempData: "",
+      userLogado: '',
+      dt: '',
     };
+    this.renderFooter = this.renderFooter.bind(this);
   }
 
+
+  async componentWillMount() {
+
+    if (this.props.navigation.getParam('id_user'))
+{
+  const dt = await AsyncStorage.getItem("id");
+  if(dt){
+    this.setState({
+      dt
+    })
+  }
+  this.props.getUserProfile(this.props.navigation.getParam('id_user'))
+} else { const loggedUser = await AsyncStorage.getItem("id");
+
+    if (loggedUser){
+      this.setState({
+        userLogado: loggedUser,
+      })
+      this.props.getUserProfile(loggedUser)
+    }
+
+  }
+  
+  }
+
+  renderFooter(){
+   
+   if(this.state.userLogado !== ''){
+     return(<FooterApp navigation={this.props.navigation} loggedUser={this.state.userLogado} />)
+   } else if(this.state.dt !== ''){
+    return(<FooterApp navigation={this.props.navigation} loggedUser={this.state.dt} />)
+   }
+  
+     
+      
+   }
+ 
+  
    askPermissionsAsync = async () => {
     await Permissions.askAsync(Permissions.CAMERA);
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -108,7 +145,7 @@ class PerfilScreen extends Component {
   };
 
   UserEdit = async (name, descricaoUser) => {
-    const user_id = await AsyncStorage.getItem("id");
+   // const user_id = await AsyncStorage.getItem("id");
     const formData = new FormData();
     if (this.state.pickedImaged !== undefined) {
       formData.append("file1", {
@@ -121,7 +158,7 @@ class PerfilScreen extends Component {
     formData.append("descricaoUser", descricaoUser);
 
     //  console.log(formData);
-    fetch("http://ptua.tk/api/useredit/" + user_id, {
+    fetch("http://ptua.tk/api/useredit/" + this.props.navigation.getParam('id_user'), {
       method: "post",
       body: formData
     })
@@ -129,19 +166,7 @@ class PerfilScreen extends Component {
       .then(async res => {
         console.log(res);
         //  console.log(response);
-        await AsyncStorage.setItem("username", res.name);
-        //     await AsyncStorage.setItem('userimg', res.img.toString());
-        await AsyncStorage.setItem("descricaoUser", res.descricaoUser);
-
-        this.setState({
-          ua: res.name,
-          du: res.descricaoUser,
-          img: 0
-        });
-
-        this.setState({
-          img: 1
-        });
+   
       });
 
     this.setState({
@@ -152,62 +177,6 @@ class PerfilScreen extends Component {
     });
   };
 
-  async componentWillMount() {
-    /*<Image
-                    source={{
-                      uri:
-                      "https://scontent.fopo1-1.fna.fbcdn.net/v/t1.0-9/16730145_661435734066944_2259181377204724691_n.jpg?_nc_cat=0&oh=33a7b9814af346c739bbe89d8be58669&oe=5B6AF379"
-                      
-                   
-                    }}
-                    style={{ height: 280, width: null, flex: 1 }}
-                  />*/
-
-    // axios
-    //   .get("http://ptua.desenvolvimento/api/comentarioNoticia/1")
-    //   .then(response => {
-    //     this.setState({ comenta23: response.data });
-    //   })
-    //   .catch(function(error) {
-    //     alert(error);
-    //   });
-
-    const ua = await AsyncStorage.getItem("username");
-    const ue = await AsyncStorage.getItem("useremail");
-    const ut = await AsyncStorage.getItem("userType");
-    const id = await AsyncStorage.getItem("id");
-    const img = await AsyncStorage.getItem("userimg");
-    const du = await AsyncStorage.getItem("descricaoUser");
-
-    if (ua && ue && ut && id && img && du) {
-      this.setState({
-        ua,
-        ue,
-        ut,
-        id,
-        img,
-        du,
-        name: ua,
-        descricaoUser: du
-      });
-    } else {
-     <Text></Text>;
-    }
-
-    //   uname = async () => {
-    //       try {
-    //    const ua = await AsyncStorage.getItem("username");
-    //     const ue = await AsyncStorage.getItem("useremail");
-    //     const ut = await AsyncStorage.getItem("userType");
-    //     const id = await AsyncStorage.getItem("id");
-    //   if ( !== null){
-
-    //    alert('funcionou');
-    //   }
-    // } catch (error) {
-    //   alert('deu merda');
-    // }
-  }
 
   closeDrawer = () => {
     this.drawer._root.close();
@@ -226,6 +195,7 @@ class PerfilScreen extends Component {
 
   render() {
     return (
+    
       <View style={{ flex: 1, width: "100%" }}>
         <Drawer
           ref={ref => {
@@ -260,34 +230,34 @@ class PerfilScreen extends Component {
                 <CardItem>
                   <Left>
                     <Body>
-                      <Text>{this.state.ua}</Text>
-                      <Text note>{this.state.ut}</Text>
+                      {/* <Text>{this.state.ua}</Text>
+                      <Text note>{this.state.ut}</Text> */}
                     </Body>
                   </Left>
                 </CardItem>
                 <CardItem cardBody>
-                  {this.state.img == 1 ? (
+                   {this.props.user_profile.img == 1 ? ( 
                     <Image
                       source={{
                         uri:
                           "http://ptua.tk/storage/users/" +
-                          this.state.id +
+                          this.props.user_profile.id +
                           "/imagem1.jpg", cache: 'reload'
                       }}
                       style={{ height: 280, width: null, flex: 1 }}
                     />
-                  ) :  (<Image source={require("./images/user_logo1.png")} style={{ height: 280, width: null, flex: 1 }} />
-                  )}
+                   ) :  (<Image source={require("./images/user_logo1.png")} style={{ height: 280, width: null, flex: 1 }} /> 
+                   )} 
                 </CardItem>
                 <CardItem>
                   <Body>
                     <Text style={{ marginTop: 5 }}>
-                      E-mail: {this.state.ue}
+                      E-mail: {this.props.user_profile.email}
                     </Text>
                     <Text style={{ marginTop: 5, marginBottom: 5 }}>
-                      Cargo: {this.state.ut}
+                      Cargo: {this.props.user_profile.typeUser}
                     </Text>
-                    <Text>{this.state.du}</Text>
+                    <Text>{this.props.user_profile.descricaoUser}</Text> 
                   </Body>
                 </CardItem>
                 <CardItem>
@@ -397,8 +367,10 @@ class PerfilScreen extends Component {
               </Button>
             </Content>
           </Container>
-
-          <FooterApp navigation={this.props.navigation} />
+        
+        {
+          this.renderFooter()
+          }
         </Drawer>
       </View>
     );
@@ -412,21 +384,18 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PerfilScreen;
+function mapStateToProps(state) {
+  return {
+    user_profile: state.user_profile
+  };
+}
 
-// function mapStateToProps(state) {
-//   return {
-//     comentarios: state.comentarios,
-//     noticias: state.noticias,
-//     likes: state.likes
-//   };
-// }
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    { getUserProfile },
+    dispatch
+  );
+}
 
-// function mapDispatchToProps(dispatch) {
-//   return bindActionCreators(
-//     { fetchNoticias, fetchLikes, giveLike, fetchComentarios, comentaNoticia },
-//     dispatch
-//   );
-// }
+export default connect(mapStateToProps, mapDispatchToProps) (PerfilScreen);
 
-// export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

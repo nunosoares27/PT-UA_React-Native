@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Image, View, AsyncStorage } from "react-native";
+import { StyleSheet, Image, View, AsyncStorage, TouchableOpacity } from "react-native";
 
 import {
   Container,
@@ -56,13 +56,34 @@ class HomeScreen extends Component {
       TextoComentario: "",
       ComentarioHidden: true,
       comenta23: [],
-      chave: []
+      chave: [],
+      userLogado: '',
     };
+    this.renderFooter = this.renderFooter.bind(this);
   }
 
-  componentWillMount() {
+renderFooter(){
+   
+  if(this.state.userLogado !== ''){
+    return(<FooterApp navigation={this.props.navigation} loggedUser={this.state.userLogado} />)
+  }
+ 
+    
+     
+  }
+
+  async componentWillMount() {
     this.props.fetchNoticias();
     this.props.fetchLikes();
+
+    const loggedUser = await AsyncStorage.getItem("id");
+
+    if (loggedUser){
+      this.setState({
+        userLogado: loggedUser,
+      })
+    }
+    
 
     // axios
     //   .get("http://ptua.desenvolvimento/api/comentarioNoticia/1")
@@ -146,9 +167,11 @@ class HomeScreen extends Component {
 
     const Noticias = this.props.noticias.map((noticia,i) => (
       <Card key={noticia.id_noticia}>
-        <CardItem>
-          <Left>
-            <Thumbnail  source={{
+      <TouchableOpacity onPress={() => this.props.navigation.navigate("PerfilScreen", {id_user: noticia.user_id})} >
+        <CardItem >
+          <Left >
+            <Thumbnail 
+            source={{
                         uri: 
                         "http://ptua.tk/storage/users/" +
                           noticia.user_id +
@@ -161,6 +184,7 @@ class HomeScreen extends Component {
             </Body>
           </Left>
         </CardItem>
+      </TouchableOpacity>
         <CardItem>
           <Text style={styles.NT}>{noticia.titulo}</Text>
         </CardItem>
@@ -284,6 +308,7 @@ class HomeScreen extends Component {
       </Card>
     ));
 
+    
     return (
       <View style={{ flex: 1, width: "100%" }}>
         <Drawer
@@ -320,7 +345,9 @@ class HomeScreen extends Component {
             </Content>
           </Container>
 
-          <FooterApp navigation={this.props.navigation} />
+          {this.renderFooter()}
+        
+         
         </Drawer>
       </View>
     );
