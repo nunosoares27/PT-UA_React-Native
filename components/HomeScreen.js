@@ -76,12 +76,11 @@ renderFooter(){
 
   async componentWillMount() {
     this.props.startLoading();
-    this.props.fetchNoticias();
+    this.props.fetchNoticias().then(
+      () => this.props.finishLoading()
+    );
     this.props.fetchLikes();
-
-    if(this.props.comentarios !== '' && this.props.likes !== ''){
-     this.props.finishLoading();
-    }
+   
       
     
     const loggedUser = await AsyncStorage.getItem("id");
@@ -240,11 +239,9 @@ renderFooter(){
             </Button>
 
             <Text>
-              {this.props.likes[i] === "1" ? (
-                this.props.likes[i] + " Like"
-              ) : (
-                this.props.likes[i] + " Likes"
-              )}
+             
+                {this.props.likes[i] + " Likes"}
+            
             </Text>
           </Left>
           <Body>
@@ -254,7 +251,7 @@ renderFooter(){
                 onPress={() => this.obtemComentario(noticia.id_noticia)}
                 style={{ paddingLeft: 5 }}
               >
-                4 Comments
+                comentários
               </Text>
             </Button>
           </Body>
@@ -321,10 +318,14 @@ renderFooter(){
     ));
 
     
+    
     return (
+
       <View style={{ flex: 1, width: "100%" }}>
-        
-        <Drawer
+      {console.log(this.props.loading)}
+         { this.props.loading === true ?  ( <ActivityIndicator style={styles.indicator} size="large" /> )
+        : (
+          <Drawer
           ref={ref => {
             this.drawer = ref;
           }}
@@ -354,9 +355,7 @@ renderFooter(){
           <Container>
             <Content>
               <CriarNoticia />
-              {this.props.loading ? 
-              <ActivityIndicator />
-              : '' }
+          
               {Noticias}
             </Content>
           </Container>
@@ -365,6 +364,9 @@ renderFooter(){
         
          
         </Drawer>
+
+        ) }
+
       </View>
     );
   }
@@ -374,7 +376,13 @@ const styles = StyleSheet.create({
   NT: {
     fontWeight: "800",
     fontSize: 25
-  }
+  }, 
+    indicator: {
+      flex: 1,
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
 });
 
 function mapStateToProps(state) {
