@@ -14,19 +14,14 @@ import {
   Left,
   Body,
   Right,
-  Footer,
-  FooterTab,
   Title,
   Drawer,
   Item,
   Input,
   List,
-  ListItem
 } from "native-base";
 
 import SideBar from "./Sidebar";
-
-import axios from "axios";
 
 import HTMLView from "react-native-htmlview";
 
@@ -126,11 +121,11 @@ renderFooter(){
     //  alert("Dados do User: "+ua+", "+ue+", "+ ut+", "+id);
 
     // 'id_noticia', 'user_id',
-
+    this.props.startLoading()
     this.props.giveLike({
       id_noticia: postid,
       user_id: id
-    });
+    }).then( ()=> this.props.finishLoading() );
 
   
 
@@ -147,22 +142,20 @@ renderFooter(){
 
   comenta = async (id_noticia, TextoComentario) => {
     const user_id = await AsyncStorage.getItem("id");
-
     this.props.comentaNoticia({
       id_noticia: id_noticia,
       user_id: user_id,
       TextoComentario: TextoComentario
-    });
+    })
   };
 
   obtemComentario = async id_noticia => {
     this.setState({
       ComentarioHidden: !this.state.ComentarioHidden
     });
-
     this.props.fetchComentarios({
       id_noticia: id_noticia
-    });
+    })
   };
   
   render() {
@@ -260,7 +253,7 @@ renderFooter(){
           </Right>
         </CardItem>
 
-        <Content>
+        <Content scrollEnabled={false}>
           <List
             style={{
               marginBottom: 15,
@@ -269,9 +262,10 @@ renderFooter(){
               backgroundColor: "white"
             }}
           />
-        </Content>
-        
-        <Content>
+        {/* </Content>
+     
+        <Content> */}
+
           <Item
             rounded
             style={{
@@ -295,7 +289,7 @@ renderFooter(){
             style={{
               marginBottom: 15,
               marginLeft: 20,
-              marginRight: 15
+              marginRight: 15,
             }}
             onPress={() => {
               this.comenta(noticia.id_noticia, this.state.TextoComentario);
@@ -305,14 +299,16 @@ renderFooter(){
           >
             <Text> Enviar </Text>
           </Button>
-
+        </Content>
+        
+       
           <ComentarioNoticia
             chave={noticia.id_noticia}
             comenta23={this.props.comentarios}
           />
-
-          {/*{Comentarios}*/}
-        </Content>
+          
+          
+          
        
       </Card>
     ));

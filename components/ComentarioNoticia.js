@@ -1,26 +1,10 @@
-import React, { Component } from "react";
-import { StyleSheet, Image, View, AsyncStorage } from "react-native";
+import React from "react";
+
 
 import {
-  Container,
-  Header,
-  Content,
-  Card,
-  CardItem,
   Thumbnail,
   Text,
-  Button,
-  Icon,
-  Left,
   Body,
-  Right,
-  Footer,
-  FooterTab,
-  Title,
-  Drawer,
-  Item,
-  Input,
-  List,
   ListItem
 } from "native-base";
 
