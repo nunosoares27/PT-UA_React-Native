@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Image, View, AsyncStorage, TouchableOpacity } from "react-native";
+import { StyleSheet, Image, View, AsyncStorage, TouchableOpacity, ActivityIndicator } from "react-native";
 
 import {
   Container,
@@ -38,7 +38,9 @@ import {
   fetchLikes,
   giveLike,
   fetchComentarios,
-  comentaNoticia
+  comentaNoticia,
+  startLoading,
+  finishLoading,
 } from "./actions";
 
 import ComentarioNoticia from "./ComentarioNoticia";
@@ -73,9 +75,15 @@ renderFooter(){
   }
 
   async componentWillMount() {
+    this.props.startLoading();
     this.props.fetchNoticias();
     this.props.fetchLikes();
 
+    if(this.props.comentarios !== '' && this.props.likes !== ''){
+     this.props.finishLoading();
+    }
+      
+    
     const loggedUser = await AsyncStorage.getItem("id");
 
     if (loggedUser){
@@ -93,6 +101,12 @@ renderFooter(){
     //   .catch(function(error) {
     //     alert(error);
     //   });
+  }
+
+  ComponentDidMount(){
+    this.setState({
+      loading: false,
+    })
   }
 
   closeDrawer = () => {
@@ -153,8 +167,6 @@ renderFooter(){
   };
   
   render() {
-
-   
 // var obj = { 0: 'a', 1: 'b', 2: 'c' };
 // console.log(Object.values(obj)); // ['a', 'b', 'c']
 
@@ -311,6 +323,7 @@ renderFooter(){
     
     return (
       <View style={{ flex: 1, width: "100%" }}>
+        
         <Drawer
           ref={ref => {
             this.drawer = ref;
@@ -326,7 +339,7 @@ renderFooter(){
         >
           <Header>
             <Left>
-              <Button transparent onPress={() => this.openDrawer()}>
+              <Button transparent onPress={() =>  this.openDrawer() }  >
                 <Icon name="menu" />
               </Button>
             </Left>
@@ -341,6 +354,9 @@ renderFooter(){
           <Container>
             <Content>
               <CriarNoticia />
+              {this.props.loading ? 
+              <ActivityIndicator />
+              : '' }
               {Noticias}
             </Content>
           </Container>
@@ -365,13 +381,14 @@ function mapStateToProps(state) {
   return {
     comentarios: state.comentarios,
     noticias: state.noticias,
-    likes: state.likes
+    likes: state.likes,
+    loading: state.loading,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
-    { fetchNoticias, fetchLikes, giveLike, fetchComentarios, comentaNoticia },
+    { fetchNoticias, fetchLikes, giveLike, fetchComentarios, comentaNoticia, startLoading, finishLoading },
     dispatch
   );
 }

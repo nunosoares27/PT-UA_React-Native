@@ -10,6 +10,9 @@ export const USER_PROFILE = "USER_PROFILE";
 
 export const EVENTO_DETAIL = "EVENTO_DETAIL";
 
+export const  IS_LOADING = "IS_LOADING";
+export const FINISH_LOADING = "FINISH_LOADING";
+
 
 export function fetchComentarios(id_noticia) {
   let id = id_noticia.id_noticia;
@@ -87,4 +90,18 @@ export function getUserProfile(id_user){
     type: USER_PROFILE,
     payload: request
   };
+}
+
+export function startLoading(){
+  return {
+    type: IS_LOADING,
+    payload: true
+  }
+}
+
+export function finishLoading(){
+  return {
+    type: FINISH_LOADING,
+    payload: false
+  }
 }

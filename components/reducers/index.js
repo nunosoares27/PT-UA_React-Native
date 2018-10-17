@@ -4,6 +4,7 @@ import likesReducer from "./likesReducer";
 import comentaNReducer from "./comentaNReducer";
 import eventosReducer from "./eventosReducer";
 import profileReducer from "./profileReducer";
+import loadingReducer from "./loadingReducer";
 
 const rootReducer = combineReducers({
   noticias: noticiasReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   comentarios: comentaNReducer ,
   eventos: eventosReducer,
   user_profile: profileReducer,
+  loading: loadingReducer,
 });
 
 export default rootReducer;

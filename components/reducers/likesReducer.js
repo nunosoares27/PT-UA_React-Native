@@ -5,7 +5,6 @@ function likesReducer(state = {}, action = {}) {
     case FETCH_LIKES:
       return [...action.payload.data, ...state];
     case GIVE_LIKE:
-    console.log(action.payload.data);
       return [...action.payload.data];
     default:
       return state;

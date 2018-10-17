@@ -157,10 +157,10 @@ export default class ChatScreen extends Component {
 
 
   };
-
+  // onContentSizeChange={(contentWidth, contentHeight)=>{ this.setState({contentWidth, contentHeight}) }}
   render() {
     const CHATCONTENT = this.state.chatDados.map(chat => (
-      <ListItem avatar key={chat.id}>
+      <ListItem avatar key={chat.id} >
         <Left>
          
           
@@ -214,7 +214,8 @@ export default class ChatScreen extends Component {
     ));
 
     return (
-      <View style={{ flex: 1, width: "100%" }}>
+      <View 
+      style={{ flex: 1, width: "100%" }}>
         <Drawer
           ref={ref => {
             this.drawer = ref;
@@ -243,9 +244,10 @@ export default class ChatScreen extends Component {
           </Header>
 
           <Container>
-            <Content>
+            <Content ref={c => (this.component = c)}>
+           <Button style={{ backgroundColor: 'red',}} onPress= { () => this.component._root.scrollToEnd()} ><Text>Fundo</Text></Button>
               <List>{CHATCONTENT}</List>
-
+             
               <Item
                 rounded
                 style={{
